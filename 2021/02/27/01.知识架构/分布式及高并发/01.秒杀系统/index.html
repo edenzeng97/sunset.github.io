@@ -1,0 +1,953 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.jpg">
+  <link rel="icon" href="/img/icon.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Eden">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="高并发场景 一般在秒杀时间点（比如：12点）前几分钟，用户并发量才真正突增，达到秒杀时间点时，并发量会达到顶峰。但由于这类活动是大量用户抢少量商品的场景，必定会出现狼多肉少的情况，所以其实绝大部分用户秒杀会失败，只有极少部分用户能够成功。正常情况下，大部分用户会收到商品已经抢完的提醒，收到该提醒后，他们大概率不会在那个活动页面停留了，如此一来，用户并发量又会急剧下降。所以这个峰值持续的时间其实是非">
+<meta property="og:type" content="article">
+<meta property="og:title" content="秒杀场景">
+<meta property="og:url" content="https://www.zengzx.xyz/2021/02/27/01.%E7%9F%A5%E8%AF%86%E6%9E%B6%E6%9E%84/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8F%8A%E9%AB%98%E5%B9%B6%E5%8F%91/01.%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="小熊的小窝">
+<meta property="og:description" content="高并发场景 一般在秒杀时间点（比如：12点）前几分钟，用户并发量才真正突增，达到秒杀时间点时，并发量会达到顶峰。但由于这类活动是大量用户抢少量商品的场景，必定会出现狼多肉少的情况，所以其实绝大部分用户秒杀会失败，只有极少部分用户能够成功。正常情况下，大部分用户会收到商品已经抢完的提醒，收到该提醒后，他们大概率不会在那个活动页面停留了，如此一来，用户并发量又会急剧下降。所以这个峰值持续的时间其实是非">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-b0b3c8187b13765d9c140cbc2efdd49b_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pica.zhimg.com/50/v2-a95fc3dd1f7d6860150cf69482a22e5d_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-9c8c5a039b815b68ce30f5d450e36a2f_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-5ea5db9ea70e6e6f105624d041eec611_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-be759a8adf8e46740ded8560c6ebefb0_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-289ab91d8390caaf29362452a4c7ceac_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-5a3e62d649dd8ccc5f33585c8e225824_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-5a3e62d649dd8ccc5f33585c8e225824_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-80e67ce476c20c25e61e24b548efe6ed_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-78149e5bad987589cfdbe37a3c9bd5de_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pica.zhimg.com/50/v2-d4e329d9b219c4c5a12de7db7b2f6560_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pica.zhimg.com/50/v2-a5011587873070a13725f99c5d9a0603_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-7e651a864d76d87ffecedd204d89540f_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-441957d6ee6fb1fe545312c13adeac78_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-79a3a4e3ae1c10b3240e1b687f7bc1ce_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-14693f27d2ed657bd9c027bd1f79eb44_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-a22df75b85cb518ae528d181431825e8_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-39934c1b3c74dfdf48a5a1b41c2d511e_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pica.zhimg.com/50/v2-57e23fae445dc707d7f6c74ae11664b7_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pica.zhimg.com/50/v2-989096eb0642aad5cb479667cb36327c_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-6e96a20df41c62fbdc0042eda3c801b0_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-091313947f9197ecdfea67c06d794545_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://picx.zhimg.com/50/v2-242cd513037a1f7741b7445a85548649_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-4cdb6ba94125a0a08cbac9ff92da8314_720w.jpg?source=1940ef5c">
+<meta property="og:image" content="https://pic1.zhimg.com/50/v2-666551c0ec3eba04a8a9188fcbcc239e_720w.jpg?source=1940ef5c">
+<meta property="article:published_time" content="2021-02-27T04:23:33.000Z">
+<meta property="article:modified_time" content="2024-01-19T08:36:52.589Z">
+<meta property="article:author" content="Eden">
+<meta property="article:tag" content="高并发">
+<meta property="article:tag" content="秒杀场景">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picx.zhimg.com/50/v2-b0b3c8187b13765d9c140cbc2efdd49b_720w.jpg?source=1940ef5c">
+  
+  
+  
+  <title>秒杀场景 - 小熊的小窝</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.zengzx.xyz","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小熊</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="秒杀场景"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-02-27 12:23" pubdate>
+          2021年2月27日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          83 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">秒杀场景</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>高并发场景</h1>
+<p>一般在秒杀时间点（比如：12点）前几分钟，用户并发量才真正突增，达到秒杀时间点时，并发量会达到顶峰。但由于这类活动是大量用户抢少量商品的场景，必定会出现狼多肉少的情况，所以其实绝大部分用户秒杀会失败，只有极少部分用户能够成功。正常情况下，大部分用户会收到商品已经抢完的提醒，收到该提醒后，他们大概率不会在那个活动页面停留了，如此一来，用户并发量又会急剧下降。所以这个峰值持续的时间其实是非常短的，这样就会出现瞬时高并发的情况。</p>
+<p><img src="https://picx.zhimg.com/50/v2-b0b3c8187b13765d9c140cbc2efdd49b_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>像这种瞬时高并发的场景，传统的系统很难应对，我们需要设计一套全新的系统。可以从以下几个方面入手：</p>
+<ol>
+<li>页面静态化</li>
+<li>CDN加速</li>
+<li>缓存</li>
+<li>mq异步处理</li>
+<li>限流</li>
+<li>分布式锁</li>
+</ol>
+<h2 id="一、页面静态化">一、页面静态化</h2>
+<p>活动页面是用户流量的第一入口，所以是并发量最大的地方。如果这些流量都能直接访问服务端，恐怕服务端会因为承受不住这么大的压力，而直接挂掉。</p>
+<p>活动页面绝大多数内容是固定的，比如：商品名称、商品描述、图片等。为了减少不必要的服务端请求，通常情况下，会对活动页面做静态化处理。用户浏览商品等常规操作，并不会请求到服务端。只有到了秒杀时间点，并且用户主动点了秒杀按钮才允许访问服务端。</p>
+<p>这样能过滤大部分无效请求。</p>
+<p>但只做页面静态化还不够，因为用户分布在全国各地，有些人在北京，有些人在成都，有些人在深圳，地域相差很远，网速各不相同。</p>
+<p>如何才能让用户最快访问到活动页面呢？</p>
+<h2 id="二、CDN">二、CDN</h2>
+<p>这就需要使用CDN，它的全称是Content Delivery Network，即<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2488511352%7D">内容分发网络</a>。</p>
+<p>使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。</p>
+<h2 id="三、秒杀按钮">三、秒杀按钮</h2>
+<p>大部分用户怕错过秒杀时间点，一般会提前进入活动页面。此时看到的秒杀按钮是置灰，不可点击的。只有到了秒杀时间点那一时刻，秒杀按钮才会自动点亮，变成可点击的。</p>
+<p>但此时很多用户已经迫不及待了，通过不停刷新页面，争取在第一时间看到秒杀按钮的点亮。</p>
+<p>从前面得知，该活动页面是静态的。那么我们在静态页面中如何控制秒杀按钮，只在秒杀时间点时才点亮呢？</p>
+<p>没错，使用<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=js%E6%96%87%E4%BB%B6&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2488511352%7D">js文件</a>控制。</p>
+<p>为了性能考虑，一般会将css、js和图片等静态资源文件提前缓存到CDN上，让用户能够就近访问秒杀页面。</p>
+<p>看到这里，有些聪明的小伙伴，可能会问：CDN上的js文件是如何更新的？</p>
+<p>秒杀开始之前，js标志为false，还有另外一个随机参数。</p>
+<p><img src="https://pica.zhimg.com/50/v2-a95fc3dd1f7d6860150cf69482a22e5d_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>当秒杀开始的时候系统会生成一个新的js文件，此时标志为true，并且随机参数生成一个新值，然后同步给CDN。由于有了这个随机参数，CDN不会缓存数据，每次都能从CDN中获取最新的js代码。</p>
+<p><img src="https://picx.zhimg.com/50/v2-9c8c5a039b815b68ce30f5d450e36a2f_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>此外，前端还可以加一个定时器，控制比如：10秒之内，只允许发起一次请求。如果用户点击了一次秒杀按钮，则在10秒之内置灰，不允许再次点击，等到过了时间限制，又允许重新点击该按钮。</p>
+<h2 id="四、读多写少">四、读多写少</h2>
+<p>在秒杀的过程中，系统一般会先查一下库存是否足够，如果足够才允许下单，写数据库。如果不够，则直接返回该商品已经抢完。</p>
+<p>由于大量用户抢少量商品，只有极少部分用户能够抢成功，所以绝大部分用户在秒杀时，库存其实是不足的，系统会直接返回该商品已经抢完。</p>
+<p>这是非常典型的：读多写少 的场景。</p>
+<p><img src="https://pic1.zhimg.com/50/v2-5ea5db9ea70e6e6f105624d041eec611_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>如果有数十万的请求过来，同时通过数据库查缓存是否足够，此时数据库可能会挂掉。因为数据库的连接资源非常有限，比如：mysql，无法同时支持这么多的连接。</p>
+<p>而应该改用缓存，比如：redis。</p>
+<p>即便用了redis，也需要部署多个节点。</p>
+<p><img src="https://pic1.zhimg.com/50/v2-be759a8adf8e46740ded8560c6ebefb0_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="五、缓存问题">五、缓存问题</h2>
+<p>通常情况下，我们需要在redis中保存商品信息，里面包含：商品id、商品名称、规格属性、库存等信息，同时数据库中也要有相关信息，毕竟缓存并不完全可靠。</p>
+<p>用户在点击秒杀按钮，请求秒杀接口的过程中，需要传入的商品id参数，然后服务端需要校验该商品是否合法。</p>
+<p>大致流程如下图所示：</p>
+<p><img src="https://pic1.zhimg.com/50/v2-289ab91d8390caaf29362452a4c7ceac_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>根据商品id，先从缓存中查询商品，如果商品存在，则参与秒杀。如果不存在，则需要从数据库中查询商品，如果存在，则将商品信息放入缓存，然后参与秒杀。如果商品不存在，则直接提示失败。</p>
+<p>这个过程表面上看起来是OK的，但是如果深入分析一下会发现一些问题。</p>
+<h3 id="5-1-缓存击穿">5.1 缓存击穿</h3>
+<p>比如商品A第一次秒杀时，缓存中是没有数据的，但数据库中有。虽说上面有如果从数据库中查到数据，则放入缓存的逻辑。</p>
+<p>然而，在高并发下，同一时刻会有大量的请求，都在秒杀同一件商品，这些请求同时去查缓存中没有数据，然后又同时访问数据库。结果悲剧了，数据库可能扛不住压力，直接挂掉。</p>
+<p>如何解决这个问题呢？</p>
+<p>这就需要加锁，最好使用分布式锁。</p>
+<p><img src="https://picx.zhimg.com/50/v2-5a3e62d649dd8ccc5f33585c8e225824_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>当然，针对这种情况，最好在项目启动之前，先把缓存进行预热。即事先把所有的商品，同步到缓存中，这样商品基本都能直接从缓存中获取到，就不会出现缓存击穿的问题了。</p>
+<p>是不是上面加锁这一步可以不需要了？</p>
+<p>表面上看起来，确实可以不需要。但如果缓存中设置的过期时间不对，缓存提前过期了，或者缓存被不小心删除了，如果不加速同样可能出现缓存击穿。</p>
+<p>其实这里加锁，相当于买了一份保险。</p>
+<p>比如商品A第一次秒杀时，缓存中是没有数据的，但数据库中有。虽说上面有如果从数据库中查到数据，则放入缓存的逻辑。</p>
+<p>然而，在高并发下，同一时刻会有大量的请求，都在秒杀同一件商品，这些请求同时去查缓存中没有数据，然后又同时访问数据库。结果悲剧了，数据库可能扛不住压力，直接挂掉。</p>
+<p>如何解决这个问题呢？</p>
+<p>这就需要加锁，最好使用分布式锁。</p>
+<p><img src="https://picx.zhimg.com/50/v2-5a3e62d649dd8ccc5f33585c8e225824_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>当然，针对这种情况，最好在项目启动之前，先把缓存进行预热。即事先把所有的商品，同步到缓存中，这样商品基本都能直接从缓存中获取到，就不会出现缓存击穿的问题了。</p>
+<p>是不是上面加锁这一步可以不需要了？</p>
+<p>表面上看起来，确实可以不需要。但如果缓存中设置的过期时间不对，缓存提前过期了，或者缓存被不小心删除了，如果不加速同样可能出现缓存击穿。</p>
+<p>其实这里加锁，相当于买了一份保险。</p>
+<h3 id="5-2-缓存穿透">5.2 缓存穿透</h3>
+<p>如果有大量的请求传入的商品id，在缓存中和数据库中都不存在，这些请求不就每次都会穿透过缓存，而直接访问数据库了。</p>
+<p>由于前面已经加了锁，所以即使这里的并发量很大，也不会导致数据库直接挂掉。</p>
+<p>但很显然这些请求的处理性能并不好，有没有更好的解决方案？</p>
+<p>这时可以想到布隆过滤器。</p>
+<p><img src="https://pic1.zhimg.com/50/v2-80e67ce476c20c25e61e24b548efe6ed_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>系统根据商品id，先从<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2488511352%7D">布隆过滤器</a>中查询该id是否存在，如果存在则允许从缓存中查询数据，如果不存在，则直接返回失败。</p>
+<p>虽说该方案可以解决缓存穿透问题，但是又会引出另外一个问题：布隆过滤器中的数据如何更缓存中的数据保持一致？</p>
+<p>这就要求，如果缓存中数据有更新，则要及时同步到布隆过滤器中。如果数据同步失败了，还需要增加<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E9%87%8D%E8%AF%95%E6%9C%BA%E5%88%B6&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2488511352%7D">重试机制</a>，而且跨数据源，能保证数据的实时一致性吗？</p>
+<p>显然是不行的。</p>
+<p>所以布隆过滤器绝大部分使用在缓存数据更新很少的场景中。</p>
+<p>如果缓存数据更新非常频繁，又该如何处理呢？</p>
+<p>这时，就需要把不存在的商品id也缓存起来。</p>
+<p><img src="https://pic1.zhimg.com/50/v2-78149e5bad987589cfdbe37a3c9bd5de_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>下次，再有该商品id的请求过来，则也能从缓存中查到数据，只不过该数据比较特殊，表示商品不存在。需要特别注意的是，这种特殊缓存设置的超时时间应该尽量短一点。</p>
+<p>作者：苏三说技术<br>
+链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/356916763/answer/2488511352">https://www.zhihu.com/question/356916763/answer/2488511352</a><br>
+来源：知乎<br>
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<h2 id="六、库存问题">六、库存问题</h2>
+<p>对于库存问题看似简单，实则里面还是有些东西。</p>
+<p>真正的秒杀商品的场景，不是说扣完库存，就完事了，如果用户在一段时间内，还没完成支付，扣减的库存是要加回去的。</p>
+<p>所以，在这里引出了一个<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E9%A2%84%E6%89%A3%E5%BA%93%E5%AD%98&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2488511352%7D">预扣库存</a>的概念，预扣库存的主要流程如下：</p>
+<p><img src="https://pica.zhimg.com/50/v2-d4e329d9b219c4c5a12de7db7b2f6560_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>扣减库存中除了上面说到的预扣库存和回退库存之外，还需要特别注意的是库存不足和库存超卖问题。</p>
+<h3 id="6-1-数据库扣减库存">6.1 <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%A3%E5%87%8F&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2488511352%7D">数据库扣减</a>库存</h3>
+<p>使用数据库扣减库存，是最简单的实现方案了，假设扣减库存的sql如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update product <span class="keyword">set</span> stock<span class="operator">=</span>stock<span class="number">-1</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+<p>这种写法对于扣减库存是没有问题的，但如何控制库存不足的情况下，不让用户操作呢？</p>
+<p>这就需要在update之前，先查一下库存是否足够了。</p>
+<p>伪代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> stock = mapper.getStockById(<span class="number">123</span>);</span><br><span class="line"><span class="keyword">if</span>(stock &gt; <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="keyword">int</span> count = mapper.updateStock(<span class="number">123</span>);</span><br><span class="line">  <span class="keyword">if</span>(count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    addOrder(<span class="number">123</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大家有没有发现这段代码的问题？</p>
+<p>没错，查询操作和更新操作不是原子性的，会导致在并发的场景下，出现库存超卖的情况。</p>
+<p>有人可能会说，这样好办，加把锁，不就搞定了，比如使用synchronized关键字。</p>
+<p>确实，可以，但是性能不够好。</p>
+<p>还有更优雅的处理方案，即基于数据库的乐观锁，这样会少一次数据库查询，而且能够天然的保证数据操作的原子性。</p>
+<p>只需将上面的sql稍微调整一下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update product <span class="keyword">set</span> stock<span class="operator">=</span>stock<span class="number">-1</span> <span class="keyword">where</span> id<span class="operator">=</span>product <span class="keyword">and</span> stock <span class="operator">&gt;</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>在sql最后加上：stock &gt; 0，就能保证不会出现超卖的情况。</p>
+<p>但需要频繁访问数据库，我们都知道数据库连接是非常昂贵的资源。在高并发的场景下，可能会造成系统雪崩。而且，容易出现多个请求，同时竞争行锁的情况，造成相互等待，从而出现死锁的问题。</p>
+<h3 id="6-2-redis扣减库存">6.2 redis扣减库存</h3>
+<p>redis的incr方法是原子性的，可以用该方法扣减库存。伪代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> boolean exist = redisClient.query(productId,userId);</span><br><span class="line">  <span class="keyword">if</span>(exist) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">int</span> stock = redisClient.queryStock(productId);</span><br><span class="line">  <span class="keyword">if</span>(stock &lt;=<span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  redisClient.incrby(productId, <span class="number">-1</span>);</span><br><span class="line">  redisClient.add(productId,userId);</span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>代码流程如下：</p>
+<ol>
+<li>先判断该用户有没有秒杀过该商品，如果已经秒杀过，则直接返回-1。</li>
+<li>查询库存，如果库存小于等于0，则直接返回0，表示库存不足。</li>
+<li>如果库存充足，则扣减库存，然后将本次秒杀记录保存起来。然后返回1，表示成功。</li>
+</ol>
+<p>估计很多小伙伴，一开始都会按这样的思路写代码。但如果仔细想想会发现，这段代码有问题。</p>
+<p>有什么问题呢？</p>
+<p>如果在高并发下，有多个请求同时查询库存，当时都大于0。由于查询库存和更新库存非原则操作，则会出现库存为负数的情况，即库存超卖。</p>
+<p>当然有人可能会说，加个synchronized不就解决问题？</p>
+<p>调整后代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">   boolean exist = redisClient.query(productId,userId);</span><br><span class="line">   <span class="keyword">if</span>(exist) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   synchronized(this) &#123;</span><br><span class="line">       <span class="keyword">int</span> stock = redisClient.queryStock(productId);</span><br><span class="line">       <span class="keyword">if</span>(stock &lt;=<span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       redisClient.incrby(productId, <span class="number">-1</span>);</span><br><span class="line">       redisClient.add(productId,userId);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>加synchronized确实能解决库存为负数问题，但是这样会导致接口性能急剧下降，每次查询都需要竞争同一把锁，显然不太合理。</p>
+<p>为了解决上面的问题，代码优化如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">boolean exist = redisClient.query(productId,userId);</span><br><span class="line"><span class="keyword">if</span>(exist) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(redisClient.incrby(productId, <span class="number">-1</span>)&lt;<span class="number">0</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">redisClient.add(productId,userId);</span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>该代码主要流程如下：</p>
+<ol>
+<li>先判断该用户有没有秒杀过该商品，如果已经秒杀过，则直接返回-1。</li>
+<li>扣减库存，判断返回值是否小于0，如果小于0，则直接返回0，表示库存不足。</li>
+<li>如果扣减库存后，返回值大于或等于0，则将本次秒杀记录保存起来。然后返回1，表示成功。</li>
+</ol>
+<p>该方案咋一看，好像没问题。</p>
+<p>但如果在高并发场景中，有多个请求同时扣减库存，大多数请求的incrby操作之后，结果都会小于0。</p>
+<p>虽说，库存出现负数，不会出现超卖的问题。但由于这里是预减库存，如果负数值负的太多的话，后面万一要回退库存时，就会导致库存不准。</p>
+<h2 id="七、分布式锁">七、分布式锁</h2>
+<p>之前我提到过，在秒杀的时候，需要先从缓存中查商品是否存在，如果不存在，则会从数据库中查商品。如果数据库中，则将该商品放入缓存中，然后返回。如果数据库中没有，则直接返回失败。</p>
+<p>大家试想一下，如果在高并发下，有大量的请求都去查一个缓存中不存在的商品，这些请求都会直接打到数据库。数据库由于承受不住压力，而直接挂掉。</p>
+<p>那么如何解决这个问题呢？</p>
+<p>这就需要用redis分布式锁了。</p>
+<h3 id="7-1-setNx加锁">7.1 setNx加锁</h3>
+<p>使用redis的分布式锁，首先想到的是setNx命令。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (jedis.setnx(lockKey, val) == <span class="number">1</span>) &#123;</span><br><span class="line">   jedis.expire(lockKey, timeout);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用该命令其实可以加锁，但和后面的设置超时时间是分开的，并非原子操作。</p>
+<p>假如加锁成功了，但是设置超时时间失败了，该lockKey就变成永不失效的了。在高并发场景中，该问题会导致非常严重的后果。</p>
+<p>那么，有没有保证原子性的加锁命令呢？</p>
+<h3 id="7-2-set加锁">7.2 set加锁</h3>
+<p>使用redis的set命令，它可以指定多个参数。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String result = jedis.set(lockKey, requestId, <span class="string">&quot;NX&quot;</span>, <span class="string">&quot;PX&quot;</span>, expireTime);</span><br><span class="line"><span class="keyword">if</span> (<span class="string">&quot;OK&quot;</span>.equals(result)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li>lockKey：锁的标识</li>
+<li>requestId：请求id</li>
+<li>NX：只在键不存在时，才对键进行设置操作。</li>
+<li>PX：设置键的过期时间为 millisecond 毫秒。</li>
+<li>expireTime：过期时间</li>
+</ul>
+<p>由于该命令只有一步，所以它是原子操作。</p>
+<h3 id="7-3-释放锁">7.3 释放锁</h3>
+<p>接下来，有些朋友可能会问：在加锁时，既然已经有了lockKey锁标识，为什么要需要记录requestId呢？</p>
+<p>答：requestId是在释放锁的时候用的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (jedis.get(lockKey).equals(requestId)) &#123;</span><br><span class="line">    jedis.del(lockKey);</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br></pre></td></tr></table></figure>
+<p>在释放锁的时候，只能释放自己加的锁，不允许释放别人加的锁。</p>
+<p>这里为什么要用requestId，用userId不行吗？</p>
+<p>答：如果用userId的话，假设本次请求流程走完了，准备删除锁。此时，巧合锁到了过期时间失效了。而另外一个请求，巧合使用的相同userId加锁，会成功。而本次请求删除锁的时候，删除的其实是别人的锁了。</p>
+<p>当然使用lua脚本也能避免该问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if redis.call(&#x27;get&#x27;, KEYS[1]) == ARGV[1] then </span><br><span class="line"> return redis.call(&#x27;del&#x27;, KEYS[1]) </span><br><span class="line">else </span><br><span class="line">  return 0 </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>它能保证查询锁是否存在和删除锁是原子操作。</p>
+<h3 id="7-4-自旋锁">7.4 <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E8%87%AA%E6%97%8B%E9%94%81&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2488511352%7D">自旋锁</a></h3>
+<p>上面的加锁方法看起来好像没有问题，但如果你仔细想想，如果有1万的请求同时去竞争那把锁，可能只有一个请求是成功的，其余的9999个请求都会失败。</p>
+<p>在秒杀场景下，会有什么问题？</p>
+<p>答：每1万个请求，有1个成功。再1万个请求，有1个成功。如此下去，直到库存不足。这就变成均匀分布的秒杀了，跟我们想象中的不一样。</p>
+<p>如何解决这个问题呢？</p>
+<p>答：使用自旋锁。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">  Long start = System.currentTimeMillis();</span><br><span class="line">  while(true) &#123;</span><br><span class="line">      String result = jedis.set(lockKey, requestId, &quot;NX&quot;, &quot;PX&quot;, expireTime);</span><br><span class="line">     if (&quot;OK&quot;.equals(result)) &#123;</span><br><span class="line">        return true;</span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">     long time = System.currentTimeMillis() - start;</span><br><span class="line">      if (time&gt;=timeout) &#123;</span><br><span class="line">          return false;</span><br><span class="line">      &#125;</span><br><span class="line">      try &#123;</span><br><span class="line">          Thread.sleep(50);</span><br><span class="line">      &#125; catch (InterruptedException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">&#125; finally&#123;</span><br><span class="line">    unlock(lockKey,requestId);</span><br><span class="line">&#125;  </span><br><span class="line">return false;</span><br></pre></td></tr></table></figure>
+<p>在规定的时间，比如500毫秒内，自旋不断尝试加锁，如果成功则直接返回。如果失败，则休眠50毫秒，再发起新一轮的尝试。如果到了超时时间，还未加锁成功，则直接返回失败。</p>
+<h3 id="7-5-redisson">7.5 redisson</h3>
+<p>除了上面的问题之外，使用redis分布式锁，还有锁竞争问题、续期问题、锁重入问题、多个redis实例加锁问题等。</p>
+<p>这些问题使用redisson可以解决，由于篇幅的原因，在这里先保留一点悬念，有疑问的私聊给我。后面会出一个专题介绍分布式锁，敬请期待。</p>
+<p>作者：苏三说技术<br>
+链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/356916763/answer/2488511352">https://www.zhihu.com/question/356916763/answer/2488511352</a><br>
+来源：知乎<br>
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<h2 id="八、mq异步处理">八、mq异步处理</h2>
+<p>我们都知道在真实的秒杀场景中，有三个核心流程：</p>
+<p><img src="https://pica.zhimg.com/50/v2-a5011587873070a13725f99c5d9a0603_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>而这三个核心流程中，真正并发量大的是秒杀功能，下单和支付功能实际并发量很小。所以，我们在设计秒杀系统时，有必要把下单和支付功能从秒杀的主流程中拆分出来，特别是下单功能要做成mq异步处理的。而支付功能，比如支付宝支付，是业务场景本身保证的异步。</p>
+<p>于是，秒杀后下单的流程变成如下：</p>
+<p><img src="https://picx.zhimg.com/50/v2-7e651a864d76d87ffecedd204d89540f_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>如果使用mq，需要关注以下几个问题：</p>
+<h3 id="8-1-消息丢失问题">8.1 消息丢失问题</h3>
+<p>秒杀成功了，往mq发送下单消息的时候，有可能会失败。原因有很多，比如：网络问题、broker挂了、mq服务端磁盘问题等。这些情况，都可能会造成消息丢失。</p>
+<p>那么，如何防止消息丢失呢？</p>
+<p>答：加一张消息发送表。</p>
+<p><img src="https://picx.zhimg.com/50/v2-441957d6ee6fb1fe545312c13adeac78_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>在生产者发送mq消息之前，先把该条消息写入消息发送表，初始状态是待处理，然后再发送mq消息。消费者消费消息时，处理完业务逻辑之后，再回调生产者的一个接口，修改消息状态为已处理。</p>
+<p>如果生产者把消息写入消息发送表之后，再发送mq消息到mq服务端的过程中失败了，造成了消息丢失。</p>
+<p>这时候，要如何处理呢？</p>
+<p>答：使用job，增加重试机制。</p>
+<p><img src="https://pic1.zhimg.com/50/v2-79a3a4e3ae1c10b3240e1b687f7bc1ce_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>用job每隔一段时间去查询消息发送表中状态为待处理的数据，然后重新发送mq消息。</p>
+<h3 id="8-2-重复消费问题">8.2 重复消费问题</h3>
+<p>本来消费者消费消息时，在ack应答的时候，如果网络超时，本身就可能会消费重复的消息。但由于消息发送者增加了重试机制，会导致消费者重复消息的概率增大。</p>
+<p>那么，如何解决重复消息问题呢？</p>
+<p>答：加一张消息处理表。</p>
+<p><img src="https://picx.zhimg.com/50/v2-14693f27d2ed657bd9c027bd1f79eb44_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>消费者读到消息之后，先判断一下消息处理表，是否存在该消息，如果存在，表示是重复消费，则直接返回。如果不存在，则进行下单操作，接着将该消息写入消息处理表中，再返回。</p>
+<p>有个比较关键的点是：下单和写消息处理表，要放在同一个事务中，保证原子操作。</p>
+<h3 id="8-3-垃圾消息问题">8.3 垃圾消息问题</h3>
+<p>这套方案表面上看起来没有问题，但如果出现了消息消费失败的情况。比如：由于某些原因，消息消费者下单一直失败，一直不能回调状态变更接口，这样job会不停的重试发消息。最后，会产生大量的垃圾消息。</p>
+<p>那么，如何解决这个问题呢？</p>
+<p><img src="https://picx.zhimg.com/50/v2-a22df75b85cb518ae528d181431825e8_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>每次在job重试时，需要先判断一下消息发送表中该消息的发送次数是否达到最大限制，如果达到了，则直接返回。如果没有达到，则将次数加1，然后发送消息。</p>
+<p>这样如果出现异常，只会产生少量的垃圾消息，不会影响到正常的业务。</p>
+<h3 id="8-4-延迟消费问题">8.4 延迟消费问题</h3>
+<p>通常情况下，如果用户秒杀成功了，下单之后，在15分钟之内还未完成支付的话，该订单会被自动取消，回退库存。</p>
+<p>那么，在15分钟内未完成支付，订单被自动取消的功能，要如何实现呢？</p>
+<p>我们首先想到的可能是job，因为它比较简单。</p>
+<p>但job有个问题，需要每隔一段时间处理一次，实时性不太好。</p>
+<p>还有更好的方案？</p>
+<p>答：使用<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2488511352%7D">延迟队列</a>。</p>
+<p>我们都知道rocketmq，自带了延迟队列的功能。</p>
+<p><img src="https://pic1.zhimg.com/50/v2-39934c1b3c74dfdf48a5a1b41c2d511e_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>下单时消息生产者会先生成订单，此时状态为待支付，然后会向延迟队列中发一条消息。达到了延迟时间，消息消费者读取消息之后，会查询该订单的状态是否为待支付。如果是待支付状态，则会更新订单状态为取消状态。如果不是待支付状态，说明该订单已经支付过了，则直接返回。</p>
+<p>还有个关键点，用户完成支付之后，会修改订单状态为已支付。</p>
+<p><img src="https://pica.zhimg.com/50/v2-57e23fae445dc707d7f6c74ae11664b7_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="9-如何限流？">9 如何限流？</h2>
+<p>通过秒杀活动，如果我们运气爆棚，可能会用非常低的价格买到不错的商品（这种概率堪比买福利彩票中大奖）。</p>
+<p>但有些高手，并不会像我们一样老老实实，通过秒杀页面点击秒杀按钮，抢购商品。他们可能在自己的服务器上，模拟正常用户登录系统，跳过秒杀页面，直接调用秒杀接口。</p>
+<p>如果是我们手动操作，一般情况下，一秒钟只能点击一次秒杀按钮。</p>
+<p><img src="https://pica.zhimg.com/50/v2-989096eb0642aad5cb479667cb36327c_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>但是如果是服务器，一秒钟可以请求成上千接口。</p>
+<p><img src="https://picx.zhimg.com/50/v2-6e96a20df41c62fbdc0042eda3c801b0_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>这种差距实在太明显了，如果不做任何限制，绝大部分商品可能是被机器抢到，而非正常的用户，有点不太公平。</p>
+<p>所以，我们有必要识别这些非法请求，做一些限制。那么，我们该如何现在这些非法请求呢？</p>
+<p>目前有两种常用的限流方式：</p>
+<ol>
+<li>基于nginx限流</li>
+<li>基于redis限流</li>
+</ol>
+<h3 id="9-1-对同一用户限流">9.1 对同一用户限流</h3>
+<p>为了防止某个用户，请求接口次数过于频繁，可以只针对该用户做限制。</p>
+<p><img src="https://picx.zhimg.com/50/v2-091313947f9197ecdfea67c06d794545_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>限制同一个用户id，比如每分钟只能请求5次接口。</p>
+<h3 id="9-2-对同一ip限流">9.2 对同一ip限流</h3>
+<p>有时候只对某个用户限流是不够的，有些高手可以模拟多个用户请求，这种nginx就没法识别了。</p>
+<p>这时需要加同一ip限流功能。</p>
+<p><img src="https://picx.zhimg.com/50/v2-242cd513037a1f7741b7445a85548649_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>限制同一个ip，比如每分钟只能请求5次接口。</p>
+<p>但这种限流方式可能会有误杀的情况，比如同一个公司或网吧的出口ip是相同的，如果里面有多个正常用户同时发起请求，有些用户可能会被限制住。</p>
+<h3 id="9-3-对接口限流">9.3 对接口限流</h3>
+<p>别以为限制了用户和ip就万事大吉，有些高手甚至可以使用代理，每次都请求都换一个ip。</p>
+<p>这时可以限制请求的接口总次数。</p>
+<p><img src="https://pic1.zhimg.com/50/v2-4cdb6ba94125a0a08cbac9ff92da8314_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>在高并发场景下，这种限制对于系统的稳定性是非常有必要的。但可能由于有些非法请求次数太多，达到了该接口的请求上限，而影响其他的正常用户访问该接口。看起来有点得不偿失。</p>
+<h3 id="9-4-加验证码">9.4 加验证码</h3>
+<p>相对于上面三种方式，加验证码的方式可能更精准一些，同样能限制用户的访问频次，但好处是不会存在误杀的情况。</p>
+<p><img src="https://pic1.zhimg.com/50/v2-666551c0ec3eba04a8a9188fcbcc239e_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>通常情况下，用户在请求之前，需要先输入验证码。用户发起请求之后，服务端会去校验该验证码是否正确。只有正确才允许进行下一步操作，否则直接返回，并且提示验证码错误。</p>
+<p>此外，验证码一般是一次性的，同一个验证码只允许使用一次，不允许重复使用。</p>
+<p>普通验证码，由于生成的数字或者图案比较简单，可能会被破解。优点是生成速度比较快，缺点是有安全隐患。</p>
+<p>还有一个验证码叫做：移动滑块，它生成速度比较慢，但比较安全，是目前各大互联网公司的首选。</p>
+<p>最近无意间获得一份BAT大厂大佬写的刷题笔记，一下子打通了我的任督二脉，越来越觉得算法没有想象中那么难了。</p>
+<p><a href="%5B%E8%BF%99%E4%BD%8DBAT%E5%A4%A7%E4%BD%AC%E5%86%99%E7%9A%84Leetcode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%EF%BC%8C%E8%AE%A9%E6%88%91offer%E6%8B%BF%E5%88%B0%E6%89%8B%E8%BD%AF%5D(https://link.zhihu.com/?target=https%3A//mp.weixin.qq.com/s/tq4HYlL5A4qL5Aka3jFNqw)">BAT大佬写的刷题笔记，让我offer拿到手软</a></p>
+<h3 id="9-5-提高业务门槛">9.5 提高业务门槛</h3>
+<p>上面说的加验证码虽然可以限制非法用户请求，但是有些影响用户体验。用户点击秒杀按钮前，还要先输入验证码，流程显得有点繁琐，秒杀功能的流程不是应该越简单越好吗？</p>
+<p>其实，有时候达到某个目的，不一定非要通过技术手段，通过业务手段也一样。</p>
+<p>12306刚开始的时候，全国人民都在同一时刻抢火车票，由于并发量太大，系统经常挂。后来，重构优化之后，将购买周期放长了，可以提前20天购买火车票，并且可以在9点、10、11点、12点等整点购买火车票。调整业务之后（当然技术也有很多调整），将之前集中的请求，分散开了，一下子降低了用户并发量。</p>
+<p>回到这里，我们通过提高业务门槛，比如只有会员才能参与秒杀活动，普通注册用户没有权限。或者，只有等级到达3级以上的普通用户，才有资格参加该活动。</p>
+<p>这样简单的提高一点门槛，即使是黄牛党也束手无策，他们总不可能为了参加一次秒杀活动，还另外花钱充值会员吧？</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%AB%98%E5%B9%B6%E5%8F%91/" class="category-chain-item">高并发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%AB%98%E5%B9%B6%E5%8F%91/%E7%A7%92%E6%9D%80%E5%9C%BA%E6%99%AF/" class="category-chain-item">秒杀场景</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/">#高并发</a>
+      
+        <a href="/tags/%E7%A7%92%E6%9D%80%E5%9C%BA%E6%99%AF/">#秒杀场景</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>秒杀场景</div>
+      <div>https://www.zengzx.xyz/2021/02/27/01.知识架构/分布式及高并发/01.秒杀系统/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Eden</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年2月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/12/01.%E7%9F%A5%E8%AF%86%E6%9E%B6%E6%9E%84/01.Go/03.%E7%BB%84%E4%BB%B6/01.minIO/" title="minIO">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">minIO</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/01/01.%E7%9F%A5%E8%AF%86%E6%9E%B6%E6%9E%84/hexo/hexo/" title="hexo">
+                        <span class="hidden-mobile">hexo</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/PoetryOfLife/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

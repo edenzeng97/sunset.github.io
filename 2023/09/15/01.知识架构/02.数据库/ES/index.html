@@ -1,0 +1,810 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.jpg">
+  <link rel="icon" href="/img/icon.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Eden">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ElasticSearch 一、倒排索引 倒排索引会先把文档（document）内容分割成词条（term），词条会指向具体的文档ID，这个就可以根据词条快速找到ID，再根据ID找到文档。 二、数据类型 文档：一条数据就是一个文档，es是JSON格式。 字段：JSON文档中的字段。 索引：同类型文档的集合。 映射：索引中文档的约束，比如字段名称、类型。 三、安装IK分词器 作用 创建倒排索引时对文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ElasticSearch">
+<meta property="og:url" content="https://www.zengzx.xyz/2023/09/15/01.%E7%9F%A5%E8%AF%86%E6%9E%B6%E6%9E%84/02.%E6%95%B0%E6%8D%AE%E5%BA%93/ES/index.html">
+<meta property="og:site_name" content="小熊的小窝">
+<meta property="og:description" content="ElasticSearch 一、倒排索引 倒排索引会先把文档（document）内容分割成词条（term），词条会指向具体的文档ID，这个就可以根据词条快速找到ID，再根据ID找到文档。 二、数据类型 文档：一条数据就是一个文档，es是JSON格式。 字段：JSON文档中的字段。 索引：同类型文档的集合。 映射：索引中文档的约束，比如字段名称、类型。 三、安装IK分词器 作用 创建倒排索引时对文档">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:%5CUsers%5C75713%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20230919105148489.png">
+<meta property="og:image" content="c:%5CUsers%5C75713%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20230919164325439.png">
+<meta property="article:published_time" content="2023-09-15T08:49:21.000Z">
+<meta property="article:modified_time" content="2024-01-19T08:36:52.581Z">
+<meta property="article:author" content="Eden">
+<meta property="article:tag" content="ElasticSearch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:%5CUsers%5C75713%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20230919105148489.png">
+  
+  
+  
+  <title>ElasticSearch - 小熊的小窝</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.zengzx.xyz","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小熊</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ElasticSearch"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-15 16:49" pubdate>
+          2023年9月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ElasticSearch</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>ElasticSearch</h1>
+<h2 id="一、倒排索引">一、倒排索引</h2>
+<p>倒排索引会先把<strong>文档</strong>（document）内容分割成<strong>词条</strong>（term），词条会指向具体的文档ID，这个就可以根据词条快速找到ID，再根据ID找到文档。</p>
+<h2 id="二、数据类型">二、数据类型</h2>
+<p>文档：一条数据就是一个文档，es是JSON格式。</p>
+<p>字段：JSON文档中的字段。</p>
+<p>索引：同类型文档的集合。</p>
+<p>映射：索引中文档的约束，比如字段名称、类型。</p>
+<h2 id="三、安装IK分词器">三、安装IK分词器</h2>
+<h3 id="作用">作用</h3>
+<p>创建倒排索引时对文档进行分词；</p>
+<p>用户搜索时，对输入的内容分词；</p>
+<h3 id="IK分词器分成两种模式">IK分词器分成两种模式</h3>
+<ul>
+<li>ik_max_word 细粒度</li>
+<li>ik_smart 粗粒度</li>
+</ul>
+<h3 id="拓展和停用词条">拓展和停用词条</h3>
+<p>IK分词器依赖于字典做分词，ik分词支持拓展词库和停用词库；</p>
+<p>在IKAnalyzer.cfg.xml中设置ext.dic和stopword.dic;</p>
+<h2 id="四、mapping约束">四、mapping约束</h2>
+<h3 id="type">type</h3>
+<ul>
+<li>字符串：text、keyword</li>
+<li>数值：long、integer、short、byte、double、float</li>
+<li>布尔：boolean</li>
+<li>日期：date</li>
+<li>对象：object</li>
+</ul>
+<h3 id="index">index</h3>
+<p>是否创建索引，默认true</p>
+<h3 id="analyzer">analyzer</h3>
+<p>使用哪种分词器</p>
+<h3 id="properties">properties</h3>
+<p>该字段的子字段</p>
+<h2 id="五、索引库">五、索引库</h2>
+<h3 id="创建">创建</h3>
+<p>PUT /索引库名</p>
+<h3 id="查看">查看</h3>
+<p>GET /索引库名</p>
+<h3 id="删除">删除</h3>
+<p>DELETE /索引库名</p>
+<h3 id="修改">修改</h3>
+<p>禁止修改原有字段，但是可以添加新字段名</p>
+<p>PUT /索引库名/_mapping</p>
+<h2 id="六、文档操作">六、文档操作</h2>
+<h3 id="新增文档">新增文档</h3>
+<p>POST /索引库名/_doc/文档id</p>
+<h3 id="查询文档">查询文档</h3>
+<p>GET /索引库名/_doc/文档id</p>
+<h3 id="删除文档">删除文档</h3>
+<p>DELETE /索引库名/_doc/文档id</p>
+<h3 id="修改文档">修改文档</h3>
+<p>方式一：全量修改，会删除文档，添加新文档</p>
+<p>PUT /索引库名/_doc/文档id</p>
+<p>方式二：增量修改，修改指定字段值</p>
+<p>POST /索引库名/_update/文档id</p>
+<h2 id="七、DSL">七、DSL</h2>
+<h3 id="查询分类">查询分类</h3>
+<p>查询所有：match_all</p>
+<p>全文检索：利用分词器对用户的输入进行分词，然后去倒排索引查询。match_query、multi_match_query</p>
+<p>精确查询：根据精确词条查询数据，ids，range，term</p>
+<p>地理查询：根据经纬度查询。</p>
+<p>复合查询：可以将上述各种查询条件组合起来查询。</p>
+<h3 id="相关性算分">相关性算分</h3>
+<p>TF（词条频率） = 词条出现次数/词条总数</p>
+<p>TF-IDF 算法</p>
+<p><img src="C:%5CUsers%5C75713%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20230919105148489.png" srcset="/img/loading.gif" lazyload alt="image-20230919105148489"></p>
+<p>DSL 查询语法</p>
+<h3 id="function-score-query">function score query</h3>
+<p>使用function score query，可以修改文档的相关性算分，根据新得到的算分排序。</p>
+<p><img src="C:%5CUsers%5C75713%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20230919164325439.png" srcset="/img/loading.gif" lazyload alt="image-20230919164325439"></p>
+<p>三要素：</p>
+<ul>
+<li>过滤条件：哪些文档要加分</li>
+<li>算分函数（weight、field_value_factor、random_score、script_score）：如何计算function_score。</li>
+<li>加权模式（multiply、replace）：query_score和function_score的加权方式。</li>
+</ul>
+<h3 id="复合查询-boolean-query">复合查询 boolean query</h3>
+<p>布尔查询是一个或多个查询子句的组合。子查询组合方式：</p>
+<ul>
+<li>must：必须匹配每个子查询</li>
+<li>should：选择性匹配子查询</li>
+<li>must_not：必须不匹配，不参与算分</li>
+<li>filter：必须匹配</li>
+</ul>
+<h3 id="搜索结果处理">搜索结果处理</h3>
+<h4 id="排序">排序</h4>
+<p>默认是根据相关度算分来排序，也可以指定字段来排序。</p>
+<p>使用sort和field来指定顺序</p>
+<h4 id="分页">分页</h4>
+<p>默认只返回前十条，通过使用from和size来分页，默认最大10000条</p>
+<p>ES是分布式的，所以会面临深度分页的问题。</p>
+<ol>
+<li>首先从每个数据分片上都排序并查询前1000条。</li>
+<li>然后将所有节点的结果聚合，在内存中重新排序选出前1000条文档。</li>
+<li>最后从这1000条中，选取从990开始的10条文档。</li>
+</ol>
+<h5 id="针对深度分页">针对深度分页</h5>
+<p>search after：分页时需要排序，原来是从上一次的排序值开始，查询下一页数据。</p>
+<h4 id="高亮">高亮</h4>
+<p>把搜索结果中把搜索关键字突出显示，通过highlight来实现，其中包裹pre_tags和post_tags属性指定标签</p>
+<h2 id="聚合">聚合</h2>
+<p>聚合可以实现对文档数据的统计、分析、运算。常见的有三类：</p>
+<ul>
+<li>桶：用来对文档做分组
+<ul>
+<li>TermAggregation</li>
+<li>Date</li>
+</ul>
+</li>
+<li>度量聚合：用以计算一些值。
+<ul>
+<li>avg</li>
+<li>max</li>
+<li>min</li>
+</ul>
+</li>
+<li>管道聚合：其他聚合的结果进行为基础做聚合。</li>
+</ul>
+<p>aggs代表聚合，与query同级，此时query的作用是限定聚合的文档范围。</p>
+<p>聚合三要素：聚合名称，聚合类型，聚合字段。</p>
+<h2 id="自动补全">自动补全</h2>
+<p>使用completion suggester查询来实现自动补全功能。</p>
+<p>参与补全查询的字段必须是completion类型</p>
+<p>字段的内容一般是用来补全的多个词条形成的数组</p>
+<h2 id="分词器">分词器</h2>
+<p>分词器分为三部分</p>
+<h2 id="数据同步">数据同步</h2>
+<p>当es的数据来自mysql，mysql的数据改变时，es的数据也必须要同步数据</p>
+<p>三种方案：</p>
+<ol>
+<li>同步方案：msyql和es一起更新</li>
+<li>异步方案：发消息给MQ中间件</li>
+<li>监听mysql：使用canal中间件监听binlog</li>
+</ol>
+<h2 id="集群">集群</h2>
+<p>海量数据存储问题：将索引库从逻辑上拆分成N个分片（shard），存储到多个节点。</p>
+<p>单点故障问题：将分片数据在不同节点备份（replica）</p>
+<p>脑裂问题：部署奇数个，选举需要（n+1）/2个候选人同意</p>
+<h3 id="分布式存储">分布式存储</h3>
+<p>在新增文档时，应该保存到不同分片，保证数据均衡；</p>
+<p>es会通过hash算法来计算文档应该存储到哪个分片</p>
+<p>shard = hash(_routing)% number_of_shards</p>
+<p>_routing默认是文档id</p>
+<p>索引一旦创建，分片不可以修改</p>
+<h4 id="新增流程">新增流程</h4>
+<ol>
+<li>新增文档 id = 1</li>
+<li>hash运算得到2</li>
+<li>路由存放到2号分片</li>
+<li>保存文档</li>
+<li>同步给副本分片</li>
+<li>返回结果给协调分片</li>
+</ol>
+<h3 id="分布式查询">分布式查询</h3>
+<p>分成两个阶段：</p>
+<p>scatter phase：分散阶段，协调节点会把请求分发到每一个分片。</p>
+<p>gather phase：聚集阶段，协调节点汇总data node的搜索结果，并处理最终结果集返回给用户。</p>
+<h3 id="故障转移">故障转移</h3>
+<p>集群中的master节点会监控集群中的状态，如果有节点宕机，那么就会把宕机节点的分片数据迁移到其他节点上，保证数据安全</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ElasticSearch/" class="category-chain-item">ElasticSearch</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ElasticSearch/">#ElasticSearch</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ElasticSearch</div>
+      <div>https://www.zengzx.xyz/2023/09/15/01.知识架构/02.数据库/ES/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Eden</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/19/01.%E7%9F%A5%E8%AF%86%E6%9E%B6%E6%9E%84/04.%E7%BD%91%E7%BB%9C/02.TCP/23.TCP%20%E5%BA%8F%E5%88%97%E5%8F%B7%E5%92%8C%E7%A1%AE%E8%AE%A4%E5%8F%B7%E6%98%AF%E5%A6%82%E4%BD%95%E5%8F%98%E5%8C%96%E7%9A%84%EF%BC%9F/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/09/04/05.%E9%9A%8F%E7%AC%94/2023%E5%B9%B49%E6%9C%88%E8%A7%84%E5%88%92/" title="2023年9月规划">
+                        <span class="hidden-mobile">2023年9月规划</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/PoetryOfLife/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
