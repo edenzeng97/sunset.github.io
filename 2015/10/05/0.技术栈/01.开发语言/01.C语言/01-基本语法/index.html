@@ -1,0 +1,1216 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.jpg">
+  <link rel="icon" href="/img/icon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Edenzeng">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="C语言入门：从基础语法到你的第一个“Hello World” C语言以其高效和强大而闻名，是许多编程语言的基础。理解其基本语法是迈向精通的第一步。本篇博客将带你快速了解C语言的核心语法概念，包括语句、表达式、代码块、空格、注释，并详细介绍如何使printf()函数进行输出。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言入门：从基础语法到你的第一个“Hello World”">
+<meta property="og:url" content="https://www.edenzeng.online/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="Edenzeng">
+<meta property="og:description" content="C语言入门：从基础语法到你的第一个“Hello World” C语言以其高效和强大而闻名，是许多编程语言的基础。理解其基本语法是迈向精通的第一步。本篇博客将带你快速了解C语言的核心语法概念，包括语句、表达式、代码块、空格、注释，并详细介绍如何使printf()函数进行输出。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-10-05T02:15:25.000Z">
+<meta property="article:modified_time" content="2026-01-27T03:00:55.190Z">
+<meta property="article:author" content="Edenzeng">
+<meta property="article:tag" content="C语言">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C语言入门：从基础语法到你的第一个“Hello World” - Edenzeng</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.edenzeng.online","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"#"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":false,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Edenzeng</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C语言入门：从基础语法到你的第一个“Hello World”"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Edenzeng
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2015-10-05 10:15" pubdate>
+          2015年10月5日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="C语言"
+        id="heading-d117f5dea6b7959c82d4fdb7490c555d" role="tab" data-toggle="collapse" href="#collapse-d117f5dea6b7959c82d4fdb7490c555d"
+        aria-expanded="true"
+      >
+        C语言
+        <span class="list-group-count">(21)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-d117f5dea6b7959c82d4fdb7490c555d"
+           role="tabpanel" aria-labelledby="heading-d117f5dea6b7959c82d4fdb7490c555d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="C语言入门：从基础语法到你的第一个“Hello World”"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">C语言入门：从基础语法到你的第一个“Hello World”</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/07/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/02-%E5%8F%98%E9%87%8F%E8%AF%A6%E8%A7%A3/" title="C语言入门：变量详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：变量详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/09/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/03-%E8%BF%90%E7%AE%97%E7%AC%A6%E8%AF%A6%E8%A7%A3/" title="C语言入门：从算术运算到位操作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：从算术运算到位操作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/12/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/04-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="C语言流程控制详解：从条件判断到循环结构"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言流程控制详解：从条件判断到循环结构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/14/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/05-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3/" title="C语言数据类型详解：从基础类型到高级特性"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言数据类型详解：从基础类型到高级特性</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/16/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/06-%E6%8C%87%E9%92%88%E8%AF%A6%E8%A7%A3/" title="C语言指针详解：从内存地址到高级指针操作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言指针详解：从内存地址到高级指针操作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/19/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/07-%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="C语言函数详解：从基础概念到高级应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言函数详解：从基础概念到高级应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/21/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/08-%E6%95%B0%E7%BB%84%E8%AF%A6%E8%A7%A3/" title="C语言数组详解：从一维到多维，从静态到动态"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言数组详解：从一维到多维，从静态到动态</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/23/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/09-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%AF%A6%E8%A7%A3/" title="C语言字符串详解：从基础操作到高级应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言字符串详解：从基础操作到高级应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/26/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/10-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/" title="C语言内存管理详解：从动态分配到安全释放"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言内存管理详解：从动态分配到安全释放</span>
+        </a>
+      
+    
+      
+      
+        <a href="/categories/C%E8%AF%AD%E8%A8%80/" class="list-group-item list-group-item-action">
+          <span class="category-post">More...</span>
+        </a>
+        
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C语言入门：从基础语法到你的第一个“Hello World”</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="C语言入门：从基础语法到你的第一个“Hello-World”"><strong>C语言入门：从基础语法到你的第一个“Hello World”</strong></h3>
+<p>C语言以其高效和强大而闻名，是许多编程语言的基础。理解其基本语法是迈向精通的第一步。本篇博客将带你快速了解C语言的核心语法概念，包括语句、表达式、代码块、空格、注释，并详细介绍如何使<code>printf()</code>函数进行输出。</p>
+<span id="more"></span>
+<h4 id="一、语句：程序的基石"><strong>一、语句：程序的基石</strong></h4>
+<p>C语言程序由一条条<strong>语句</strong>构成，每个语句都是一条执行指令。语句必须以分号<code>;</code>结尾。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-hwxrjmmkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-0gdjl7mkyz27t9" data-code="1int%20x%20%3D%201%3B%20%2F%2F%20%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E5%A3%B0%E6%98%8E%E5%B9%B6%E8%B5%8B%E5%80%BC%E7%9A%84%E8%AF%AD%E5%8F%A5" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-hwxrjmmkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x = <span class="hljs-number">1</span>; <span class="hljs-comment">// 这是一个声明并赋值的语句</span><br></code></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>多语句一行</strong>：多个语句可以写在同一行，但通常为了可读性会分行书写。<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-6d0j7ymkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-ocz175mkyz27t9" data-code="1int%20x%3B%20x%20%3D%201%3B%20%2F%2F%20%E4%B8%A4%E4%B8%AA%E8%AF%AD%E5%8F%A5%E5%9C%A8%E4%B8%80%E8%A1%8C" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-6d0j7ymkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x; x = <span class="hljs-number">1</span>; <span class="hljs-comment">// 两个语句在一行</span><br></code></pre></td></tr></table></div></figure>
+</li>
+<li><strong>单语句多行</strong>：一个语句也可以跨越多行，编译器会忽略换行符，直到遇到分号才认为语句结束。<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-r53twxmkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-oe258hmkyz27t9" data-code="12345int%20x%3Bx%3D1%3B%20%2F%2F%20%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E5%AE%8C%E6%95%B4%E7%9A%84%E8%AF%AD%E5%8F%A5" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-r53twxmkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x;<br>x<br>=<br><span class="hljs-number">1</span><br>; <span class="hljs-comment">// 这是一个完整的语句</span><br></code></pre></td></tr></table></div></figure>
+</li>
+<li><strong>空语句</strong>：单独的一个分号<code>;</code>也是一个有效的语句，称为“空语句”，它不执行任何操作。</li>
+</ul>
+<h4 id="二、表达式-vs-语句"><strong>二、表达式 vs. 语句</strong></h4>
+<p><strong>表达式</strong>是一个用于计算的公式，它总会产生一个值。例如 <code>1 + 2</code> 就是一个表达式，其值为 <code>3</code>。</p>
+<p>当表达式后面加上分号，它就变成了一个<strong>表达式语句</strong>。但并非所有有意义的表达式作为语句都有意义。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-6ds9xnmkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-skxw3amkyz27t9" data-code="128%3B%20%2F%2F%20%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E5%8F%A5%EF%BC%8C%E5%80%BC%E4%B8%BA8%EF%BC%8C%E4%BD%86%E6%97%A0%E5%AE%9E%E9%99%85%E4%BD%9C%E7%94%A83%20%2B%204%3B%20%2F%2F%20%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E5%8F%A5%EF%BC%8C%E5%80%BC%E4%B8%BA7%EF%BC%8C%E4%BD%86%E6%97%A0%E5%AE%9E%E9%99%85%E4%BD%9C%E7%94%A8" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-6ds9xnmkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-number">8</span>;        <span class="hljs-comment">// 表达式语句，值为8，但无实际作用</span><br><span class="hljs-number">3</span> + <span class="hljs-number">4</span>;    <span class="hljs-comment">// 表达式语句，值为7，但无实际作用</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>主要区别</strong>：</p>
+<ol>
+<li><strong>包含关系</strong>：语句可以包含表达式，但表达式本身不构成语句（除非加分号）。</li>
+<li><strong>返回值</strong>：表达式始终有返回值；语句不一定需要，它的核心目的是执行动作（如变量声明）。</li>
+</ol>
+<h4 id="三、语句块：将代码打包"><strong>三、语句块：将代码打包</strong></h4>
+<p>使用大括号 <code>&#123;&#125;</code> 可以将多条语句组合成一个<strong>语句块</strong>（或称为复合语句）。在语法上，整个语句块被视为一个单一的单元。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-y30js1mkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-b8afusmkyz27t9" data-code="1234%26%23123%3B%20int%20x%3B%20x%20%3D%201%3B%26%23125%3B%20%2F%2F%20%E8%AF%AD%E5%8F%A5%E5%9D%97%E7%BB%93%E6%9D%9F%EF%BC%8C%E4%B8%8D%E9%9C%80%E8%A6%81%E5%88%86%E5%8F%B7" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-y30js1mkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">&#123;<br>    <span class="hljs-type">int</span> x;<br>    x = <span class="hljs-number">1</span>;<br>&#125; <span class="hljs-comment">// 语句块结束，不需要分号</span><br></code></pre></td></tr></table></div></figure>
+<p>语句块在控制流语句（如 <code>if</code>、<code>for</code>）中至关重要，用于定义执行范围。</p>
+<h4 id="四、空格与缩进：为了可读性"><strong>四、空格与缩进：为了可读性</strong></h4>
+<p>空格（包括空格、制表符、换行符）主要用于帮助编译器区分语法单位。只要编译器能区分，空格就不是必须的，但它对<strong>人类阅读代码至关重要</strong>。</p>
+<ul>
+<li><strong>可选空格</strong>：<code>int x=1;</code> 和 <code>int x = 1;</code> 是等价的。</li>
+<li><strong>多个空格等同单个</strong>：<code>int x = 1;</code> 中的多个空格与单个空格效果相同。</li>
+<li><strong>缩进</strong>：缩进（通常是4个或2个空格）不是语法要求，但能清晰展示代码结构层次。<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-63q03bmkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-xlhw2bmkyz27t9" data-code="1234%2F%2F%20%E7%BC%A9%E8%BF%9B%E5%9B%9B%E4%B8%AA%E7%A9%BA%E6%A0%BCif%20(x%20%3E%200)%20%26%23123%3B%20printf(%22positive%5Cn%22)%3B%20%2F%2F%20%E5%B1%9E%E4%BA%8Eif%E7%9A%84%E4%BB%A3%E7%A0%81%E5%9D%97%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-63q03bmkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 缩进四个空格</span><br><span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">0</span>) &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;positive\n&quot;</span>); <span class="hljs-comment">// 属于if的代码块</span><br>&#125;<br></code></pre></td></tr></table></div></figure>
+</li>
+</ul>
+<h4 id="五、注释：代码的笔记"><strong>五、注释：代码的笔记</strong></h4>
+<p>注释用于解释代码，编译器会完全忽略它们。C语言有两种注释方式：</p>
+<ol>
+<li>
+<p><strong>多行注释</strong>：位于 <code>/*</code> 和 <code>*/</code> 之间，可以跨行。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-9jb64qmkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-gljy16mkyz27t9" data-code="123%2F*%20%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%20%E5%A4%9A%E8%A1%8C%E6%B3%A8%E9%87%8A%20*%2Fint%20open(char*%20s%20%2F*%20%E6%96%87%E4%BB%B6%E5%90%8D%20*%2F%2C%20int%20mode)%3B%20%2F%2F%20%E8%A1%8C%E5%86%85%E6%B3%A8%E9%87%8A" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-9jb64qmkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* 这是一个</span><br><span class="hljs-comment">   多行注释 */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">open</span><span class="hljs-params">(<span class="hljs-type">char</span>* s <span class="hljs-comment">/* 文件名 */</span>, <span class="hljs-type">int</span> mode)</span>; <span class="hljs-comment">// 行内注释</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>警告</strong>：务必成对使用，否则 <code>/*</code> 之后的所有代码都可能被注释掉！</p>
+</li>
+<li>
+<p><strong>单行注释</strong>：以 <code>//</code> 开始，到行尾结束。这是C99标准新增的。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-rjstc2mkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-uqly1smkyz27t9" data-code="12%2F%2F%20%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E5%8D%95%E8%A1%8C%E6%B3%A8%E9%87%8Aint%20x%20%3D%201%3B%20%2F%2F%20%E8%BF%99%E4%B9%9F%E6%98%AF%E6%B3%A8%E9%87%8A" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-rjstc2mkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 这是一个单行注释</span><br><span class="hljs-type">int</span> x = <span class="hljs-number">1</span>; <span class="hljs-comment">// 这也是注释</span><br></code></pre></td></tr></table></div></figure>
+</li>
+</ol>
+<p><strong>重要</strong>：注释符号在双引号内会失去作用，成为字符串的一部分。<code>printf(&quot;// hello /* world */&quot;);</code> 会原样输出 <code>// hello /* world */</code>。</p>
+<h4 id="六、printf-函数：与世界打招呼"><strong>六、<code>printf()</code> 函数：与世界打招呼</strong></h4>
+<p><code>printf()</code> 是用于向屏幕输出文本的标准库函数，其名字中的 <code>f</code> 代表“格式化”（format）。</p>
+<p><strong>1. 基本用法</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-j2kypymkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-5w5peqmkyz27t9" data-code="1234567%23include%20%3Cstdio.h%3E%20%2F%2F%20%E5%BF%85%E9%A1%BB%E5%8C%85%E5%90%AB%E5%A4%B4%E6%96%87%E4%BB%B6int%20main(void)%20%26%23123%3B%20printf(%22Hello%20World%22)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%E5%90%8E%E4%B8%8D%E6%8D%A2%E8%A1%8C%20printf(%22Hello%20World%5Cn%22)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%E5%90%8E%E6%8D%A2%E8%A1%8C%EF%BC%8C%5Cn%E6%98%AF%E6%8D%A2%E8%A1%8C%E7%AC%A6%20printf(%22Hello%5CnWorld%5Cn%22)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%E4%B8%A4%E8%A1%8C%EF%BC%9AHello%20%E5%92%8C%20World%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-j2kypymkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span> <span class="hljs-comment">// 必须包含头文件</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);    <span class="hljs-comment">// 输出后不换行</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World\n&quot;</span>);  <span class="hljs-comment">// 输出后换行，\n是换行符</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello\nWorld\n&quot;</span>); <span class="hljs-comment">// 输出两行：Hello 和 World</span><br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>2. 占位符</strong><br>
+占位符允许我们将值嵌入到输出文本中，它以百分号 <code>%</code> 开头。</p>
+<ul>
+<li><code>%d</code> 或 <code>%i</code>：整数。</li>
+<li><code>%s</code>：字符串。</li>
+<li><code>%f</code>：浮点数（小数）。</li>
+</ul>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-h853uemkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-o5cpcnmkyz27t9" data-code="12printf(%22%25s%20has%20%25d%20apples.%5Cn%22%2C%20%22Alice%22%2C%203)%3B%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9AAlice%20has%203%20apples." title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-h853uemkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s has %d apples.\n&quot;</span>, <span class="hljs-string">&quot;Alice&quot;</span>, <span class="hljs-number">3</span>);<br><span class="hljs-comment">// 输出：Alice has 3 apples.</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>注意</strong>：占位符的数量必须与后面提供的参数数量一致。</p>
+<p><strong>3. 输出格式控制</strong><br>
+<code>printf()</code> 可以精细控制输出格式。</p>
+<ul>
+<li><strong>限定宽度</strong>：<code>%5d</code> 表示最小宽度为5位，不足位用空格填充（默认右对齐）。<code>%-5d</code>为左对齐。<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-4qosadmkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-b4hkrbmkyz27t9" data-code="12printf(%22%255d%5Cn%22%2C%20123)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%20%22%20123%22printf(%22%25-5d%5Cn%22%2C%20123)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%20%22123%20%22" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-4qosadmkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%5d\n&quot;</span>, <span class="hljs-number">123</span>); <span class="hljs-comment">// 输出 &quot;  123&quot;</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%-5d\n&quot;</span>, <span class="hljs-number">123</span>); <span class="hljs-comment">// 输出 &quot;123  &quot;</span><br></code></pre></td></tr></table></div></figure>
+</li>
+<li><strong>显示正负号</strong>：<code>%+d</code> 使正数也显示 <code>+</code> 号。<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-h2871wmkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-htkandmkyz27t9" data-code="1printf(%22%25%2Bd%5Cn%22%2C%2012)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%20%2B12" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-h2871wmkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%+d\n&quot;</span>, <span class="hljs-number">12</span>); <span class="hljs-comment">// 输出 +12</span><br></code></pre></td></tr></table></div></figure>
+</li>
+<li><strong>限定小数位数</strong>：<code>%.2f</code> 保留两位小数。<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-hr9vqnmkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-zfbqrymkyz27t9" data-code="1printf(%22Number%20is%20%25.2f%5Cn%22%2C%200.5)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%20Number%20is%200.50" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-hr9vqnmkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Number is %.2f\n&quot;</span>, <span class="hljs-number">0.5</span>); <span class="hljs-comment">// 输出 Number is 0.50</span><br></code></pre></td></tr></table></div></figure>
+可以组合使用：<code>%6.2f</code>（最小宽度6，两位小数）。</li>
+</ul>
+<h4 id="七、标准库与头文件"><strong>七、标准库与头文件</strong></h4>
+<p><code>printf()</code> 等功能并非C语言核心语法的一部分，而是由<strong>标准库</strong>提供的。标准库是C语言官方提供的一套常用功能集合。</p>
+<p>这些功能被声明在<strong>头文件</strong>（如 <code>stdio.h</code>）中。要使用某个功能，就必须先用 <code>#include</code> 指令引入其对应的头文件。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-yk8a0imkyz27t9" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-ct9z4mmkyz27t9" data-code="1%23include%20%3Cstdio.h%3E%20%2F%2F%20%E5%BC%95%E5%85%A5%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%A4%B4%E6%96%87%E4%BB%B6%EF%BC%8C%E8%BF%99%E6%A0%B7%E6%89%8D%E8%83%BD%E4%BD%BF%E7%94%A8printf()" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-yk8a0imkyz27t9"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span> <span class="hljs-comment">// 引入标准输入输出头文件，这样才能使用printf()</span></span><br></code></pre></td></tr></table></div></figure>
+<h4 id="总结"><strong>总结</strong></h4>
+<p>掌握这些基础语法，你就已经打开了C语言编程的大门。记住：</p>
+<ul>
+<li><strong>语句</strong>是动作，用分号结束。</li>
+<li><strong>表达式</strong>是计算，产生值。</li>
+<li><strong>代码块</strong>用 <code>&#123;&#125;</code> 组合语句。</li>
+<li><strong>空格和缩进</strong>是为了让人看得舒服。</li>
+<li><strong>注释</strong>是为了解释代码。</li>
+<li><strong><code>printf()</code></strong> 是你的输出工具，功能强大。</li>
+<li><strong>头文件</strong>是使用标准库功能的钥匙。</li>
+</ul>
+<p>现在，尝试在你的开发环境中编写并运行一个简单的 <code>printf</code> 程序吧！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C%E8%AF%AD%E8%A8%80/" class="category-chain-item">C语言</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C%E8%AF%AD%E8%A8%80/" class="print-no-link">#C语言</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C语言入门：从基础语法到你的第一个“Hello World”</div>
+      <div>https://www.edenzeng.online/2015/10/05/0.技术栈/01.开发语言/01.C语言/01-基本语法/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Edenzeng</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2015年10月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2015/10/07/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/02-%E5%8F%98%E9%87%8F%E8%AF%A6%E8%A7%A3/" title="C语言入门：变量详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C语言入门：变量详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <span style="font-size:14px;"> © 2026 <a href="https://www.edenzeng.onlone" target="_blank" rel="nofollow noopener">Edenzeng's Blog</a> · Powered by <a href="https://hexo.io/" target="_blank" rel="nofollow noopener">Hexo</a> & <a href="https://github.com/edenzeng97/hexo-theme-fluid" target="_blank" rel="nofollow noopener">Fluid</a></span>
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<script>
+  // 复制代码到剪贴板
+  function copyToClipboard(text) {
+    return new Promise((resolve, reject) => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+          .then(() => resolve(true))
+          .catch(() => {
+            // 如果clipboard API失败，使用传统方法
+            fallbackCopyToClipboard(text) ? resolve(true) : reject(false);
+          });
+      } else {
+        // 使用传统方法
+        fallbackCopyToClipboard(text) ? resolve(true) : reject(false);
+      }
+    });
+  }
+
+  // 传统复制方法
+  function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return successful;
+    } catch (err) {
+      document.body.removeChild(textArea);
+      return false;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.code-widget.copy-btn').forEach(button => {
+      button.addEventListener('click', async function(e) {
+        e.stopPropagation(); // 阻止事件冒泡，避免触发折叠
+        
+        const codeText = decodeURIComponent(this.getAttribute('data-code') || '');
+        
+        if (!codeText.trim()) {
+          // 如果data-code属性为空，尝试从代码块中提取文本
+          const codeBlock = this.closest('.highlight').querySelector('pre code');
+          if (codeBlock) {
+            const text = codeBlock.textContent || codeBlock.innerText || '';
+            try {
+              await copyToClipboard(text);
+              showCopySuccess(this);
+            } catch (err) {
+              showCopyError(this);
+            }
+          } else {
+            showCopyError(this);
+          }
+        } else {
+          try {
+            await copyToClipboard(codeText);
+            showCopySuccess(this);
+          } catch (err) {
+            showCopyError(this);
+          }
+        }
+      });
+    });
+  });
+  
+  // 显示复制成功提示
+  function showCopySuccess(button) {
+    const originalHTML = button.innerHTML;
+    const originalText = button.querySelector('.copy-text')?.textContent || '复制';
+    
+    button.innerHTML = `
+      <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span class="copy-text">已复制</span>
+    `;
+    button.style.color = '#28a745';
+    button.style.opacity = '1';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+      button.style.opacity = '0.7';
+    }, 2000);
+  }
+  
+  // 显示复制失败提示
+  function showCopyError(button) {
+    const originalHTML = button.innerHTML;
+    
+    button.innerHTML = `
+      <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      <span class="copy-text">失败</span>
+    `;
+    button.style.color = '#dc3545';
+    button.style.opacity = '1';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+      button.style.opacity = '0.7';
+    }, 2000);
+  }
+</script></body>
+</html>

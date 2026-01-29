@@ -1,0 +1,1326 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.jpg">
+  <link rel="icon" href="/img/icon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Edenzeng">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="C语言结构体详解：从基本定义到高级应用 在C语言中，结构体（struct）是组织和存储相关数据的最重要工具之一。结构体允许你将多个不同类型的数据项组合成一个单一的复合数据类型，这对于表示现实世界中的对象（如学生、员工、产品等）特别有用。结构体不仅提供了数据封装的基础，还是构建更复杂数据结构（如链表、树等）的基石。本篇博客将深入探讨C语言结构体的各个方面，从基本定义到高级应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言结构体详解：从基本定义到高级应用">
+<meta property="og:url" content="https://www.edenzeng.online/2015/10/28/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/11-%E7%BB%93%E6%9E%84%E4%BD%93%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Edenzeng">
+<meta property="og:description" content="C语言结构体详解：从基本定义到高级应用 在C语言中，结构体（struct）是组织和存储相关数据的最重要工具之一。结构体允许你将多个不同类型的数据项组合成一个单一的复合数据类型，这对于表示现实世界中的对象（如学生、员工、产品等）特别有用。结构体不仅提供了数据封装的基础，还是构建更复杂数据结构（如链表、树等）的基石。本篇博客将深入探讨C语言结构体的各个方面，从基本定义到高级应用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-10-28T11:12:05.000Z">
+<meta property="article:modified_time" content="2026-01-27T03:02:39.465Z">
+<meta property="article:author" content="Edenzeng">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="结构体">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="自定义类型">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C语言结构体详解：从基本定义到高级应用 - Edenzeng</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.edenzeng.online","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"#"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":false,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Edenzeng</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C语言结构体详解：从基本定义到高级应用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Edenzeng
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2015-10-28 19:12" pubdate>
+          2015年10月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          71 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="C语言"
+        id="heading-d117f5dea6b7959c82d4fdb7490c555d" role="tab" data-toggle="collapse" href="#collapse-d117f5dea6b7959c82d4fdb7490c555d"
+        aria-expanded="true"
+      >
+        C语言
+        <span class="list-group-count">(21)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-d117f5dea6b7959c82d4fdb7490c555d"
+           role="tabpanel" aria-labelledby="heading-d117f5dea6b7959c82d4fdb7490c555d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="C语言入门：从基础语法到你的第一个“Hello World”"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：从基础语法到你的第一个“Hello World”</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/07/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/02-%E5%8F%98%E9%87%8F%E8%AF%A6%E8%A7%A3/" title="C语言入门：变量详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：变量详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/09/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/03-%E8%BF%90%E7%AE%97%E7%AC%A6%E8%AF%A6%E8%A7%A3/" title="C语言入门：从算术运算到位操作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：从算术运算到位操作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/12/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/04-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="C语言流程控制详解：从条件判断到循环结构"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言流程控制详解：从条件判断到循环结构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/14/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/05-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3/" title="C语言数据类型详解：从基础类型到高级特性"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言数据类型详解：从基础类型到高级特性</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/16/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/06-%E6%8C%87%E9%92%88%E8%AF%A6%E8%A7%A3/" title="C语言指针详解：从内存地址到高级指针操作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言指针详解：从内存地址到高级指针操作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/19/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/07-%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="C语言函数详解：从基础概念到高级应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言函数详解：从基础概念到高级应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/21/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/08-%E6%95%B0%E7%BB%84%E8%AF%A6%E8%A7%A3/" title="C语言数组详解：从一维到多维，从静态到动态"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言数组详解：从一维到多维，从静态到动态</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/23/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/09-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%AF%A6%E8%A7%A3/" title="C语言字符串详解：从基础操作到高级应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言字符串详解：从基础操作到高级应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/26/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/10-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/" title="C语言内存管理详解：从动态分配到安全释放"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言内存管理详解：从动态分配到安全释放</span>
+        </a>
+      
+    
+      
+      
+        <a href="/categories/C%E8%AF%AD%E8%A8%80/" class="list-group-item list-group-item-action">
+          <span class="category-post">More...</span>
+        </a>
+        
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C语言结构体详解：从基本定义到高级应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="C语言结构体详解：从基本定义到高级应用"><strong>C语言结构体详解：从基本定义到高级应用</strong></h3>
+<p>在C语言中，结构体（struct）是组织和存储相关数据的最重要工具之一。结构体允许你将多个不同类型的数据项组合成一个单一的复合数据类型，这对于表示现实世界中的对象（如学生、员工、产品等）特别有用。结构体不仅提供了数据封装的基础，还是构建更复杂数据结构（如链表、树等）的基石。本篇博客将深入探讨C语言结构体的各个方面，从基本定义到高级应用。</p>
+<span id="more"></span>
+<h4 id="一、结构体简介：自定义复合数据类型"><strong>一、结构体简介：自定义复合数据类型</strong></h4>
+<p>结构体是一种用户自定义的数据类型，它允许将多个不同类型的变量组合在一起，形成一个逻辑上的整体。每个结构体内部的变量称为“成员”或“字段”。</p>
+<p><strong>基本结构体定义</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-i8y916mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-dd9hsymkyz27tb" data-code="123456struct%20book%20%26%23123%3B%20char%20title%5B50%5D%3B%20char%20author%5B50%5D%3B%20float%20price%3B%20int%20pages%3B%26%23125%3B%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-i8y916mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>    <span class="hljs-type">int</span> pages;<br>&#125;;<br></code></pre></td></tr></table></div></figure>
+<p><strong>定义并声明变量</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-lflyc7mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-4dv64jmkyz27tb" data-code="123456struct%20book%20%26%23123%3B%20char%20title%5B50%5D%3B%20char%20author%5B50%5D%3B%20float%20price%3B%20int%20pages%3B%26%23125%3B%20book1%2C%20book2%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-lflyc7mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>    <span class="hljs-type">int</span> pages;<br>&#125; book1, book2;<br></code></pre></td></tr></table></div></figure>
+<p><strong>简化定义</strong>（C99标准）：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-rt5g9hmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-9l6poymkyz27tb" data-code="123456789struct%20book%20%26%23123%3B%20char%20title%5B50%5D%3B%20char%20author%5B50%5D%3B%20float%20price%3B%20int%20pages%3B%26%23125%3B%3Btypedef%20struct%20book%20Book%3B%20%2F%2F%20%E5%88%9B%E5%BB%BA%E5%88%AB%E5%90%8DBook%20book1%2C%20book2%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-rt5g9hmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>    <span class="hljs-type">int</span> pages;<br>&#125;;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> <span class="hljs-title">Book</span>;</span> <span class="hljs-comment">// 创建别名</span><br>Book book1, book2;<br></code></pre></td></tr></table></div></figure>
+<h4 id="二、结构体成员的访问与赋值"><strong>二、结构体成员的访问与赋值</strong></h4>
+<p>使用点运算符<code>.</code>可以访问结构体的成员，并对其进行赋值或读取。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-u8mvk2mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-42kcy9mkyz27tb" data-code="1234567891011121314151617181920212223242526%23include%20%3Cstdio.h%3E%23include%20%3Cstring.h%3Estruct%20book%20%26%23123%3B%20char%20title%5B50%5D%3B%20char%20author%5B50%5D%3B%20float%20price%3B%20int%20pages%3B%26%23125%3B%3Bint%20main()%20%26%23123%3B%20struct%20book%20book1%3B%20%2F%2F%20%E4%BD%BF%E7%94%A8strcpy()%E4%B8%BA%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84%E8%B5%8B%E5%80%BC%20strcpy(book1.title%2C%20%22C%20Programming%20Language%22)%3B%20strcpy(book1.author%2C%20%22Brian%20W.%20Kernighan%20and%20Dennis%20M.%20Ritchie%22)%3B%20book1.price%20%3D%2059.99%3B%20book1.pages%20%3D%20272%3B%20printf(%22%E4%B9%A6%E5%90%8D%3A%20%25s%5Cn%22%2C%20book1.title)%3B%20printf(%22%E4%BD%9C%E8%80%85%3A%20%25s%5Cn%22%2C%20book1.author)%3B%20printf(%22%E4%BB%B7%E6%A0%BC%3A%20%25.2f%5Cn%22%2C%20book1.price)%3B%20printf(%22%E9%A1%B5%E6%95%B0%3A%20%25d%5Cn%22%2C%20book1.pages)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-u8mvk2mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>    <span class="hljs-type">int</span> pages;<br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> <span class="hljs-title">book1</span>;</span><br>    <br>    <span class="hljs-comment">// 使用strcpy()为字符数组赋值</span><br>    <span class="hljs-built_in">strcpy</span>(book1.title, <span class="hljs-string">&quot;C Programming Language&quot;</span>);<br>    <span class="hljs-built_in">strcpy</span>(book1.author, <span class="hljs-string">&quot;Brian W. Kernighan and Dennis M. Ritchie&quot;</span>);<br>    book1.price = <span class="hljs-number">59.99</span>;<br>    book1.pages = <span class="hljs-number">272</span>;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;书名: %s\n&quot;</span>, book1.title);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;作者: %s\n&quot;</span>, book1.author);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;价格: %.2f\n&quot;</span>, book1.price);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;页数: %d\n&quot;</span>, book1.pages);<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>注意</strong>：对于字符数组类型的成员，必须使用<code>strcpy()</code>函数进行赋值，而不是直接使用赋值运算符<code>=</code>，因为字符数组名在C语言中是地址常量。</p>
+<h4 id="三、结构体的初始化"><strong>三、结构体的初始化</strong></h4>
+<p>可以在声明结构体变量的同时进行初始化。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-iw4zfsmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-u9wvm8mkyz27tb" data-code="123456789101112131415161718192021222324252627282930%23include%20%3Cstdio.h%3Estruct%20book%20%26%23123%3B%20char%20title%5B50%5D%3B%20char%20author%5B50%5D%3B%20float%20price%3B%20int%20pages%3B%26%23125%3B%3Bint%20main()%20%26%23123%3B%20%2F%2F%20%E5%AE%8C%E5%85%A8%E5%88%9D%E5%A7%8B%E5%8C%96%20struct%20book%20book1%20%3D%20%26%23123%3B%20%22C%20Programming%20Language%22%2C%20%22Brian%20W.%20Kernighan%20and%20Dennis%20M.%20Ritchie%22%2C%2059.99%2C%20272%20%26%23125%3B%3B%20%2F%2F%20%E9%83%A8%E5%88%86%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88C99%E6%A0%87%E5%87%86%EF%BC%89%20struct%20book%20book2%20%3D%20%26%23123%3B%20.title%20%3D%20%22The%20C%20Programming%20Language%22%2C%20.price%20%3D%2049.99%20%2F%2F%20%E5%85%B6%E4%BB%96%E6%88%90%E5%91%98%E4%BF%9D%E6%8C%81%E9%BB%98%E8%AE%A4%E5%80%BC%EF%BC%880%E6%88%96%E7%A9%BA%EF%BC%89%20%26%23125%3B%3B%20printf(%22book1%E4%BD%9C%E8%80%85%3A%20%25s%5Cn%22%2C%20book1.author)%3B%20printf(%22book2%E4%BB%B7%E6%A0%BC%3A%20%25.2f%5Cn%22%2C%20book2.price)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-iw4zfsmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>    <span class="hljs-type">int</span> pages;<br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 完全初始化</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> <span class="hljs-title">book1</span> =</span> &#123;<br>        <span class="hljs-string">&quot;C Programming Language&quot;</span>,<br>        <span class="hljs-string">&quot;Brian W. Kernighan and Dennis M. Ritchie&quot;</span>,<br>        <span class="hljs-number">59.99</span>,<br>        <span class="hljs-number">272</span><br>    &#125;;<br>    <br>    <span class="hljs-comment">// 部分初始化（C99标准）</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> <span class="hljs-title">book2</span> =</span> &#123;<br>        .title = <span class="hljs-string">&quot;The C Programming Language&quot;</span>,<br>        .price = <span class="hljs-number">49.99</span><br>        <span class="hljs-comment">// 其他成员保持默认值（0或空）</span><br>    &#125;;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;book1作者: %s\n&quot;</span>, book1.author);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;book2价格: %.2f\n&quot;</span>, book2.price);<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>初始化规则</strong>：</p>
+<ol>
+<li>完全初始化时，值按成员顺序对应</li>
+<li>部分初始化时，未指定的成员自动初始化为0（数值类型）或空字符串（字符数组）</li>
+<li>使用<code>.</code>运算符指定特定成员进行初始化（C99及以上）</li>
+</ol>
+<h4 id="四、结构体的复制"><strong>四、结构体的复制</strong></h4>
+<p>C语言允许将一个结构体变量直接赋值给另一个同类型的结构体变量，这称为“结构体的复制”。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-sfwh6rmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-fjm038mkyz27tb" data-code="123456789101112131415161718192021222324252627282930%23include%20%3Cstdio.h%3E%23include%20%3Cstring.h%3Estruct%20book%20%26%23123%3B%20char%20title%5B50%5D%3B%20char%20author%5B50%5D%3B%20float%20price%3B%20int%20pages%3B%26%23125%3B%3Bint%20main()%20%26%23123%3B%20struct%20book%20book1%3B%20strcpy(book1.title%2C%20%22C%20Programming%22)%3B%20strcpy(book1.author%2C%20%22Author%20Name%22)%3B%20book1.price%20%3D%2039.99%3B%20book1.pages%20%3D%20300%3B%20%2F%2F%20%E7%BB%93%E6%9E%84%E4%BD%93%E5%A4%8D%E5%88%B6%20struct%20book%20book2%20%3D%20book1%3B%20printf(%22book2%E6%A0%87%E9%A2%98%3A%20%25s%5Cn%22%2C%20book2.title)%3B%20printf(%22book2%E4%BB%B7%E6%A0%BC%3A%20%25.2f%5Cn%22%2C%20book2.price)%3B%20%2F%2F%20%E4%BF%AE%E6%94%B9book1%E4%B8%8D%E5%BD%B1%E5%93%8Dbook2%20book1.price%20%3D%2049.99%3B%20printf(%22book1%E6%96%B0%E4%BB%B7%E6%A0%BC%3A%20%25.2f%5Cn%22%2C%20book1.price)%3B%20printf(%22book2%E4%BB%B7%E6%A0%BC%3A%20%25.2f%5Cn%22%2C%20book2.price)%3B%20%2F%2F%20%E4%BB%8D%E7%84%B6%E6%98%AF39.99%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-sfwh6rmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>    <span class="hljs-type">int</span> pages;<br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> <span class="hljs-title">book1</span>;</span><br>    <span class="hljs-built_in">strcpy</span>(book1.title, <span class="hljs-string">&quot;C Programming&quot;</span>);<br>    <span class="hljs-built_in">strcpy</span>(book1.author, <span class="hljs-string">&quot;Author Name&quot;</span>);<br>    book1.price = <span class="hljs-number">39.99</span>;<br>    book1.pages = <span class="hljs-number">300</span>;<br>    <br>    <span class="hljs-comment">// 结构体复制</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> <span class="hljs-title">book2</span> =</span> book1;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;book2标题: %s\n&quot;</span>, book2.title);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;book2价格: %.2f\n&quot;</span>, book2.price);<br>    <br>    <span class="hljs-comment">// 修改book1不影响book2</span><br>    book1.price = <span class="hljs-number">49.99</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;book1新价格: %.2f\n&quot;</span>, book1.price);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;book2价格: %.2f\n&quot;</span>, book2.price); <span class="hljs-comment">// 仍然是39.99</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>重要特性</strong>：结构体复制是“值复制”，而不是“引用复制”。复制后两个结构体完全独立，修改其中一个不会影响另一个。</p>
+<h4 id="五、结构体指针"><strong>五、结构体指针</strong></h4>
+<p>可以使用指针来操作结构体，通过指针访问结构体成员需要使用箭头运算符<code>-&gt;</code>。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-fpunohmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-h66kb7mkyz27tb" data-code="12345678910111213141516171819202122232425262728293031%23include%20%3Cstdio.h%3E%23include%20%3Cstdlib.h%3E%23include%20%3Cstring.h%3Estruct%20book%20%26%23123%3B%20char%20title%5B50%5D%3B%20char%20author%5B50%5D%3B%20float%20price%3B%20int%20pages%3B%26%23125%3B%3Bint%20main()%20%26%23123%3B%20struct%20book%20book1%3B%20struct%20book%20*ptr%3B%20ptr%20%3D%20%26book1%3B%20%2F%2F%20%E9%80%9A%E8%BF%87%E6%8C%87%E9%92%88%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%20strcpy(ptr-%3Etitle%2C%20%22Advanced%20C%20Programming%22)%3B%20strcpy(ptr-%3Eauthor%2C%20%22Expert%20Author%22)%3B%20ptr-%3Eprice%20%3D%2079.99%3B%20ptr-%3Epages%20%3D%20450%3B%20%2F%2F%20%E7%AD%89%E4%BB%B7%E5%86%99%E6%B3%95%20(*ptr).price%20%3D%2069.99%3B%20%2F%2F%20%E4%BD%BF%E7%94%A8%E8%A7%A3%E5%BC%95%E7%94%A8%E5%92%8C%E7%82%B9%E8%BF%90%E7%AE%97%E7%AC%A6%20printf(%22%E4%B9%A6%E5%90%8D%3A%20%25s%5Cn%22%2C%20ptr-%3Etitle)%3B%20printf(%22%E4%BB%B7%E6%A0%BC%3A%20%25.2f%5Cn%22%2C%20ptr-%3Eprice)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-fpunohmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>    <span class="hljs-type">int</span> pages;<br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> <span class="hljs-title">book1</span>;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> *<span class="hljs-title">ptr</span>;</span><br>    <br>    ptr = &amp;book1;<br>    <br>    <span class="hljs-comment">// 通过指针访问结构体成员</span><br>    <span class="hljs-built_in">strcpy</span>(ptr-&gt;title, <span class="hljs-string">&quot;Advanced C Programming&quot;</span>);<br>    <span class="hljs-built_in">strcpy</span>(ptr-&gt;author, <span class="hljs-string">&quot;Expert Author&quot;</span>);<br>    ptr-&gt;price = <span class="hljs-number">79.99</span>;<br>    ptr-&gt;pages = <span class="hljs-number">450</span>;<br>    <br>    <span class="hljs-comment">// 等价写法</span><br>    (*ptr).price = <span class="hljs-number">69.99</span>; <span class="hljs-comment">// 使用解引用和点运算符</span><br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;书名: %s\n&quot;</span>, ptr-&gt;title);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;价格: %.2f\n&quot;</span>, ptr-&gt;price);<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>指针运算符总结</strong>：</p>
+<ol>
+<li><code>ptr-&gt;member</code>：通过指针访问成员（推荐）</li>
+<li><code>(*ptr).member</code>：先解引用再访问成员</li>
+<li>两种写法等价，但<code>-&gt;</code>运算符更简洁直观</li>
+</ol>
+<h4 id="六、动态分配结构体内存"><strong>六、动态分配结构体内存</strong></h4>
+<p>可以使用<code>malloc()</code>函数动态分配结构体内存，这在程序运行时需要不确定数量的结构体时非常有用。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-wwlyz4mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-wfyairmkyz27tb" data-code="1234567891011121314151617181920212223242526272829303132333435363738%23include%20%3Cstdio.h%3E%23include%20%3Cstdlib.h%3E%23include%20%3Cstring.h%3Estruct%20book%20%26%23123%3B%20char%20title%5B50%5D%3B%20char%20author%5B50%5D%3B%20float%20price%3B%20int%20pages%3B%26%23125%3B%3Bint%20main()%20%26%23123%3B%20struct%20book%20*book_ptr%3B%20%2F%2F%20%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98%20book_ptr%20%3D%20malloc(sizeof(struct%20book))%3B%20if%20(book_ptr%20%3D%3D%20NULL)%20%26%23123%3B%20printf(%22%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%A4%B1%E8%B4%A5!%5Cn%22)%3B%20return%201%3B%20%26%23125%3B%20%2F%2F%20%E4%BD%BF%E7%94%A8%E5%88%86%E9%85%8D%E7%9A%84%E5%86%85%E5%AD%98%20strcpy(book_ptr-%3Etitle%2C%20%22Dynamic%20Memory%20in%20C%22)%3B%20strcpy(book_ptr-%3Eauthor%2C%20%22Memory%20Expert%22)%3B%20book_ptr-%3Eprice%20%3D%2045.50%3B%20book_ptr-%3Epages%20%3D%20320%3B%20printf(%22%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E7%9A%84%E4%B9%A6%E7%B1%8D%E4%BF%A1%E6%81%AF%3A%5Cn%22)%3B%20printf(%22%E6%A0%87%E9%A2%98%3A%20%25s%5Cn%22%2C%20book_ptr-%3Etitle)%3B%20printf(%22%E4%BB%B7%E6%A0%BC%3A%20%25.2f%5Cn%22%2C%20book_ptr-%3Eprice)%3B%20%2F%2F%20%E9%87%8A%E6%94%BE%E5%86%85%E5%AD%98%20free(book_ptr)%3B%20book_ptr%20%3D%20NULL%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-wwlyz4mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>    <span class="hljs-type">int</span> pages;<br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">book</span> *<span class="hljs-title">book_ptr</span>;</span><br>    <br>    <span class="hljs-comment">// 动态分配内存</span><br>    book_ptr = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> book));<br>    <br>    <span class="hljs-keyword">if</span> (book_ptr == <span class="hljs-literal">NULL</span>) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;内存分配失败!\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 使用分配的内存</span><br>    <span class="hljs-built_in">strcpy</span>(book_ptr-&gt;title, <span class="hljs-string">&quot;Dynamic Memory in C&quot;</span>);<br>    <span class="hljs-built_in">strcpy</span>(book_ptr-&gt;author, <span class="hljs-string">&quot;Memory Expert&quot;</span>);<br>    book_ptr-&gt;price = <span class="hljs-number">45.50</span>;<br>    book_ptr-&gt;pages = <span class="hljs-number">320</span>;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;动态分配的书籍信息:\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;标题: %s\n&quot;</span>, book_ptr-&gt;title);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;价格: %.2f\n&quot;</span>, book_ptr-&gt;price);<br>    <br>    <span class="hljs-comment">// 释放内存</span><br>    <span class="hljs-built_in">free</span>(book_ptr);<br>    book_ptr = <span class="hljs-literal">NULL</span>;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<h4 id="七、结构体的嵌套"><strong>七、结构体的嵌套</strong></h4>
+<p>结构体可以包含其他结构体作为成员，这称为“结构体嵌套”。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-7rb4x2mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-k6jovymkyz27tb" data-code="1234567891011121314151617181920212223242526272829303132333435363738%23include%20%3Cstdio.h%3E%23include%20%3Cstring.h%3Estruct%20name%20%26%23123%3B%20char%20first%5B20%5D%3B%20char%20last%5B20%5D%3B%26%23125%3B%3Bstruct%20student%20%26%23123%3B%20struct%20name%20name%3B%20%2F%2F%20%E5%B5%8C%E5%A5%97%E7%BB%93%E6%9E%84%E4%BD%93%20short%20age%3B%20char%20sex%3B%26%23125%3B%3Bint%20main()%20%26%23123%3B%20struct%20student%20student1%3B%20%2F%2F%20%E8%AE%BF%E9%97%AE%E5%B5%8C%E5%A5%97%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%20strcpy(student1.name.first%2C%20%22Harry%22)%3B%20strcpy(student1.name.last%2C%20%22Potter%22)%3B%20student1.age%20%3D%2018%3B%20student1.sex%20%3D%20%26%23x27%3BM%26%23x27%3B%3B%20printf(%22%E5%AD%A6%E7%94%9F%E5%A7%93%E5%90%8D%3A%20%25s%20%25s%5Cn%22%2C%20student1.name.first%2C%20student1.name.last)%3B%20printf(%22%E5%B9%B4%E9%BE%84%3A%20%25d%5Cn%22%2C%20student1.age)%3B%20%2F%2F%20%E5%8F%A6%E4%B8%80%E7%A7%8D%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E5%BC%8F%20struct%20name%20myname%20%3D%20%26%23123%3B%22Hermione%22%2C%20%22Granger%22%26%23125%3B%3B%20struct%20student%20student2%20%3D%20%26%23123%3Bmyname%2C%2018%2C%20%26%23x27%3BF%26%23x27%3B%26%23125%3B%3B%20printf(%22%E5%AD%A6%E7%94%9F2%E5%A7%93%E5%90%8D%3A%20%25s%20%25s%5Cn%22%2C%20student2.name.first%2C%20student2.name.last)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-7rb4x2mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">name</span> &#123;</span><br>    <span class="hljs-type">char</span> first[<span class="hljs-number">20</span>];<br>    <span class="hljs-type">char</span> last[<span class="hljs-number">20</span>];<br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> &#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">name</span> <span class="hljs-title">name</span>;</span>  <span class="hljs-comment">// 嵌套结构体</span><br>    <span class="hljs-type">short</span> age;<br>    <span class="hljs-type">char</span> sex;<br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">student1</span>;</span><br>    <br>    <span class="hljs-comment">// 访问嵌套结构体成员</span><br>    <span class="hljs-built_in">strcpy</span>(student1.name.first, <span class="hljs-string">&quot;Harry&quot;</span>);<br>    <span class="hljs-built_in">strcpy</span>(student1.name.last, <span class="hljs-string">&quot;Potter&quot;</span>);<br>    student1.age = <span class="hljs-number">18</span>;<br>    student1.sex = <span class="hljs-string">&#x27;M&#x27;</span>;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生姓名: %s %s\n&quot;</span>, <br>           student1.name.first, <br>           student1.name.last);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;年龄: %d\n&quot;</span>, student1.age);<br>    <br>    <span class="hljs-comment">// 另一种初始化方式</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">name</span> <span class="hljs-title">myname</span> =</span> &#123;<span class="hljs-string">&quot;Hermione&quot;</span>, <span class="hljs-string">&quot;Granger&quot;</span>&#125;;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">student2</span> =</span> &#123;myname, <span class="hljs-number">18</span>, <span class="hljs-string">&#x27;F&#x27;</span>&#125;;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生2姓名: %s %s\n&quot;</span>, <br>           student2.name.first, <br>           student2.name.last);<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>嵌套结构体访问</strong>：使用多个<code>.</code>运算符，如<code>student1.name.first</code>。</p>
+<h4 id="八、结构体的自引用：构建链表"><strong>八、结构体的自引用：构建链表</strong></h4>
+<p>结构体可以包含指向自身类型的指针，这是构建链表、树等动态数据结构的基础。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-qayi75mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-ds80lzmkyz27tb" data-code="123456789101112131415161718192021222324252627282930313233343536373839%23include%20%3Cstdio.h%3E%23include%20%3Cstdlib.h%3Estruct%20node%20%26%23123%3B%20int%20data%3B%20struct%20node*%20next%3B%20%2F%2F%20%E6%8C%87%E5%90%91%E8%87%AA%E8%BA%AB%E7%9A%84%E6%8C%87%E9%92%88%26%23125%3B%3Bint%20main()%20%26%23123%3B%20struct%20node*%20head%3B%20%2F%2F%20%E5%88%9B%E5%BB%BA%E4%B8%89%E4%B8%AA%E8%8A%82%E7%82%B9%E7%9A%84%E9%93%BE%E8%A1%A8%3A%20(11)-%3E(22)-%3E(33)%20head%20%3D%20malloc(sizeof(struct%20node))%3B%20head-%3Edata%20%3D%2011%3B%20head-%3Enext%20%3D%20malloc(sizeof(struct%20node))%3B%20head-%3Enext-%3Edata%20%3D%2022%3B%20head-%3Enext-%3Enext%20%3D%20malloc(sizeof(struct%20node))%3B%20head-%3Enext-%3Enext-%3Edata%20%3D%2033%3B%20head-%3Enext-%3Enext-%3Enext%20%3D%20NULL%3B%20%2F%2F%20%E9%81%8D%E5%8E%86%E9%93%BE%E8%A1%A8%20printf(%22%E9%93%BE%E8%A1%A8%E5%86%85%E5%AE%B9%3A%20%5Cn%22)%3B%20for%20(struct%20node%20*cur%20%3D%20head%3B%20cur%20!%3D%20NULL%3B%20cur%20%3D%20cur-%3Enext)%20%26%23123%3B%20printf(%22%25d%20-%3E%20%22%2C%20cur-%3Edata)%3B%20%26%23125%3B%20printf(%22NULL%5Cn%22)%3B%20%2F%2F%20%E9%87%8A%E6%94%BE%E9%93%BE%E8%A1%A8%E5%86%85%E5%AD%98%EF%BC%88%E7%AE%80%E5%8C%96%E7%89%88%EF%BC%89%20struct%20node%20*temp%3B%20while%20(head%20!%3D%20NULL)%20%26%23123%3B%20temp%20%3D%20head%3B%20head%20%3D%20head-%3Enext%3B%20free(temp)%3B%20%26%23125%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-qayi75mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> &#123;</span><br>    <span class="hljs-type">int</span> data;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>* <span class="hljs-title">next</span>;</span>  <span class="hljs-comment">// 指向自身的指针</span><br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>* <span class="hljs-title">head</span>;</span><br>    <br>    <span class="hljs-comment">// 创建三个节点的链表: (11)-&gt;(22)-&gt;(33)</span><br>    head = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> node));<br>    head-&gt;data = <span class="hljs-number">11</span>;<br>    <br>    head-&gt;next = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> node));<br>    head-&gt;next-&gt;data = <span class="hljs-number">22</span>;<br>    <br>    head-&gt;next-&gt;next = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> node));<br>    head-&gt;next-&gt;next-&gt;data = <span class="hljs-number">33</span>;<br>    head-&gt;next-&gt;next-&gt;next = <span class="hljs-literal">NULL</span>;<br>    <br>    <span class="hljs-comment">// 遍历链表</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;链表内容: \n&quot;</span>);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">struct</span> node *cur = head; cur != <span class="hljs-literal">NULL</span>; cur = cur-&gt;next) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d -&gt; &quot;</span>, cur-&gt;data);<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;NULL\n&quot;</span>);<br>    <br>    <span class="hljs-comment">// 释放链表内存（简化版）</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">temp</span>;</span><br>    <span class="hljs-keyword">while</span> (head != <span class="hljs-literal">NULL</span>) &#123;<br>        temp = head;<br>        head = head-&gt;next;<br>        <span class="hljs-built_in">free</span>(temp);<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>自引用结构体的应用</strong>：</p>
+<ol>
+<li>单向链表、双向链表</li>
+<li>二叉树、多叉树</li>
+<li>图结构</li>
+<li>其他递归数据结构</li>
+</ol>
+<h4 id="九、位字段（Bit-Fields）"><strong>九、位字段（Bit Fields）</strong></h4>
+<p>位字段允许在结构体中定义精确的二进制位宽度，这对于操作底层硬件或节省内存空间非常有用。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-dka4h9mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-tsd2o1mkyz27tb" data-code="123456789101112131415161718192021%23include%20%3Cstdio.h%3Estruct%20%26%23123%3B%20unsigned%20int%20flag1%20%3A%201%3B%20%2F%2F%201%E4%BD%8D%E5%AE%BD%E5%BA%A6%20unsigned%20int%20flag2%20%3A%201%3B%20unsigned%20int%20flag3%20%3A%201%3B%20unsigned%20int%20flag4%20%3A%201%3B%26%23125%3B%20status%3Bint%20main()%20%26%23123%3B%20status.flag1%20%3D%200%3B%20status.flag2%20%3D%201%3B%20status.flag3%20%3D%200%3B%20status.flag4%20%3D%201%3B%20printf(%22%E7%8A%B6%E6%80%81%E6%A0%87%E5%BF%97%3A%20%25d%25d%25d%25d%5Cn%22%2C%20status.flag1%2C%20status.flag2%2C%20status.flag3%2C%20status.flag4)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-dka4h9mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> flag1 : <span class="hljs-number">1</span>;  <span class="hljs-comment">// 1位宽度</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> flag2 : <span class="hljs-number">1</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> flag3 : <span class="hljs-number">1</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> flag4 : <span class="hljs-number">1</span>;<br>&#125; status;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    status.flag1 = <span class="hljs-number">0</span>;<br>    status.flag2 = <span class="hljs-number">1</span>;<br>    status.flag3 = <span class="hljs-number">0</span>;<br>    status.flag4 = <span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;状态标志: %d%d%d%d\n&quot;</span>,<br>           status.flag1, status.flag2, <br>           status.flag3, status.flag4);<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>位字段的高级用法</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-yjkblwmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-ce2cxbmkyz27tb" data-code="1234567struct%20%26%23123%3B%20unsigned%20int%20field1%20%3A%201%3B%20unsigned%20int%20%3A%202%3B%20%2F%2F%20%E6%9C%AA%E5%91%BD%E5%90%8D%E4%BD%8D%E5%AD%97%E6%AE%B5%EF%BC%8C%E5%8D%A02%E4%BD%8D%20unsigned%20int%20field2%20%3A%201%3B%20unsigned%20int%20%3A%200%3B%20%2F%2F%20%E5%AE%BD%E5%BA%A6%E4%B8%BA0%EF%BC%8C%E5%BC%BA%E5%88%B6%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%AD%97%E6%AE%B5%E5%9C%A8%E6%96%B0%E5%AD%97%E8%8A%82%E5%BC%80%E5%A7%8B%20unsigned%20int%20field3%20%3A%201%3B%26%23125%3B%20bits%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-yjkblwmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> field1 : <span class="hljs-number">1</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span>        : <span class="hljs-number">2</span>;  <span class="hljs-comment">// 未命名位字段，占2位</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> field2 : <span class="hljs-number">1</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span>        : <span class="hljs-number">0</span>;  <span class="hljs-comment">// 宽度为0，强制下一个字段在新字节开始</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> field3 : <span class="hljs-number">1</span>;<br>&#125; bits;<br></code></pre></td></tr></table></div></figure>
+<p><strong>位字段规则</strong>：</p>
+<ol>
+<li>只能用于整数类型（int、unsigned int等）</li>
+<li>位字段的总宽度不能超过其基础类型的宽度</li>
+<li>未命名位字段可用于占位或对齐</li>
+<li>宽度为0的字段强制下一个字段在新字节开始</li>
+</ol>
+<h4 id="十、弹性数组成员（Flexible-Array-Member）"><strong>十、弹性数组成员（Flexible Array Member）</strong></h4>
+<p>弹性数组成员允许在结构体末尾定义大小不确定的数组，这在运行时需要动态大小的数组时非常有用。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-lnjuqemkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-60rnn1mkyz27tb" data-code="1234567891011121314151617181920212223242526272829%23include%20%3Cstdio.h%3E%23include%20%3Cstdlib.h%3E%23include%20%3Cstring.h%3Estruct%20vstring%20%26%23123%3B%20int%20len%3B%20char%20chars%5B%5D%3B%20%2F%2F%20%E5%BC%B9%E6%80%A7%E6%95%B0%E7%BB%84%E6%88%90%E5%91%98%EF%BC%8C%E5%BF%85%E9%A1%BB%E5%9C%A8%E6%9C%80%E5%90%8E%26%23125%3B%3Bint%20main()%20%26%23123%3B%20int%20n%20%3D%2020%3B%20%2F%2F%20%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E7%A1%AE%E5%AE%9A%20%2F%2F%20%E5%88%86%E9%85%8D%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%20%2B%20%E6%95%B0%E7%BB%84%E5%86%85%E5%AD%98%20struct%20vstring*%20str%20%3D%20malloc(sizeof(struct%20vstring)%20%2B%20n%20*%20sizeof(char))%3B%20if%20(str%20%3D%3D%20NULL)%20%26%23123%3B%20printf(%22%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%A4%B1%E8%B4%A5!%5Cn%22)%3B%20return%201%3B%20%26%23125%3B%20str-%3Elen%20%3D%20n%3B%20strcpy(str-%3Echars%2C%20%22Hello%2C%20Flexible%20Array!%22)%3B%20printf(%22%E9%95%BF%E5%BA%A6%3A%20%25d%5Cn%22%2C%20str-%3Elen)%3B%20printf(%22%E5%86%85%E5%AE%B9%3A%20%25s%5Cn%22%2C%20str-%3Echars)%3B%20free(str)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-lnjuqemkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">vstring</span> &#123;</span><br>    <span class="hljs-type">int</span> len;<br>    <span class="hljs-type">char</span> chars[];  <span class="hljs-comment">// 弹性数组成员，必须在最后</span><br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> n = <span class="hljs-number">20</span>;  <span class="hljs-comment">// 数组长度在运行时确定</span><br>    <br>    <span class="hljs-comment">// 分配结构体内存 + 数组内存</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">vstring</span>* <span class="hljs-title">str</span> =</span> <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> vstring) + n * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">char</span>));<br>    <br>    <span class="hljs-keyword">if</span> (str == <span class="hljs-literal">NULL</span>) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;内存分配失败!\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <br>    str-&gt;len = n;<br>    <span class="hljs-built_in">strcpy</span>(str-&gt;chars, <span class="hljs-string">&quot;Hello, Flexible Array!&quot;</span>);<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;长度: %d\n&quot;</span>, str-&gt;len);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;内容: %s\n&quot;</span>, str-&gt;chars);<br>    <br>    <span class="hljs-built_in">free</span>(str);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>弹性数组成员规则</strong>：</p>
+<ol>
+<li>必须是结构体的最后一个成员</li>
+<li>结构体必须至少还有一个其他成员</li>
+<li>不能对弹性数组成员使用<code>sizeof</code></li>
+<li>需要手动计算总内存大小进行分配</li>
+</ol>
+<h4 id="十一、结构体作为函数参数和返回值"><strong>十一、结构体作为函数参数和返回值</strong></h4>
+<p><strong>结构体作为函数参数（值传递）</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-fl3fxxmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-62uj6lmkyz27tb" data-code="12345678910111213141516%23include%20%3Cstdio.h%3Estruct%20point%20%26%23123%3B%20int%20x%3B%20int%20y%3B%26%23125%3B%3Bvoid%20print_point(struct%20point%20p)%20%26%23123%3B%20printf(%22%E5%9D%90%E6%A0%87%3A%20(%25d%2C%20%25d)%5Cn%22%2C%20p.x%2C%20p.y)%3B%26%23125%3Bint%20main()%20%26%23123%3B%20struct%20point%20pt%20%3D%20%26%23123%3B10%2C%2020%26%23125%3B%3B%20print_point(pt)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-fl3fxxmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">point</span> &#123;</span><br>    <span class="hljs-type">int</span> x;<br>    <span class="hljs-type">int</span> y;<br>&#125;;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_point</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> point p)</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;坐标: (%d, %d)\n&quot;</span>, p.x, p.y);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">point</span> <span class="hljs-title">pt</span> =</span> &#123;<span class="hljs-number">10</span>, <span class="hljs-number">20</span>&#125;;<br>    print_point(pt);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>结构体作为函数参数（指针传递，更高效）</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-1gzfidmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-wni3f8mkyz27tb" data-code="12345678void%20modify_point(struct%20point%20*p)%20%26%23123%3B%20p-%3Ex%20%2B%3D%205%3B%20p-%3Ey%20%2B%3D%205%3B%26%23125%3Bvoid%20print_point_ptr(const%20struct%20point%20*p)%20%26%23123%3B%20printf(%22%E5%9D%90%E6%A0%87%3A%20(%25d%2C%20%25d)%5Cn%22%2C%20p-%3Ex%2C%20p-%3Ey)%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-1gzfidmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">modify_point</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> point *p)</span> &#123;<br>    p-&gt;x += <span class="hljs-number">5</span>;<br>    p-&gt;y += <span class="hljs-number">5</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_point_ptr</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> point *p)</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;坐标: (%d, %d)\n&quot;</span>, p-&gt;x, p-&gt;y);<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>结构体作为函数返回值</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-ab3drsmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-pdap7imkyz27tb" data-code="1234struct%20point%20create_point(int%20x%2C%20int%20y)%20%26%23123%3B%20struct%20point%20p%20%3D%20%26%23123%3Bx%2C%20y%26%23125%3B%3B%20return%20p%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-ab3drsmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">struct</span> point <span class="hljs-title function_">create_point</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">point</span> <span class="hljs-title">p</span> =</span> &#123;x, y&#125;;<br>    <span class="hljs-keyword">return</span> p;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<h4 id="十二、结构体数组"><strong>十二、结构体数组</strong></h4>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-g185nrmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-iw2mbymkyz27tb" data-code="123456789101112131415161718192021%23include%20%3Cstdio.h%3Estruct%20student%20%26%23123%3B%20char%20name%5B50%5D%3B%20int%20score%3B%26%23125%3B%3Bint%20main()%20%26%23123%3B%20struct%20student%20class%5B3%5D%20%3D%20%26%23123%3B%20%26%23123%3B%22Alice%22%2C%2095%26%23125%3B%2C%20%26%23123%3B%22Bob%22%2C%2087%26%23125%3B%2C%20%26%23123%3B%22Charlie%22%2C%2092%26%23125%3B%20%26%23125%3B%3B%20for%20(int%20i%20%3D%200%3B%20i%20%3C%203%3B%20i%2B%2B)%20%26%23123%3B%20printf(%22%E5%AD%A6%E7%94%9F%25d%3A%20%25s%2C%20%E5%88%86%E6%95%B0%3A%20%25d%5Cn%22%2C%20i%2B1%2C%20class%5Bi%5D.name%2C%20class%5Bi%5D.score)%3B%20%26%23125%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-g185nrmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> &#123;</span><br>    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">int</span> score;<br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-keyword">class</span>[3] =</span> &#123;<br>        &#123;<span class="hljs-string">&quot;Alice&quot;</span>, <span class="hljs-number">95</span>&#125;,<br>        &#123;<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">87</span>&#125;,<br>        &#123;<span class="hljs-string">&quot;Charlie&quot;</span>, <span class="hljs-number">92</span>&#125;<br>    &#125;;<br>    <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生%d: %s, 分数: %d\n&quot;</span>, <br>               i+<span class="hljs-number">1</span>, class[i].name, class[i].score);<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<h4 id="十三、结构体最佳实践"><strong>十三、结构体最佳实践</strong></h4>
+<ol>
+<li>
+<p><strong>使用typedef简化</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-ajnzbfmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-ut0wb8mkyz27tb" data-code="123456typedef%20struct%20%26%23123%3B%20char%20title%5B50%5D%3B%20float%20price%3B%26%23125%3B%20Book%3BBook%20book1%3B%20%2F%2F%20%E6%97%A0%E9%9C%80%E5%86%99struct%E5%85%B3%E9%94%AE%E5%AD%97" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-ajnzbfmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">float</span> price;<br>&#125; Book;<br><br>Book book1;  <span class="hljs-comment">// 无需写struct关键字</span><br></code></pre></td></tr></table></div></figure>
+</li>
+<li>
+<p><strong>优先使用指针传递</strong>：传递大型结构体时，使用指针避免复制开销</p>
+</li>
+<li>
+<p><strong>const保护数据</strong>：对于只读访问，使用const指针</p>
+</li>
+<li>
+<p><strong>内存对齐考虑</strong>：结构体成员会自动对齐，但可以通过<code>#pragma pack</code>控制</p>
+</li>
+<li>
+<p><strong>灵活使用位字段</strong>：需要精确控制内存布局时使用位字段</p>
+</li>
+</ol>
+<h4 id="十四、总结"><strong>十四、总结</strong></h4>
+<p>结构体是C语言中最强大的数据组织工具之一，掌握结构体的使用对于编写高质量的C程序至关重要：</p>
+<ol>
+<li><strong>基本操作</strong>：定义、声明、初始化、成员访问</li>
+<li><strong>复制特性</strong>：值复制，完全独立</li>
+<li><strong>指针操作</strong>：使用<code>-&gt;</code>运算符访问成员</li>
+<li><strong>嵌套结构体</strong>：构建复杂的数据层次</li>
+<li><strong>自引用结构体</strong>：构建链表、树等动态数据结构</li>
+<li><strong>位字段</strong>：精确控制二进制位布局</li>
+<li><strong>弹性数组成员</strong>：运行时确定数组大小</li>
+<li><strong>函数使用</strong>：作为参数和返回值</li>
+<li><strong>结构体数组</strong>：处理多个相关数据项</li>
+</ol>
+<p>结构体不仅是数据存储的工具，更是抽象思维在代码中的体现。通过结构体，我们可以将现实世界的对象映射到程序中，使代码更加清晰、可维护。从简单的数据记录到复杂的数据结构，结构体都是C语言程序员不可或缺的利器。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C%E8%AF%AD%E8%A8%80/" class="category-chain-item">C语言</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C%E8%AF%AD%E8%A8%80/" class="print-no-link">#C语言</a>
+      
+        <a href="/tags/%E7%BB%93%E6%9E%84%E4%BD%93/" class="print-no-link">#结构体</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="print-no-link">#数据结构</a>
+      
+        <a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B/" class="print-no-link">#自定义类型</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C语言结构体详解：从基本定义到高级应用</div>
+      <div>https://www.edenzeng.online/2015/10/28/0.技术栈/01.开发语言/01.C语言/11-结构体详解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Edenzeng</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2015年10月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2015/10/30/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/12-typedef%E8%AF%A6%E8%A7%A3/" title="C语言typedef详解：类型别名的艺术与实用技巧">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C语言typedef详解：类型别名的艺术与实用技巧</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2015/10/26/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/10-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/" title="C语言内存管理详解：从动态分配到安全释放">
+                        <span class="hidden-mobile">C语言内存管理详解：从动态分配到安全释放</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <span style="font-size:14px;"> © 2026 <a href="https://www.edenzeng.onlone" target="_blank" rel="nofollow noopener">Edenzeng's Blog</a> · Powered by <a href="https://hexo.io/" target="_blank" rel="nofollow noopener">Hexo</a> & <a href="https://github.com/edenzeng97/hexo-theme-fluid" target="_blank" rel="nofollow noopener">Fluid</a></span>
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<script>
+  // 复制代码到剪贴板
+  function copyToClipboard(text) {
+    return new Promise((resolve, reject) => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+          .then(() => resolve(true))
+          .catch(() => {
+            // 如果clipboard API失败，使用传统方法
+            fallbackCopyToClipboard(text) ? resolve(true) : reject(false);
+          });
+      } else {
+        // 使用传统方法
+        fallbackCopyToClipboard(text) ? resolve(true) : reject(false);
+      }
+    });
+  }
+
+  // 传统复制方法
+  function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return successful;
+    } catch (err) {
+      document.body.removeChild(textArea);
+      return false;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.code-widget.copy-btn').forEach(button => {
+      button.addEventListener('click', async function(e) {
+        e.stopPropagation(); // 阻止事件冒泡，避免触发折叠
+        
+        const codeText = decodeURIComponent(this.getAttribute('data-code') || '');
+        
+        if (!codeText.trim()) {
+          // 如果data-code属性为空，尝试从代码块中提取文本
+          const codeBlock = this.closest('.highlight').querySelector('pre code');
+          if (codeBlock) {
+            const text = codeBlock.textContent || codeBlock.innerText || '';
+            try {
+              await copyToClipboard(text);
+              showCopySuccess(this);
+            } catch (err) {
+              showCopyError(this);
+            }
+          } else {
+            showCopyError(this);
+          }
+        } else {
+          try {
+            await copyToClipboard(codeText);
+            showCopySuccess(this);
+          } catch (err) {
+            showCopyError(this);
+          }
+        }
+      });
+    });
+  });
+  
+  // 显示复制成功提示
+  function showCopySuccess(button) {
+    const originalHTML = button.innerHTML;
+    const originalText = button.querySelector('.copy-text')?.textContent || '复制';
+    
+    button.innerHTML = `
+      <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span class="copy-text">已复制</span>
+    `;
+    button.style.color = '#28a745';
+    button.style.opacity = '1';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+      button.style.opacity = '0.7';
+    }, 2000);
+  }
+  
+  // 显示复制失败提示
+  function showCopyError(button) {
+    const originalHTML = button.innerHTML;
+    
+    button.innerHTML = `
+      <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      <span class="copy-text">失败</span>
+    `;
+    button.style.color = '#dc3545';
+    button.style.opacity = '1';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+      button.style.opacity = '0.7';
+    }, 2000);
+  }
+</script></body>
+</html>

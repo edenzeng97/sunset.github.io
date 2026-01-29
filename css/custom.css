@@ -1,17 +1,234 @@
-.highlight {
-  background: #21252b;
-  border-radius: 5px;
-  box-shadow: 0 10px 30px 0 rgba(0,0,0,0.4);
-  padding-top: 30px;
+::-webkit-scrollbar {
+  width: 10px;
+  height: 6px;
 }
-.highlight::before {
-  background: #fc625d;
-  border-radius: 50%;
-  box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
-  content: ' ';
-  height: 12px;
-  left: 12px;
-  margin-top: -20px;
-  position: absolute;
-  width: 12px;
+::-webkit-scrollbar-thumb {
+  background-color: #a6a6a6;
+  border-radius: 1rem;
+  min-height: 60px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #757575;
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: #424242;
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+[data-user-color-scheme='dark'] ::-webkit-scrollbar-thumb {
+  background-color: #687582;
+}
+[data-user-color-scheme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background-color: #9da8b3;
+}
+[data-user-color-scheme='dark'] ::-webkit-scrollbar-thumb:active {
+  background-color: #c5d0db;
+}
+.copy-btn {
+  font-size: 1rem;
+  color: #2f4f4f;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  opacity: 0.7;
+}
+.copy-btn:hover {
+  opacity: 1;
+  background-color: rgba(0,0,0,0.05);
+  color: #005c97;
+}
+.copy-btn:active {
+  background-color: rgba(0,0,0,0.1);
+}
+.copy-btn > i {
+  font-size: 1rem !important;
+  font-weight: bold;
+}
+[data-user-color-scheme='dark'] .copy-btn {
+  color: #c4c6c9;
+  transition: color 0.2s ease-in-out;
+}
+[data-user-color-scheme='dark'] .copy-btn:hover {
+  background-color: rgba(255,255,255,0.05);
+  color: #6cb2eb;
+}
+[data-user-color-scheme='dark'] .copy-btn:active {
+  background-color: rgba(255,255,255,0.1);
+}
+.category .row {
+  border-radius: 1rem;
+}
+.category .category-item {
+  border-radius: 1rem;
+}
+.category .category-post-list {
+  border-radius: 1rem;
+}
+.list-group {
+  border-radius: 1rem;
+}
+.list-group-item {
+  border-radius: 1rem;
+}
+.links .card-body {
+  border-radius: 1rem;
+}
+.navbar .nav-item .nav-link {
+  border-radius: 0.5rem;
+}
+.navbar .dropdown-menu {
+  border-radius: 0.5rem;
+}
+.navbar .dropdown-item {
+  border-radius: 0.25rem;
+}
+#board {
+  border-radius: 1rem;
+}
+#scroll-top-button {
+  border-radius: 0.5rem;
+}
+/* 链接基础样式设置 */
+a {
+  position: relative; /* 为伪元素提供定位基准 */
+  text-decoration: none; /* 去除默认下划线（可选） */
+  transition: color 0.15s ease; /* 文字颜色过渡效果 */
+  color: #005c97; /* 链接默认颜色 */
+}
+/* 鼠标悬浮时的链接样式 */
+a:hover {
+  color: #fa4b4b; /* 悬浮时的文字颜色 */
+}
+/* 下划线效果实现 */
+a:not(.exlg-dash-options)::after {
+  content: ""; /* 伪元素内容为空 */
+  width: 0; /* 初始宽度为0（隐藏状态） */
+  height: 5px; /* 下划线高度 */
+  background: rgba(114,110,255,0.575); /* 下划线颜色和透明度 */
+  position: absolute; /* 绝对定位 */
+  top: 100%; /* 定位在链接底部 */
+  left: 50%; /* 初始水平居中（从中间向两边展开） */
+  transition: all 0.3s ease; /* 过渡动画，使效果更平滑 */
+}
+/* 鼠标悬浮时显示下划线 */
+a:not(.exlg-dash-options):hover::after {
+  left: 0; /* 从左侧开始 */
+  width: 100%; /* 宽度扩展到与链接等长 */
+}
+/* 排除特定链接的下划线效果（根据原脚本保留） */
+a[data-v-303bbf52][data-v-639bc19b][data-v-5e85f938]::after,
+a[data-v-303bbf52][data-v-258e49ac]::after {
+  height: 0 !important; /* 强制隐藏这些链接的下划线 */
+}
+.markdown-body .highlight {
+  background-color: #e6ebf1;
+  border-radius: 0.625rem;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+.markdown-body .highlight .code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0;
+  background-color: rgba(0,0,0,0.05);
+  transition: all 0.2s ease-in-out;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.markdown-body .highlight .code-header:hover {
+  background-color: rgba(0,0,0,0.08);
+}
+.markdown-body .highlight .code-header:hover summary .code-arrow-left,
+.markdown-body .highlight .code-header:hover summary b {
+  color: #555;
+}
+.markdown-body .highlight .code-header summary {
+  list-style: none;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  min-height: 2rem;
+}
+.markdown-body .highlight .code-header summary::-webkit-details-marker {
+  display: none;
+}
+.markdown-body .highlight .code-header summary::marker {
+  display: none;
+}
+.markdown-body .highlight .code-header summary .code-arrow-left {
+  color: #777;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  stroke: currentColor;
+  stroke-width: 3;
+  flex-shrink: 0;
+  transform-origin: center;
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+}
+.markdown-body .highlight .code-header summary b {
+  color: #777;
+  font-weight: 600;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition: color 0.2s ease-in-out;
+  line-height: 1.2;
+}
+.markdown-body .highlight .code-header[aria-expanded="false"] summary .code-arrow-left {
+  transform: rotate(-90deg);
+}
+.markdown-body .highlight .code-header[aria-expanded="true"] summary .code-arrow-left {
+  transform: rotate(0deg);
+}
+[data-user-color-scheme='dark'] .markdown-body .highlight {
+  background-color: #2d333b;
+}
+[data-user-color-scheme='dark'] .markdown-body .highlight .code-header {
+  background-color: rgba(255,255,255,0.05);
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+[data-user-color-scheme='dark'] .markdown-body .highlight .code-header:hover {
+  background-color: rgba(255,255,255,0.08);
+}
+[data-user-color-scheme='dark'] .markdown-body .highlight .code-header summary .code-arrow-left {
+  color: #c4c6c9;
+}
+[data-user-color-scheme='dark'] .markdown-body .highlight .code-header summary b {
+  color: #c4c6c9;
+}
+.markdown-body .highlight .collapse.show {
+  display: block;
+}
+.markdown-body .highlight .collapse:not(.show) {
+  display: none;
+}
+.code-widget.copy-btn {
+  display: flex !important;
+}
+.markdown-body .highlight .code-header summary .code-arrow-left {
+  transform-origin: center;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.markdown-body .highlight .code-header[aria-expanded="false"] summary .code-arrow-left {
+  transform: rotate(-90deg);
+}
+.markdown-body .highlight .code-header:hover summary .code-arrow-left,
+.markdown-body .highlight .code-header:hover summary b {
+  color: #555;
+}
+[data-user-color-scheme='dark'] .markdown-body .highlight .code-header:hover summary .code-arrow-left,
+[data-user-color-scheme='dark'] .markdown-body .highlight .code-header:hover summary b {
+  color: #e1e3e6;
 }

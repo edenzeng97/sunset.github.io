@@ -1,0 +1,1348 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.jpg">
+  <link rel="icon" href="/img/icon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Edenzeng">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="C语言多字节字符：Unicode、宽字符与字符集处理 在当今全球化的软件开发中，处理多种语言文字是常见需求。C语言作为系统级编程语言，提供了完善的多字节字符处理机制，支持包括中文、日文、韩文等复杂字符集。本篇博客将深入讲解C语言中的多字节字符概念、Unicode标准、宽字符系统，以及字符集转换的实际应用，帮助你掌握国际化软件开发的关键技术。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言多字节字符：Unicode、宽字符与字符集处理">
+<meta property="og:url" content="https://www.edenzeng.online/2015/11/20/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/21-%E5%A4%9A%E5%AD%97%E8%8A%82%E5%AD%97%E7%AC%A6%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Edenzeng">
+<meta property="og:description" content="C语言多字节字符：Unicode、宽字符与字符集处理 在当今全球化的软件开发中，处理多种语言文字是常见需求。C语言作为系统级编程语言，提供了完善的多字节字符处理机制，支持包括中文、日文、韩文等复杂字符集。本篇博客将深入讲解C语言中的多字节字符概念、Unicode标准、宽字符系统，以及字符集转换的实际应用，帮助你掌握国际化软件开发的关键技术。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-11-20T14:03:45.000Z">
+<meta property="article:modified_time" content="2026-01-28T09:05:09.607Z">
+<meta property="article:author" content="Edenzeng">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="多字节字符">
+<meta property="article:tag" content="Unicode">
+<meta property="article:tag" content="宽字符">
+<meta property="article:tag" content="字符集">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C语言多字节字符：Unicode、宽字符与字符集处理 - Edenzeng</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.edenzeng.online","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"#"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":false,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Edenzeng</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C语言多字节字符：Unicode、宽字符与字符集处理"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Edenzeng
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2015-11-20 22:03" pubdate>
+          2015年11月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          64 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="C语言"
+        id="heading-d117f5dea6b7959c82d4fdb7490c555d" role="tab" data-toggle="collapse" href="#collapse-d117f5dea6b7959c82d4fdb7490c555d"
+        aria-expanded="true"
+      >
+        C语言
+        <span class="list-group-count">(21)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-d117f5dea6b7959c82d4fdb7490c555d"
+           role="tabpanel" aria-labelledby="heading-d117f5dea6b7959c82d4fdb7490c555d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="C语言入门：从基础语法到你的第一个“Hello World”"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：从基础语法到你的第一个“Hello World”</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/07/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/02-%E5%8F%98%E9%87%8F%E8%AF%A6%E8%A7%A3/" title="C语言入门：变量详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：变量详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/09/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/03-%E8%BF%90%E7%AE%97%E7%AC%A6%E8%AF%A6%E8%A7%A3/" title="C语言入门：从算术运算到位操作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：从算术运算到位操作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/12/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/04-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="C语言流程控制详解：从条件判断到循环结构"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言流程控制详解：从条件判断到循环结构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/14/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/05-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3/" title="C语言数据类型详解：从基础类型到高级特性"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言数据类型详解：从基础类型到高级特性</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/16/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/06-%E6%8C%87%E9%92%88%E8%AF%A6%E8%A7%A3/" title="C语言指针详解：从内存地址到高级指针操作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言指针详解：从内存地址到高级指针操作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/19/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/07-%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="C语言函数详解：从基础概念到高级应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言函数详解：从基础概念到高级应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/21/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/08-%E6%95%B0%E7%BB%84%E8%AF%A6%E8%A7%A3/" title="C语言数组详解：从一维到多维，从静态到动态"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言数组详解：从一维到多维，从静态到动态</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/23/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/09-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%AF%A6%E8%A7%A3/" title="C语言字符串详解：从基础操作到高级应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言字符串详解：从基础操作到高级应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/26/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/10-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/" title="C语言内存管理详解：从动态分配到安全释放"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言内存管理详解：从动态分配到安全释放</span>
+        </a>
+      
+    
+      
+      
+        <a href="/categories/C%E8%AF%AD%E8%A8%80/" class="list-group-item list-group-item-action">
+          <span class="category-post">More...</span>
+        </a>
+        
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C语言多字节字符：Unicode、宽字符与字符集处理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="C语言多字节字符：Unicode、宽字符与字符集处理"><strong>C语言多字节字符：Unicode、宽字符与字符集处理</strong></h3>
+<p>在当今全球化的软件开发中，处理多种语言文字是常见需求。C语言作为系统级编程语言，提供了完善的多字节字符处理机制，支持包括中文、日文、韩文等复杂字符集。本篇博客将深入讲解C语言中的多字节字符概念、Unicode标准、宽字符系统，以及字符集转换的实际应用，帮助你掌握国际化软件开发的关键技术。</p>
+<span id="more"></span>
+<h4 id="一、Unicode：全球化字符标准"><strong>一、Unicode：全球化字符标准</strong></h4>
+<p><strong>Unicode</strong>是国际标准化组织制定的全球字符编码标准，它旨在为世界上所有字符提供唯一的编码标识。与传统的ASCII码只能表示英文字符相比，Unicode能够表示几乎所有的书面文字字符。</p>
+<h5 id="1-Unicode编码标准"><strong>1. Unicode编码标准</strong></h5>
+<p>Unicode使用称为“码点”（code point）的数字来唯一标识每个字符。例如：</p>
+<ul>
+<li><code>U+0041</code> 表示大写字母 A</li>
+<li><code>U+4E2D</code> 表示汉字“中”</li>
+<li><code>U+1F600</code> 表示表情符号 😀</li>
+</ul>
+<p>Unicode码点范围：</p>
+<ul>
+<li><strong>基本多语言平面（BMP）</strong>：U+0000 到 U+FFFF，包含最常用字符</li>
+<li><strong>补充平面</strong>：U+10000 到 U+10FFFF，包含历史文字、表情符号等</li>
+</ul>
+<h5 id="2-Unicode编码方式"><strong>2. Unicode编码方式</strong></h5>
+<p>Unicode有多种编码实现方式，最常见的是：</p>
+<p><strong>UTF-8</strong>：</p>
+<ul>
+<li>可变长度编码（1-4个字节）</li>
+<li>兼容ASCII（ASCII字符保持单字节）</li>
+<li>网络传输和文件存储的标准</li>
+<li>示例：“A”=1字节，“中”=3字节，“😀”=4字节</li>
+</ul>
+<p><strong>UTF-16</strong>：</p>
+<ul>
+<li>大部分字符为2字节，部分补充字符为4字节</li>
+<li>Windows系统和Java语言常用</li>
+<li>需要处理“代理对”机制</li>
+</ul>
+<p><strong>UTF-32</strong>：</p>
+<ul>
+<li>固定4字节编码</li>
+<li>处理简单但空间利用率低</li>
+<li>内存中表示常用</li>
+</ul>
+<h4 id="二、C语言中的字符表示方法"><strong>二、C语言中的字符表示方法</strong></h4>
+<p>C语言为了支持国际化，提供了多种字符表示方式：</p>
+<h5 id="1-单字节字符（传统方式）"><strong>1. 单字节字符（传统方式）</strong></h5>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-xssfrvmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-vwno8cmkyz27td" data-code="12char%20ch%20%3D%20%26%23x27%3BA%26%23x27%3B%3B%20%2F%2F%20ASCII%E5%AD%97%E7%AC%A6%EF%BC%8C1%E5%AD%97%E8%8A%82char%20str%5B%5D%20%3D%20%22Hello%22%3B%20%2F%2F%20ASCII%E5%AD%97%E7%AC%A6%E4%B8%B2" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-xssfrvmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> ch = <span class="hljs-string">&#x27;A&#x27;</span>;  <span class="hljs-comment">// ASCII字符，1字节</span><br><span class="hljs-type">char</span> str[] = <span class="hljs-string">&quot;Hello&quot;</span>;  <span class="hljs-comment">// ASCII字符串</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>局限性</strong>：</p>
+<ul>
+<li>只能表示有限字符集（通常为ASCII）</li>
+<li>无法表示非拉丁字符</li>
+<li>不适用于国际化应用</li>
+</ul>
+<h5 id="2-多字节字符（Multi-byte-Characters）"><strong>2. 多字节字符（Multi-byte Characters）</strong></h5>
+<p>多字节字符使用一个或多个字节表示一个字符，特别适用于处理东亚文字：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-2crswymkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-axp918mkyz27td" data-code="12%2F%2F%20%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%88UTF-8%E7%BC%96%E7%A0%81%EF%BC%89char%20mbs%5B%5D%20%3D%20%22%E4%B8%AD%E6%96%87%E6%B5%8B%E8%AF%95%22%3B%20%2F%2F%20%E6%AF%8F%E4%B8%AA%E4%B8%AD%E6%96%87%E6%B1%89%E5%AD%97%E5%8D%A0%E7%94%A83%E4%B8%AA%E5%AD%97%E8%8A%82" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-2crswymkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 中文字符串（UTF-8编码）</span><br><span class="hljs-type">char</span> mbs[] = <span class="hljs-string">&quot;中文测试&quot;</span>;  <span class="hljs-comment">// 每个中文汉字占用3个字节</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>字符长度可变</li>
+<li>需要特殊函数处理</li>
+<li>存储效率高，但处理复杂</li>
+</ul>
+<h5 id="3-宽字符（Wide-Characters）"><strong>3. 宽字符（Wide Characters）</strong></h5>
+<p>C语言通过<code>wchar_t</code>类型支持宽字符，通常使用固定宽度编码：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-8xc2dqmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-0n391lmkyz27td" data-code="1234%23include%20%3Cwchar.h%3Ewchar_t%20wc%20%3D%20L%26%23x27%3B%E4%B8%AD%26%23x27%3B%3B%20%2F%2F%20%E5%AE%BD%E5%AD%97%E7%AC%A6%E5%B8%B8%E9%87%8Fwchar_t%20wstr%5B%5D%20%3D%20L%22%E5%AE%BD%E5%AD%97%E7%AC%A6%E5%AD%97%E7%AC%A6%E4%B8%B2%22%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-8xc2dqmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;wchar.h&gt;</span></span><br><br><span class="hljs-type">wchar_t</span> wc = <span class="hljs-string">L&#x27;中&#x27;</span>;  <span class="hljs-comment">// 宽字符常量</span><br><span class="hljs-type">wchar_t</span> wstr[] = <span class="hljs-string">L&quot;宽字符字符串&quot;</span>;<br></code></pre></td></tr></table></div></figure>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>内存中固定宽度（通常2或4字节）</li>
+<li>处理简单，性能高</li>
+<li>内存占用较大</li>
+</ul>
+<h4 id="三、setlocale-：区域设置函数"><strong>三、<code>setlocale()</code>：区域设置函数</strong></h4>
+<p>在C语言中处理多字节字符前，必须先设置正确的区域设置（locale），这决定了字符编码和格式化规则。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-3bzv8imkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-rf5lbemkyz27td" data-code="123456789101112%23include%20%3Clocale.h%3Eint%20main(void)%20%26%23123%3B%20%2F%2F%20%E8%AE%BE%E7%BD%AE%E5%8C%BA%E5%9F%9F%E4%B8%BA%E7%B3%BB%E7%BB%9F%E9%BB%98%E8%AE%A4%20setlocale(LC_ALL%2C%20%22%22)%3B%20%2F%2F%20%E6%88%96%E8%80%85%E6%8C%87%E5%AE%9A%E7%89%B9%E5%AE%9A%E5%8C%BA%E5%9F%9F%20setlocale(LC_ALL%2C%20%22zh_CN.UTF-8%22)%3B%20%2F%2F%20%E4%B8%AD%E6%96%87%EF%BC%8CUTF-8%E7%BC%96%E7%A0%81%20setlocale(LC_ALL%2C%20%22en_US.UTF-8%22)%3B%20%2F%2F%20%E8%8B%B1%E6%96%87%EF%BC%8CUTF-8%E7%BC%96%E7%A0%81%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-3bzv8imkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;locale.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    <span class="hljs-comment">// 设置区域为系统默认</span><br>    setlocale(LC_ALL, <span class="hljs-string">&quot;&quot;</span>);<br>    <br>    <span class="hljs-comment">// 或者指定特定区域</span><br>    setlocale(LC_ALL, <span class="hljs-string">&quot;zh_CN.UTF-8&quot;</span>);  <span class="hljs-comment">// 中文，UTF-8编码</span><br>    setlocale(LC_ALL, <span class="hljs-string">&quot;en_US.UTF-8&quot;</span>);  <span class="hljs-comment">// 英文，UTF-8编码</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>区域类别</strong>：</p>
+<ul>
+<li><code>LC_ALL</code>：设置所有区域类别</li>
+<li><code>LC_COLLATE</code>：字符串排序规则</li>
+<li><code>LC_CTYPE</code>：字符分类</li>
+<li><code>LC_MONETARY</code>：货币格式</li>
+<li><code>LC_NUMERIC</code>：数字格式</li>
+<li><code>LC_TIME</code>：时间格式</li>
+</ul>
+<p><strong>重要</strong>：未正确设置locale会导致多字节字符函数工作异常！</p>
+<h4 id="四、多字节字符处理函数详解"><strong>四、多字节字符处理函数详解</strong></h4>
+<p>C语言标准库提供了一系列函数来处理多字节字符和宽字符之间的转换。</p>
+<h5 id="1-mblen-：获取多字节字符长度"><strong>1. <code>mblen()</code>：获取多字节字符长度</strong></h5>
+<p><code>mblen()</code>函数用于确定多字节字符占用的字节数。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-ov7x8xmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-ihmkr5mkyz27td" data-code="1234567891011121314%23include%20%3Cstdlib.h%3E%23include%20%3Clocale.h%3Eint%20main(void)%20%26%23123%3B%20setlocale(LC_ALL%2C%20%22%22)%3B%20char*%20mbs1%20%3D%20%22%E6%98%A5%E5%A4%A9%22%3B%20printf(%22%25d%5Cn%22%2C%20mblen(mbs1%2C%20MB_CUR_MAX))%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A3%20char*%20mbs2%20%3D%20%22abc%22%3B%20printf(%22%25d%5Cn%22%2C%20mblen(mbs2%2C%20MB_CUR_MAX))%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A1%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-ov7x8xmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;locale.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    setlocale(LC_ALL, <span class="hljs-string">&quot;&quot;</span>);<br>    <br>    <span class="hljs-type">char</span>* mbs1 = <span class="hljs-string">&quot;春天&quot;</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, mblen(mbs1, MB_CUR_MAX));  <span class="hljs-comment">// 输出：3</span><br>    <br>    <span class="hljs-type">char</span>* mbs2 = <span class="hljs-string">&quot;abc&quot;</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, mblen(mbs2, MB_CUR_MAX));  <span class="hljs-comment">// 输出：1</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li><code>mbs</code>：指向多字节字符的指针</li>
+<li><code>MB_CUR_MAX</code>：当前locale下多字节字符的最大字节数</li>
+</ul>
+<p><strong>返回值</strong>：</p>
+<ul>
+<li>正数：多字节字符占用的字节数</li>
+<li><code>-1</code>：转换失败</li>
+<li><code>0</code>：指向空字符</li>
+</ul>
+<h5 id="2-wctomb-：宽字符转多字节字符"><strong>2. <code>wctomb()</code>：宽字符转多字节字符</strong></h5>
+<p><code>wctomb()</code>将宽字符转换为多字节字符。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-9hro9dmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-13kkebmkyz27td" data-code="1234567891011121314151617%23include%20%3Cstdlib.h%3E%23include%20%3Clocale.h%3E%23include%20%3Cwchar.h%3Eint%20main(void)%20%26%23123%3B%20setlocale(LC_ALL%2C%20%22%22)%3B%20wchar_t%20wc%20%3D%20L%26%23x27%3B%E7%89%9B%26%23x27%3B%3B%20char%20mbStr%5B10%5D%20%3D%20%22%22%3B%20int%20nBytes%20%3D%20wctomb(mbStr%2C%20wc)%3B%20printf(%22%25s%5Cn%22%2C%20mbStr)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A%E7%89%9B%20printf(%22%25d%5Cn%22%2C%20nBytes)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A3%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-9hro9dmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;locale.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;wchar.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    setlocale(LC_ALL, <span class="hljs-string">&quot;&quot;</span>);<br>    <br>    <span class="hljs-type">wchar_t</span> wc = <span class="hljs-string">L&#x27;牛&#x27;</span>;<br>    <span class="hljs-type">char</span> mbStr[<span class="hljs-number">10</span>] = <span class="hljs-string">&quot;&quot;</span>;<br>    <br>    <span class="hljs-type">int</span> nBytes = wctomb(mbStr, wc);<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, mbStr);  <span class="hljs-comment">// 输出：牛</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, nBytes); <span class="hljs-comment">// 输出：3</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>注意</strong>：<code>wctomb()</code>需要足够的缓冲区空间来存储转换后的多字节字符。</p>
+<h5 id="3-mbtowc-：多字节字符转宽字符"><strong>3. <code>mbtowc()</code>：多字节字符转宽字符</strong></h5>
+<p><code>mbtowc()</code>将多字节字符转换为宽字符。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-u1upotmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-t4m3m0mkyz27td" data-code="123456789101112131415161718%23include%20%3Cstdlib.h%3E%23include%20%3Clocale.h%3E%23include%20%3Cwchar.h%3Eint%20main(void)%20%26%23123%3B%20setlocale(LC_ALL%2C%20%22%22)%3B%20char*%20mbchar%20%3D%20%22%E7%89%9B%22%3B%20wchar_t%20wc%3B%20wchar_t*%20pwc%20%3D%20%26wc%3B%20int%20nBytes%20%3D%20mbtowc(pwc%2C%20mbchar%2C%203)%3B%20printf(%22%25d%5Cn%22%2C%20nBytes)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A3%20printf(%22%25lc%5Cn%22%2C%20*pwc)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A%E7%89%9B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-u1upotmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;locale.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;wchar.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    setlocale(LC_ALL, <span class="hljs-string">&quot;&quot;</span>);<br>    <br>    <span class="hljs-type">char</span>* mbchar = <span class="hljs-string">&quot;牛&quot;</span>;<br>    <span class="hljs-type">wchar_t</span> wc;<br>    <span class="hljs-type">wchar_t</span>* pwc = &amp;wc;<br>    <br>    <span class="hljs-type">int</span> nBytes = mbtowc(pwc, mbchar, <span class="hljs-number">3</span>);<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, nBytes); <span class="hljs-comment">// 输出：3</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lc\n&quot;</span>, *pwc);  <span class="hljs-comment">// 输出：牛</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>重要参数</strong>：第三个参数指定要转换的多字节字符的最大字节数。</p>
+<h5 id="4-wcstombs-：宽字符串转多字节字符串"><strong>4. <code>wcstombs()</code>：宽字符串转多字节字符串</strong></h5>
+<p><code>wcstombs()</code>转换整个宽字符串为多字节字符串。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-tg5lf2mkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-oypasomkyz27td" data-code="1234567891011121314151617%23include%20%3Cstdlib.h%3E%23include%20%3Clocale.h%3E%23include%20%3Cwchar.h%3Eint%20main(void)%20%26%23123%3B%20setlocale(LC_ALL%2C%20%22%22)%3B%20char%20mbs%5B20%5D%3B%20wchar_t*%20wcs%20%3D%20L%22%E6%98%A5%E5%A4%A9%22%3B%20int%20nBytes%20%3D%20wcstombs(mbs%2C%20wcs%2C%2020)%3B%20printf(%22%25s%5Cn%22%2C%20mbs)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A%E6%98%A5%E5%A4%A9%20printf(%22%25d%5Cn%22%2C%20nBytes)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A6%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-tg5lf2mkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;locale.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;wchar.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    setlocale(LC_ALL, <span class="hljs-string">&quot;&quot;</span>);<br>    <br>    <span class="hljs-type">char</span> mbs[<span class="hljs-number">20</span>];<br>    <span class="hljs-type">wchar_t</span>* wcs = <span class="hljs-string">L&quot;春天&quot;</span>;<br>    <br>    <span class="hljs-type">int</span> nBytes = wcstombs(mbs, wcs, <span class="hljs-number">20</span>);<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, mbs);   <span class="hljs-comment">// 输出：春天</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, nBytes); <span class="hljs-comment">// 输出：6</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>返回值</strong>：成功转换的字节数（不包括终止符）。</p>
+<h5 id="5-mbstowcs-：多字节字符串转宽字符串"><strong>5. <code>mbstowcs()</code>：多字节字符串转宽字符串</strong></h5>
+<p><code>mbstowcs()</code>转换多字节字符串为宽字符串。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-bcqpi9mkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-usjdffmkyz27td" data-code="1234567891011121314151617%23include%20%3Cstdlib.h%3E%23include%20%3Clocale.h%3E%23include%20%3Cwchar.h%3Eint%20main(void)%20%26%23123%3B%20setlocale(LC_ALL%2C%20%22%22)%3B%20char*%20mbs%20%3D%20%22%E5%A4%A9%E6%B0%94%E4%B8%8D%E9%94%99%22%3B%20wchar_t%20wcs%5B20%5D%3B%20int%20nBytes%20%3D%20mbstowcs(wcs%2C%20mbs%2C%2020)%3B%20printf(%22%25ls%5Cn%22%2C%20wcs)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A%E5%A4%A9%E6%B0%94%E4%B8%8D%E9%94%99%20printf(%22%25d%5Cn%22%2C%20nBytes)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A4%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-bcqpi9mkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;locale.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;wchar.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    setlocale(LC_ALL, <span class="hljs-string">&quot;&quot;</span>);<br>    <br>    <span class="hljs-type">char</span>* mbs = <span class="hljs-string">&quot;天气不错&quot;</span>;<br>    <span class="hljs-type">wchar_t</span> wcs[<span class="hljs-number">20</span>];<br>    <br>    <span class="hljs-type">int</span> nBytes = mbstowcs(wcs, mbs, <span class="hljs-number">20</span>);<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%ls\n&quot;</span>, wcs);  <span class="hljs-comment">// 输出：天气不错</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, nBytes); <span class="hljs-comment">// 输出：4</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>返回值</strong>：成功转换的字符数量。</p>
+<h4 id="五、实战：完整的多字节字符处理程序"><strong>五、实战：完整的多字节字符处理程序</strong></h4>
+<p>下面是一个完整的示例，演示如何在C语言中处理多字节字符：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-u7gfu6mkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-6nx9qcmkyz27td" data-code="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117%23include%20%3Cstdio.h%3E%23include%20%3Cstdlib.h%3E%23include%20%3Clocale.h%3E%23include%20%3Cwchar.h%3E%23include%20%3Cstring.h%3E%2F%2F%20%E6%98%BE%E7%A4%BA%E5%AD%97%E7%AC%A6%E4%BF%A1%E6%81%AFvoid%20print_char_info(const%20char*%20description%2C%20const%20char*%20mbstr)%20%26%23123%3B%20printf(%22%5Cn%3D%3D%3D%20%25s%20%3D%3D%3D%5Cn%22%2C%20description)%3B%20%2F%2F%20%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6%20size_t%20mb_len%20%3D%20strlen(mbstr)%3B%20printf(%22%E5%A4%9A%E5%AD%97%E8%8A%82%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6%EF%BC%88%E5%AD%97%E8%8A%82%EF%BC%89%3A%20%25zu%5Cn%22%2C%20mb_len)%3B%20%2F%2F%20%E9%80%90%E4%B8%AA%E5%AD%97%E7%AC%A6%E5%88%86%E6%9E%90%20const%20char*%20p%20%3D%20mbstr%3B%20int%20char_count%20%3D%200%3B%20while%20(*p%20!%3D%20%26%23x27%3B%5C0%26%23x27%3B)%20%26%23123%3B%20int%20char_bytes%20%3D%20mblen(p%2C%20MB_CUR_MAX)%3B%20if%20(char_bytes%20%3E%200)%20%26%23123%3B%20printf(%22%E5%AD%97%E7%AC%A6%20%25d%3A%20%22%2C%20char_count%20%2B%201)%3B%20%2F%2F%20%E6%89%93%E5%8D%B0%E5%AD%97%E7%AC%A6%20for%20(int%20i%20%3D%200%3B%20i%20%3C%20char_bytes%3B%20i%2B%2B)%20%26%23123%3B%20printf(%22%25c%22%2C%20p%5Bi%5D)%3B%20%26%23125%3B%20printf(%22%20(%25d%20%E5%AD%97%E8%8A%82)%5Cn%22%2C%20char_bytes)%3B%20p%20%2B%3D%20char_bytes%3B%20char_count%2B%2B%3B%20%26%23125%3B%20else%20%26%23123%3B%20break%3B%20%26%23125%3B%20%26%23125%3B%20printf(%22%E6%80%BB%E5%AD%97%E7%AC%A6%E6%95%B0%3A%20%25d%5Cn%22%2C%20char_count)%3B%26%23125%3B%2F%2F%20%E5%AE%BD%E5%AD%97%E7%AC%A6%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8Bvoid%20wide_char_example(void)%20%26%23123%3B%20printf(%22%5Cn%3D%3D%3D%20%E5%AE%BD%E5%AD%97%E7%AC%A6%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8B%20%3D%3D%3D%5Cn%22)%3B%20%2F%2F%20%E5%AE%BD%E5%AD%97%E7%AC%A6%E5%B8%B8%E9%87%8F%20wchar_t%20wc1%20%3D%20L%26%23x27%3B%E4%B8%AD%26%23x27%3B%3B%20wchar_t%20wc2%20%3D%20L%26%23x27%3B%E6%96%87%26%23x27%3B%3B%20%2F%2F%20%E5%AE%BD%E5%AD%97%E7%AC%A6%E4%B8%B2%20wchar_t%20wstr%5B%5D%20%3D%20L%22%E4%B8%AD%E6%96%87%E7%BC%96%E7%A8%8B%22%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%E5%AE%BD%E5%AD%97%E7%AC%A6%20printf(%22%E5%AE%BD%E5%AD%97%E7%AC%A61%3A%20%25lc%5Cn%22%2C%20wc1)%3B%20printf(%22%E5%AE%BD%E5%AD%97%E7%AC%A62%3A%20%25lc%5Cn%22%2C%20wc2)%3B%20printf(%22%E5%AE%BD%E5%AD%97%E7%AC%A6%E4%B8%B2%3A%20%25ls%5Cn%22%2C%20wstr)%3B%20%2F%2F%20%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%A4%9A%E5%AD%97%E8%8A%82%E5%AD%97%E7%AC%A6%20char%20mb_buffer%5B50%5D%3B%20wcstombs(mb_buffer%2C%20wstr%2C%20sizeof(mb_buffer))%3B%20printf(%22%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%A4%9A%E5%AD%97%E8%8A%82%3A%20%25s%5Cn%22%2C%20mb_buffer)%3B%26%23125%3B%2F%2F%20%E5%AD%97%E7%AC%A6%E9%9B%86%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7void%20charset_converter(void)%20%26%23123%3B%20printf(%22%5Cn%3D%3D%3D%20%E5%AD%97%E7%AC%A6%E9%9B%86%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7%20%3D%3D%3D%5Cn%22)%3B%20%2F%2F%20%E7%A4%BA%E4%BE%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%20char*%20source_text%20%3D%20%22%E5%9B%BD%E9%99%85%E5%8C%96%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%22%3B%20%2F%2F%20%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%AE%BD%E5%AD%97%E7%AC%A6%20wchar_t%20wide_buffer%5B50%5D%3B%20int%20wide_chars%20%3D%20mbstowcs(wide_buffer%2C%20source_text%2C%2050)%3B%20if%20(wide_chars%20%3E%200)%20%26%23123%3B%20printf(%22%E6%BA%90%E6%96%87%E6%9C%AC%3A%20%25s%5Cn%22%2C%20source_text)%3B%20printf(%22%E5%AE%BD%E5%AD%97%E7%AC%A6%E6%95%B0%3A%20%25d%5Cn%22%2C%20wide_chars)%3B%20printf(%22%E5%AE%BD%E5%AD%97%E7%AC%A6%E8%A1%A8%E7%A4%BA%3A%20%25ls%5Cn%22%2C%20wide_buffer)%3B%20%2F%2F%20%E8%BD%AC%E6%8D%A2%E5%9B%9E%E5%A4%9A%E5%AD%97%E8%8A%82%20char%20mb_buffer%5B50%5D%3B%20wcstombs(mb_buffer%2C%20wide_buffer%2C%20sizeof(mb_buffer))%3B%20printf(%22%E8%BD%AC%E6%8D%A2%E5%9B%9E%E5%A4%9A%E5%AD%97%E8%8A%82%3A%20%25s%5Cn%22%2C%20mb_buffer)%3B%20%26%23125%3B%26%23125%3Bint%20main(void)%20%26%23123%3B%20%2F%2F%20%E8%AE%BE%E7%BD%AE%E5%8C%BA%E5%9F%9F%E4%B8%BA%E4%B8%AD%E6%96%87UTF-8%20setlocale(LC_ALL%2C%20%22zh_CN.UTF-8%22)%3B%20printf(%22%E5%BD%93%E5%89%8D%E5%8C%BA%E5%9F%9F%E8%AE%BE%E7%BD%AE%3A%20%25s%5Cn%22%2C%20setlocale(LC_ALL%2C%20NULL))%3B%20printf(%22%E5%A4%9A%E5%AD%97%E8%8A%82%E5%AD%97%E7%AC%A6%E6%9C%80%E5%A4%A7%E5%AD%97%E8%8A%82%E6%95%B0%3A%20%25d%5Cn%22%2C%20MB_CUR_MAX)%3B%20%2F%2F%20%E6%B5%8B%E8%AF%95%E5%AD%97%E7%AC%A6%E4%B8%B2%20char*%20test_strings%5B%5D%20%3D%20%26%23123%3B%20%22Hello%20World%22%2C%20%2F%2F%20%E7%BA%AF%E8%8B%B1%E6%96%87%20%22%E4%B8%AD%E6%96%87%E6%B5%8B%E8%AF%95%22%2C%20%2F%2F%20%E7%BA%AF%E4%B8%AD%E6%96%87%20%22%E6%B7%B7%E5%90%88Mixed%E6%96%87%E5%AD%97%22%2C%20%2F%2F%20%E4%B8%AD%E8%8B%B1%E6%B7%B7%E5%90%88%20%22%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%22%2C%20%2F%2F%20%E6%97%A5%E6%96%87%20%22%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%22%2C%20%2F%2F%20%E9%9F%A9%E6%96%87%20NULL%20%26%23125%3B%3B%20%2F%2F%20%E5%88%86%E6%9E%90%E6%AF%8F%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%20for%20(int%20i%20%3D%200%3B%20test_strings%5Bi%5D%20!%3D%20NULL%3B%20i%2B%2B)%20%26%23123%3B%20char%20desc%5B50%5D%3B%20sprintf(desc%2C%20%22%E5%AD%97%E7%AC%A6%E4%B8%B2%20%25d%20%E5%88%86%E6%9E%90%22%2C%20i%20%2B%201)%3B%20print_char_info(desc%2C%20test_strings%5Bi%5D)%3B%20%26%23125%3B%20%2F%2F%20%E5%AE%BD%E5%AD%97%E7%AC%A6%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8B%20wide_char_example()%3B%20%2F%2F%20%E5%AD%97%E7%AC%A6%E9%9B%86%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7%20charset_converter()%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-u7gfu6mkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;locale.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;wchar.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-comment">// 显示字符信息</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_char_info</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* description, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* mbstr)</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n=== %s ===\n&quot;</span>, description);<br>    <br>    <span class="hljs-comment">// 获取字符串长度</span><br>    <span class="hljs-type">size_t</span> mb_len = <span class="hljs-built_in">strlen</span>(mbstr);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;多字节字符串长度（字节）: %zu\n&quot;</span>, mb_len);<br>    <br>    <span class="hljs-comment">// 逐个字符分析</span><br>    <span class="hljs-type">const</span> <span class="hljs-type">char</span>* p = mbstr;<br>    <span class="hljs-type">int</span> char_count = <span class="hljs-number">0</span>;<br>    <br>    <span class="hljs-keyword">while</span> (*p != <span class="hljs-string">&#x27;\0&#x27;</span>) &#123;<br>        <span class="hljs-type">int</span> char_bytes = mblen(p, MB_CUR_MAX);<br>        <br>        <span class="hljs-keyword">if</span> (char_bytes &gt; <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;字符 %d: &quot;</span>, char_count + <span class="hljs-number">1</span>);<br>            <br>            <span class="hljs-comment">// 打印字符</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; char_bytes; i++) &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>, p[i]);<br>            &#125;<br>            <br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; (%d 字节)\n&quot;</span>, char_bytes);<br>            p += char_bytes;<br>            char_count++;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总字符数: %d\n&quot;</span>, char_count);<br>&#125;<br><br><span class="hljs-comment">// 宽字符处理示例</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">wide_char_example</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n=== 宽字符处理示例 ===\n&quot;</span>);<br>    <br>    <span class="hljs-comment">// 宽字符常量</span><br>    <span class="hljs-type">wchar_t</span> wc1 = <span class="hljs-string">L&#x27;中&#x27;</span>;<br>    <span class="hljs-type">wchar_t</span> wc2 = <span class="hljs-string">L&#x27;文&#x27;</span>;<br>    <br>    <span class="hljs-comment">// 宽字符串</span><br>    <span class="hljs-type">wchar_t</span> wstr[] = <span class="hljs-string">L&quot;中文编程&quot;</span>;<br>    <br>    <span class="hljs-comment">// 输出宽字符</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;宽字符1: %lc\n&quot;</span>, wc1);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;宽字符2: %lc\n&quot;</span>, wc2);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;宽字符串: %ls\n&quot;</span>, wstr);<br>    <br>    <span class="hljs-comment">// 转换为多字节字符</span><br>    <span class="hljs-type">char</span> mb_buffer[<span class="hljs-number">50</span>];<br>    wcstombs(mb_buffer, wstr, <span class="hljs-keyword">sizeof</span>(mb_buffer));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;转换为多字节: %s\n&quot;</span>, mb_buffer);<br>&#125;<br><br><span class="hljs-comment">// 字符集转换工具</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">charset_converter</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n=== 字符集转换工具 ===\n&quot;</span>);<br>    <br>    <span class="hljs-comment">// 示例字符串</span><br>    <span class="hljs-type">char</span>* source_text = <span class="hljs-string">&quot;国际化软件开发&quot;</span>;<br>    <br>    <span class="hljs-comment">// 转换为宽字符</span><br>    <span class="hljs-type">wchar_t</span> wide_buffer[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">int</span> wide_chars = mbstowcs(wide_buffer, source_text, <span class="hljs-number">50</span>);<br>    <br>    <span class="hljs-keyword">if</span> (wide_chars &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;源文本: %s\n&quot;</span>, source_text);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;宽字符数: %d\n&quot;</span>, wide_chars);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;宽字符表示: %ls\n&quot;</span>, wide_buffer);<br>        <br>        <span class="hljs-comment">// 转换回多字节</span><br>        <span class="hljs-type">char</span> mb_buffer[<span class="hljs-number">50</span>];<br>        wcstombs(mb_buffer, wide_buffer, <span class="hljs-keyword">sizeof</span>(mb_buffer));<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;转换回多字节: %s\n&quot;</span>, mb_buffer);<br>    &#125;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    <span class="hljs-comment">// 设置区域为中文UTF-8</span><br>    setlocale(LC_ALL, <span class="hljs-string">&quot;zh_CN.UTF-8&quot;</span>);<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;当前区域设置: %s\n&quot;</span>, setlocale(LC_ALL, <span class="hljs-literal">NULL</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;多字节字符最大字节数: %d\n&quot;</span>, MB_CUR_MAX);<br>    <br>    <span class="hljs-comment">// 测试字符串</span><br>    <span class="hljs-type">char</span>* test_strings[] = &#123;<br>        <span class="hljs-string">&quot;Hello World&quot;</span>,          <span class="hljs-comment">// 纯英文</span><br>        <span class="hljs-string">&quot;中文测试&quot;</span>,              <span class="hljs-comment">// 纯中文</span><br>        <span class="hljs-string">&quot;混合Mixed文字&quot;</span>,         <span class="hljs-comment">// 中英混合</span><br>        <span class="hljs-string">&quot;プログラミング&quot;</span>,         <span class="hljs-comment">// 日文</span><br>        <span class="hljs-string">&quot;프로그래밍&quot;</span>,            <span class="hljs-comment">// 韩文</span><br>        <span class="hljs-literal">NULL</span><br>    &#125;;<br>    <br>    <span class="hljs-comment">// 分析每个字符串</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; test_strings[i] != <span class="hljs-literal">NULL</span>; i++) &#123;<br>        <span class="hljs-type">char</span> desc[<span class="hljs-number">50</span>];<br>        <span class="hljs-built_in">sprintf</span>(desc, <span class="hljs-string">&quot;字符串 %d 分析&quot;</span>, i + <span class="hljs-number">1</span>);<br>        print_char_info(desc, test_strings[i]);<br>    &#125;<br>    <br>    <span class="hljs-comment">// 宽字符处理示例</span><br>    wide_char_example();<br>    <br>    <span class="hljs-comment">// 字符集转换工具</span><br>    charset_converter();<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>编译和运行</strong>：</p>
+<figure class="highlight bash">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-5pbqhsmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>BASH</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-kk1cunmkyz27td" data-code="123456%23%20%E7%BC%96%E8%AF%91%EF%BC%88%E9%9C%80%E8%A6%81%E6%94%AF%E6%8C%81%E5%AE%BD%E5%AD%97%E7%AC%A6%EF%BC%89%24%20gcc%20-o%20multibyte_demo%20multibyte_demo.c%23%20%E8%BF%90%E8%A1%8C%E5%89%8D%E7%A1%AE%E4%BF%9D%E7%8E%AF%E5%A2%83%E6%94%AF%E6%8C%81UTF-8%24%20export%20LC_ALL%3Dzh_CN.UTF-8%24%20.%2Fmultibyte_demo" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-5pbqhsmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 编译（需要支持宽字符）</span><br>$ gcc -o multibyte_demo multibyte_demo.c<br><br><span class="hljs-comment"># 运行前确保环境支持UTF-8</span><br>$ <span class="hljs-built_in">export</span> LC_ALL=zh_CN.UTF-8<br>$ ./multibyte_demo<br></code></pre></td></tr></table></div></figure>
+<h4 id="六、常见问题与解决方案"><strong>六、常见问题与解决方案</strong></h4>
+<h5 id="1-乱码问题"><strong>1. 乱码问题</strong></h5>
+<p><strong>原因</strong>：区域设置不正确或编码不匹配。</p>
+<p><strong>解决方案</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-t7jx6dmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-lvv5stmkyz27td" data-code="1234%2F%2F%20%E5%9C%A8%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%A7%8B%E6%97%B6%E6%AD%A3%E7%A1%AE%E8%AE%BE%E7%BD%AElocalesetlocale(LC_ALL%2C%20%22%22)%3B%20%2F%2F%20%E4%BD%BF%E7%94%A8%E7%B3%BB%E7%BB%9F%E9%BB%98%E8%AE%A4%2F%2F%20%E6%88%96setlocale(LC_ALL%2C%20%22zh_CN.UTF-8%22)%3B%20%2F%2F%20%E6%98%8E%E7%A1%AE%E6%8C%87%E5%AE%9A" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-t7jx6dmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 在程序开始时正确设置locale</span><br>setlocale(LC_ALL, <span class="hljs-string">&quot;&quot;</span>);  <span class="hljs-comment">// 使用系统默认</span><br><span class="hljs-comment">// 或</span><br>setlocale(LC_ALL, <span class="hljs-string">&quot;zh_CN.UTF-8&quot;</span>);  <span class="hljs-comment">// 明确指定</span><br></code></pre></td></tr></table></div></figure>
+<h5 id="2-缓冲区溢出"><strong>2. 缓冲区溢出</strong></h5>
+<p><strong>原因</strong>：转换函数需要的缓冲区空间不足。</p>
+<p><strong>解决方案</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-1bfz80mkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-c3moxdmkyz27td" data-code="12345678%2F%2F%20%E5%85%88%E8%AE%A1%E7%AE%97%E9%9C%80%E8%A6%81%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E5%A4%A7%E5%B0%8Fsize_t%20needed%20%3D%20wcstombs(NULL%2C%20wcs%2C%200)%3Bif%20(needed%20!%3D%20(size_t)-1)%20%26%23123%3B%20char*%20buffer%20%3D%20malloc(needed%20%2B%201)%3B%20wcstombs(buffer%2C%20wcs%2C%20needed%20%2B%201)%3B%20%2F%2F%20%E4%BD%BF%E7%94%A8buffer...%20free(buffer)%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-1bfz80mkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 先计算需要的缓冲区大小</span><br><span class="hljs-type">size_t</span> needed = wcstombs(<span class="hljs-literal">NULL</span>, wcs, <span class="hljs-number">0</span>);<br><span class="hljs-keyword">if</span> (needed != (<span class="hljs-type">size_t</span>)<span class="hljs-number">-1</span>) &#123;<br>    <span class="hljs-type">char</span>* buffer = <span class="hljs-built_in">malloc</span>(needed + <span class="hljs-number">1</span>);<br>    wcstombs(buffer, wcs, needed + <span class="hljs-number">1</span>);<br>    <span class="hljs-comment">// 使用buffer...</span><br>    <span class="hljs-built_in">free</span>(buffer);<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<h5 id="3-平台差异"><strong>3. 平台差异</strong></h5>
+<p><strong>Windows vs Linux</strong>：</p>
+<ul>
+<li>Windows默认使用UTF-16（宽字符为2字节）</li>
+<li>Linux默认使用UTF-8（多字节字符）</li>
+<li>Windows需要<code>_wsetlocale()</code>，Linux使用<code>setlocale()</code></li>
+</ul>
+<h5 id="4-文件输入输出"><strong>4. 文件输入输出</strong></h5>
+<p>处理多字节字符文件时需要注意编码：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-h1d3svmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-516onkmkyz27td" data-code="12345%2F%2F%20%E4%BB%A5UTF-8%E6%A8%A1%E5%BC%8F%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6FILE*%20f%20%3D%20fopen(%22data.txt%22%2C%20%22r%2C%20ccs%3DUTF-8%22)%3B%20%2F%2F%20Windows%2F%2F%20Linux%2FUnix%E9%80%9A%E5%B8%B8%E9%BB%98%E8%AE%A4UTF-8FILE*%20f%20%3D%20fopen(%22data.txt%22%2C%20%22r%22)%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-h1d3svmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 以UTF-8模式打开文件</span><br>FILE* f = fopen(<span class="hljs-string">&quot;data.txt&quot;</span>, <span class="hljs-string">&quot;r, ccs=UTF-8&quot;</span>);  <span class="hljs-comment">// Windows</span><br><br><span class="hljs-comment">// Linux/Unix通常默认UTF-8</span><br>FILE* f = fopen(<span class="hljs-string">&quot;data.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br></code></pre></td></tr></table></div></figure>
+<h4 id="七、现代C语言字符处理"><strong>七、现代C语言字符处理</strong></h4>
+<p>C11标准引入了新的字符类型和函数，提供更好的国际化支持：</p>
+<h5 id="1-Unicode字符类型"><strong>1. Unicode字符类型</strong></h5>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-yrjxkfmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-iwe6m5mkyz27td" data-code="1234%23include%20%3Cuchar.h%3Echar16_t%20c16%20%3D%20u%26%23x27%3B%E5%AD%97%26%23x27%3B%3B%20%2F%2F%20UTF-16%E5%AD%97%E7%AC%A6char32_t%20c32%20%3D%20U%26%23x27%3B%E5%AD%97%26%23x27%3B%3B%20%2F%2F%20UTF-32%E5%AD%97%E7%AC%A6" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-yrjxkfmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;uchar.h&gt;</span></span><br><br><span class="hljs-type">char16_t</span> c16 = <span class="hljs-string">u&#x27;字&#x27;</span>;  <span class="hljs-comment">// UTF-16字符</span><br><span class="hljs-type">char32_t</span> c32 = <span class="hljs-string">U&#x27;字&#x27;</span>;  <span class="hljs-comment">// UTF-32字符</span><br></code></pre></td></tr></table></div></figure>
+<h5 id="2-Unicode字符串字面量"><strong>2. Unicode字符串字面量</strong></h5>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-oazf5tmkyz27td" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-kpbfzwmkyz27td" data-code="123char*%20utf8_str%20%3D%20u8%22UTF-8%E5%AD%97%E7%AC%A6%E4%B8%B2%22%3Bchar16_t*%20utf16_str%20%3D%20u%22UTF-16%E5%AD%97%E7%AC%A6%E4%B8%B2%22%3Bchar32_t*%20utf32_str%20%3D%20U%22UTF-32%E5%AD%97%E7%AC%A6%E4%B8%B2%22%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-oazf5tmkyz27td"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span>* utf8_str = <span class="hljs-string">u8&quot;UTF-8字符串&quot;</span>;<br><span class="hljs-type">char16_t</span>* utf16_str = <span class="hljs-string">u&quot;UTF-16字符串&quot;</span>;<br><span class="hljs-type">char32_t</span>* utf32_str = <span class="hljs-string">U&quot;UTF-32字符串&quot;</span>;<br></code></pre></td></tr></table></div></figure>
+<h5 id="3-转换函数"><strong>3. 转换函数</strong></h5>
+<p>C11提供了更安全的转换函数：</p>
+<ul>
+<li><code>mbrtoc16()</code>：多字节转UTF-16</li>
+<li><code>c16rtomb()</code>：UTF-16转多字节</li>
+<li><code>mbrtoc32()</code>：多字节转UTF-32</li>
+<li><code>c32rtomb()</code>：UTF-32转多字节</li>
+</ul>
+<h4 id="八、最佳实践"><strong>八、最佳实践</strong></h4>
+<ol>
+<li><strong>统一编码标准</strong>：在项目中统一使用UTF-8编码</li>
+<li><strong>区域设置</strong>：程序开始时正确设置locale</li>
+<li><strong>缓冲区管理</strong>：为字符转换分配足够的缓冲区</li>
+<li><strong>错误处理</strong>：检查转换函数的返回值</li>
+<li><strong>平台兼容</strong>：考虑不同操作系统的差异</li>
+<li><strong>测试充分</strong>：使用多种语言字符测试程序</li>
+</ol>
+<h4 id="九、总结"><strong>九、总结</strong></h4>
+<p>C语言的多字节字符处理是国际化软件开发的基础。关键要点：</p>
+<ol>
+<li><strong>理解Unicode</strong>：掌握UTF-8、UTF-16、UTF-32等编码方式</li>
+<li><strong>正确设置locale</strong>：使用<code>setlocale()</code>确保字符处理正确</li>
+<li><strong>掌握转换函数</strong>：熟练使用<code>mblen()</code>、<code>wctomb()</code>、<code>mbtowc()</code>等函数</li>
+<li><strong>宽字符处理</strong>：了解<code>wchar_t</code>类型和相关函数</li>
+<li><strong>平台兼容性</strong>：处理Windows和Linux的差异</li>
+<li><strong>现代C标准</strong>：了解C11引入的新字符类型</li>
+</ol>
+<p>通过掌握这些技术，你将能够开发出支持多种语言的国际化应用程序，满足全球化市场的需求。多字节字符处理虽然复杂，但它是现代软件开发不可或缺的一部分，特别是在需要支持中文、日文、韩文等复杂文字系统的应用中。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C%E8%AF%AD%E8%A8%80/" class="category-chain-item">C语言</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C%E8%AF%AD%E8%A8%80/" class="print-no-link">#C语言</a>
+      
+        <a href="/tags/%E5%A4%9A%E5%AD%97%E8%8A%82%E5%AD%97%E7%AC%A6/" class="print-no-link">#多字节字符</a>
+      
+        <a href="/tags/Unicode/" class="print-no-link">#Unicode</a>
+      
+        <a href="/tags/%E5%AE%BD%E5%AD%97%E7%AC%A6/" class="print-no-link">#宽字符</a>
+      
+        <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" class="print-no-link">#字符集</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C语言多字节字符：Unicode、宽字符与字符集处理</div>
+      <div>https://www.edenzeng.online/2015/11/20/0.技术栈/01.开发语言/01.C语言/21-多字节字符详解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Edenzeng</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2015年11月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/19/0.%E6%8A%80%E6%9C%AF%E6%A0%88/00.%E6%80%BB%E7%BB%93/%E6%88%91%E7%9A%84%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B/" title="我的十年技术栈演进：从 C 语言到云原生架构师">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">我的十年技术栈演进：从 C 语言到云原生架构师</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2015/11/18/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/20-%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%8E%AF%E5%A2%83%E8%AF%A6%E8%A7%A3/" title="C语言命令行环境：程序与操作系统的交互接口">
+                        <span class="hidden-mobile">C语言命令行环境：程序与操作系统的交互接口</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <span style="font-size:14px;"> © 2026 <a href="https://www.edenzeng.onlone" target="_blank" rel="nofollow noopener">Edenzeng's Blog</a> · Powered by <a href="https://hexo.io/" target="_blank" rel="nofollow noopener">Hexo</a> & <a href="https://github.com/edenzeng97/hexo-theme-fluid" target="_blank" rel="nofollow noopener">Fluid</a></span>
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<script>
+  // 复制代码到剪贴板
+  function copyToClipboard(text) {
+    return new Promise((resolve, reject) => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+          .then(() => resolve(true))
+          .catch(() => {
+            // 如果clipboard API失败，使用传统方法
+            fallbackCopyToClipboard(text) ? resolve(true) : reject(false);
+          });
+      } else {
+        // 使用传统方法
+        fallbackCopyToClipboard(text) ? resolve(true) : reject(false);
+      }
+    });
+  }
+
+  // 传统复制方法
+  function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return successful;
+    } catch (err) {
+      document.body.removeChild(textArea);
+      return false;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.code-widget.copy-btn').forEach(button => {
+      button.addEventListener('click', async function(e) {
+        e.stopPropagation(); // 阻止事件冒泡，避免触发折叠
+        
+        const codeText = decodeURIComponent(this.getAttribute('data-code') || '');
+        
+        if (!codeText.trim()) {
+          // 如果data-code属性为空，尝试从代码块中提取文本
+          const codeBlock = this.closest('.highlight').querySelector('pre code');
+          if (codeBlock) {
+            const text = codeBlock.textContent || codeBlock.innerText || '';
+            try {
+              await copyToClipboard(text);
+              showCopySuccess(this);
+            } catch (err) {
+              showCopyError(this);
+            }
+          } else {
+            showCopyError(this);
+          }
+        } else {
+          try {
+            await copyToClipboard(codeText);
+            showCopySuccess(this);
+          } catch (err) {
+            showCopyError(this);
+          }
+        }
+      });
+    });
+  });
+  
+  // 显示复制成功提示
+  function showCopySuccess(button) {
+    const originalHTML = button.innerHTML;
+    const originalText = button.querySelector('.copy-text')?.textContent || '复制';
+    
+    button.innerHTML = `
+      <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span class="copy-text">已复制</span>
+    `;
+    button.style.color = '#28a745';
+    button.style.opacity = '1';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+      button.style.opacity = '0.7';
+    }, 2000);
+  }
+  
+  // 显示复制失败提示
+  function showCopyError(button) {
+    const originalHTML = button.innerHTML;
+    
+    button.innerHTML = `
+      <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      <span class="copy-text">失败</span>
+    `;
+    button.style.color = '#dc3545';
+    button.style.opacity = '1';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+      button.style.opacity = '0.7';
+    }, 2000);
+  }
+</script></body>
+</html>

@@ -1,0 +1,1282 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.jpg">
+  <link rel="icon" href="/img/icon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Edenzeng">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="C语言数组详解：从一维到多维，从静态到动态 数组是C语言中最重要的数据结构之一，它允许我们将相同类型的多个数据项组织在一起。理解数组的工作原理对于掌握C语言的内存管理和指针概念至关重要。本篇博客将深入探讨C语言数组的各个方面，包括一维数组、多维数组、变长数组、数组与指针的关系，以及数组在函数中的使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言数组详解：从一维到多维，从静态到动态">
+<meta property="og:url" content="https://www.edenzeng.online/2015/10/21/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/08-%E6%95%B0%E7%BB%84%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Edenzeng">
+<meta property="og:description" content="C语言数组详解：从一维到多维，从静态到动态 数组是C语言中最重要的数据结构之一，它允许我们将相同类型的多个数据项组织在一起。理解数组的工作原理对于掌握C语言的内存管理和指针概念至关重要。本篇博客将深入探讨C语言数组的各个方面，包括一维数组、多维数组、变长数组、数组与指针的关系，以及数组在函数中的使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-10-21T14:18:30.000Z">
+<meta property="article:modified_time" content="2026-01-27T03:02:00.356Z">
+<meta property="article:author" content="Edenzeng">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="指针">
+<meta property="article:tag" content="内存管理">
+<meta property="article:tag" content="数组">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C语言数组详解：从一维到多维，从静态到动态 - Edenzeng</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.edenzeng.online","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"#"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":false,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Edenzeng</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C语言数组详解：从一维到多维，从静态到动态"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Edenzeng
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2015-10-21 22:18" pubdate>
+          2015年10月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="C语言"
+        id="heading-d117f5dea6b7959c82d4fdb7490c555d" role="tab" data-toggle="collapse" href="#collapse-d117f5dea6b7959c82d4fdb7490c555d"
+        aria-expanded="true"
+      >
+        C语言
+        <span class="list-group-count">(21)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-d117f5dea6b7959c82d4fdb7490c555d"
+           role="tabpanel" aria-labelledby="heading-d117f5dea6b7959c82d4fdb7490c555d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="C语言入门：从基础语法到你的第一个“Hello World”"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：从基础语法到你的第一个“Hello World”</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/07/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/02-%E5%8F%98%E9%87%8F%E8%AF%A6%E8%A7%A3/" title="C语言入门：变量详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：变量详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/09/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/03-%E8%BF%90%E7%AE%97%E7%AC%A6%E8%AF%A6%E8%A7%A3/" title="C语言入门：从算术运算到位操作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言入门：从算术运算到位操作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/12/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/04-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="C语言流程控制详解：从条件判断到循环结构"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言流程控制详解：从条件判断到循环结构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/14/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/05-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3/" title="C语言数据类型详解：从基础类型到高级特性"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言数据类型详解：从基础类型到高级特性</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/16/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/06-%E6%8C%87%E9%92%88%E8%AF%A6%E8%A7%A3/" title="C语言指针详解：从内存地址到高级指针操作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言指针详解：从内存地址到高级指针操作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/19/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/07-%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="C语言函数详解：从基础概念到高级应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言函数详解：从基础概念到高级应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/21/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/08-%E6%95%B0%E7%BB%84%E8%AF%A6%E8%A7%A3/" title="C语言数组详解：从一维到多维，从静态到动态"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">C语言数组详解：从一维到多维，从静态到动态</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/23/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/09-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%AF%A6%E8%A7%A3/" title="C语言字符串详解：从基础操作到高级应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言字符串详解：从基础操作到高级应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2015/10/26/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/10-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/" title="C语言内存管理详解：从动态分配到安全释放"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C语言内存管理详解：从动态分配到安全释放</span>
+        </a>
+      
+    
+      
+      
+        <a href="/categories/C%E8%AF%AD%E8%A8%80/" class="list-group-item list-group-item-action">
+          <span class="category-post">More...</span>
+        </a>
+        
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C语言数组详解：从一维到多维，从静态到动态</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="C语言数组详解：从一维到多维，从静态到动态"><strong>C语言数组详解：从一维到多维，从静态到动态</strong></h3>
+<p>数组是C语言中最重要的数据结构之一，它允许我们将相同类型的多个数据项组织在一起。理解数组的工作原理对于掌握C语言的内存管理和指针概念至关重要。本篇博客将深入探讨C语言数组的各个方面，包括一维数组、多维数组、变长数组、数组与指针的关系，以及数组在函数中的使用。</p>
+<span id="more"></span>
+<h4 id="一、数组简介：数据的集合"><strong>一、数组简介：数据的集合</strong></h4>
+<p>数组是一组相同类型数据的集合，这些数据在内存中连续存储。通过索引可以访问数组中的每个元素。</p>
+<p><strong>基本语法</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-3ostobmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-a31sogmkyz27tb" data-code="12345678%2F%2F%20%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E5%8C%85%E5%90%AB5%E4%B8%AA%E6%95%B4%E6%95%B0%E7%9A%84%E6%95%B0%E7%BB%84int%20numbers%5B5%5D%3B%2F%2F%20%E5%A3%B0%E6%98%8E%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E7%BB%84int%20numbers%5B5%5D%20%3D%20%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%3B%2F%2F%20%E5%8F%AF%E4%BB%A5%E7%9C%81%E7%95%A5%E6%95%B0%E7%BB%84%E5%A4%A7%E5%B0%8F%EF%BC%8C%E7%BC%96%E8%AF%91%E5%99%A8%E4%BC%9A%E8%87%AA%E5%8A%A8%E8%AE%A1%E7%AE%97int%20numbers%5B%5D%20%3D%20%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-3ostobmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 声明一个包含5个整数的数组</span><br><span class="hljs-type">int</span> numbers[<span class="hljs-number">5</span>];<br><br><span class="hljs-comment">// 声明并初始化数组</span><br><span class="hljs-type">int</span> numbers[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br><br><span class="hljs-comment">// 可以省略数组大小，编译器会自动计算</span><br><span class="hljs-type">int</span> numbers[] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br></code></pre></td></tr></table></div></figure>
+<p><strong>访问数组元素</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-o7dqwumkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-h13hw9mkyz27tb" data-code="12numbers%5B0%5D%20%3D%2010%3B%20%2F%2F%20%E8%AE%BE%E7%BD%AE%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0%E4%B8%BA10int%20x%20%3D%20numbers%5B2%5D%3B%20%2F%2F%20%E8%8E%B7%E5%8F%96%E7%AC%AC%E4%B8%89%E4%B8%AA%E5%85%83%E7%B4%A0" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-o7dqwumkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">numbers[<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;    <span class="hljs-comment">// 设置第一个元素为10</span><br><span class="hljs-type">int</span> x = numbers[<span class="hljs-number">2</span>]; <span class="hljs-comment">// 获取第三个元素</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>重要特性</strong>：</p>
+<ul>
+<li>数组索引从0开始</li>
+<li>数组元素在内存中连续存储</li>
+<li>数组名代表数组首元素的地址</li>
+</ul>
+<h4 id="二、数组长度：sizeof的妙用"><strong>二、数组长度：sizeof的妙用</strong></h4>
+<p>在C语言中，数组没有内置的长度属性，但我们可以使用<code>sizeof</code>运算符来计算数组的长度。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-x6zx08mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-irq0c2mkyz27tb" data-code="123int%20numbers%5B%5D%20%3D%20%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%3Bint%20length%20%3D%20sizeof(numbers)%20%2F%20sizeof(numbers%5B0%5D)%3Bprintf(%22%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%EF%BC%9A%25d%5Cn%22%2C%20length)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%EF%BC%9A5" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-x6zx08mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> numbers[] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br><span class="hljs-type">int</span> length = <span class="hljs-keyword">sizeof</span>(numbers) / <span class="hljs-keyword">sizeof</span>(numbers[<span class="hljs-number">0</span>]);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;数组长度：%d\n&quot;</span>, length); <span class="hljs-comment">// 输出：数组长度：5</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>工作原理</strong>：</p>
+<ul>
+<li><code>sizeof(numbers)</code>返回整个数组的字节大小</li>
+<li><code>sizeof(numbers[0])</code>返回单个元素的字节大小</li>
+<li>两者相除得到元素个数</li>
+</ul>
+<p><strong>注意事项</strong>：</p>
+<ul>
+<li>这种方法只适用于在声明它的作用域内的数组</li>
+<li>当数组作为函数参数传递时，会退化为指针，此时<code>sizeof</code>无法正确工作</li>
+</ul>
+<h4 id="三、多维数组：表格状的数据结构"><strong>三、多维数组：表格状的数据结构</strong></h4>
+<p>多维数组可以看作是数组的数组，最常见的二维数组就像一个表格。</p>
+<p><strong>二维数组声明和初始化</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-8k6ky2mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-rz9m90mkyz27tb" data-code="123456789101112%2F%2F%20%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA3x4%E7%9A%84%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84int%20matrix%5B3%5D%5B4%5D%3B%2F%2F%20%E5%A3%B0%E6%98%8E%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96int%20matrix%5B3%5D%5B4%5D%20%3D%20%26%23123%3B%20%26%23123%3B1%2C%202%2C%203%2C%204%26%23125%3B%2C%20%26%23123%3B5%2C%206%2C%207%2C%208%26%23125%3B%2C%20%26%23123%3B9%2C%2010%2C%2011%2C%2012%26%23125%3B%26%23125%3B%3B%2F%2F%20%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0matrix%5B1%5D%5B2%5D%20%3D%2099%3B%20%2F%2F%20%E8%AE%BE%E7%BD%AE%E7%AC%AC%E4%BA%8C%E8%A1%8C%E7%AC%AC%E4%B8%89%E5%88%97%E7%9A%84%E5%85%83%E7%B4%A0%E4%B8%BA99" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-8k6ky2mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 声明一个3x4的二维数组</span><br><span class="hljs-type">int</span> matrix[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>];<br><br><span class="hljs-comment">// 声明并初始化</span><br><span class="hljs-type">int</span> matrix[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>] = &#123;<br>    &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;,<br>    &#123;<span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>&#125;,<br>    &#123;<span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>&#125;<br>&#125;;<br><br><span class="hljs-comment">// 访问元素</span><br>matrix[<span class="hljs-number">1</span>][<span class="hljs-number">2</span>] = <span class="hljs-number">99</span>; <span class="hljs-comment">// 设置第二行第三列的元素为99</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>三维数组示例</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-y2vprumkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-y1wz40mkyz27tb" data-code="123456789101112int%20cube%5B2%5D%5B3%5D%5B4%5D%20%3D%20%26%23123%3B%20%26%23123%3B%20%26%23123%3B1%2C%202%2C%203%2C%204%26%23125%3B%2C%20%26%23123%3B5%2C%206%2C%207%2C%208%26%23125%3B%2C%20%26%23123%3B9%2C%2010%2C%2011%2C%2012%26%23125%3B%20%26%23125%3B%2C%20%26%23123%3B%20%26%23123%3B13%2C%2014%2C%2015%2C%2016%26%23125%3B%2C%20%26%23123%3B17%2C%2018%2C%2019%2C%2020%26%23125%3B%2C%20%26%23123%3B21%2C%2022%2C%2023%2C%2024%26%23125%3B%20%26%23125%3B%26%23125%3B%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-y2vprumkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> cube[<span class="hljs-number">2</span>][<span class="hljs-number">3</span>][<span class="hljs-number">4</span>] = &#123;<br>    &#123;<br>        &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;,<br>        &#123;<span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>&#125;,<br>        &#123;<span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>&#125;<br>    &#125;,<br>    &#123;<br>        &#123;<span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>&#125;,<br>        &#123;<span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>&#125;,<br>        &#123;<span class="hljs-number">21</span>, <span class="hljs-number">22</span>, <span class="hljs-number">23</span>, <span class="hljs-number">24</span>&#125;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></div></figure>
+<h4 id="四、变长数组：运行时确定大小"><strong>四、变长数组：运行时确定大小</strong></h4>
+<p>C99标准引入了变长数组（VLA），允许数组的长度在运行时确定。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-vg683rmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-k0m0v7mkyz27tb" data-code="1234567891011121314151617%23include%20%3Cstdio.h%3Eint%20main()%20%26%23123%3B%20int%20n%3B%20printf(%22%E8%AF%B7%E8%BE%93%E5%85%A5%E6%95%B0%E7%BB%84%E5%A4%A7%E5%B0%8F%EF%BC%9A%22)%3B%20scanf(%22%25d%22%2C%20%26n)%3B%20%2F%2F%20%E5%8F%98%E9%95%BF%E6%95%B0%E7%BB%84%E5%A3%B0%E6%98%8E%20int%20arr%5Bn%5D%3B%20for%20(int%20i%20%3D%200%3B%20i%20%3C%20n%3B%20i%2B%2B)%20%26%23123%3B%20arr%5Bi%5D%20%3D%20i%20*%20i%3B%20printf(%22arr%5B%25d%5D%20%3D%20%25d%5Cn%22%2C%20i%2C%20arr%5Bi%5D)%3B%20%26%23125%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-vg683rmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> n;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入数组大小：&quot;</span>);<br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);<br>    <br>    <span class="hljs-comment">// 变长数组声明</span><br>    <span class="hljs-type">int</span> arr[n];<br>    <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        arr[i] = i * i;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;arr[%d] = %d\n&quot;</span>, i, arr[i]);<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>变长数组的限制</strong>：</p>
+<ul>
+<li>不能有静态存储期（不能是全局变量或static变量）</li>
+<li>不能初始化（声明时不能使用初始化列表）</li>
+<li>某些编译器可能不支持</li>
+</ul>
+<h4 id="五、数组的地址：数组名就是指针"><strong>五、数组的地址：数组名就是指针</strong></h4>
+<p>在C语言中，数组名代表数组首元素的地址，这是一个非常重要的概念。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-kn9q0emkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-62szoemkyz27tb" data-code="123456789int%20numbers%5B5%5D%20%3D%20%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%3Bprintf(%22%E6%95%B0%E7%BB%84%E9%A6%96%E5%9C%B0%E5%9D%80%EF%BC%9A%25p%5Cn%22%2C%20numbers)%3B%20%2F%2F%20%E6%95%B0%E7%BB%84%E5%90%8D%E5%B0%B1%E6%98%AF%E9%A6%96%E5%9C%B0%E5%9D%80printf(%22%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0%E5%9C%B0%E5%9D%80%EF%BC%9A%25p%5Cn%22%2C%20%26numbers%5B0%5D)%3B%20%2F%2F%20%E4%B8%8E%E4%B8%8A%E9%9D%A2%E7%9B%B8%E5%90%8Cprintf(%22%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%85%83%E7%B4%A0%E5%9C%B0%E5%9D%80%EF%BC%9A%25p%5Cn%22%2C%20%26numbers%5B1%5D)%3B%20%2F%2F%20%E5%9C%B0%E5%9D%80%E5%A2%9E%E5%8A%A0sizeof(int)%2F%2F%20%E6%95%B0%E7%BB%84%E5%90%8D%E5%92%8C%E6%8C%87%E9%92%88%E7%9A%84%E5%85%B3%E7%B3%BBint%20*ptr%20%3D%20numbers%3B%20%2F%2F%20%E6%95%B0%E7%BB%84%E5%90%8D%E5%8F%AF%E4%BB%A5%E8%B5%8B%E5%80%BC%E7%BB%99%E6%8C%87%E9%92%88printf(%22%E9%80%9A%E8%BF%87%E6%8C%87%E9%92%88%E8%AE%BF%E9%97%AE%EF%BC%9A%25d%5Cn%22%2C%20*(ptr%20%2B%202))%3B%20%2F%2F%20%E7%AD%89%E4%BB%B7%E4%BA%8Enumbers%5B2%5D" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-kn9q0emkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> numbers[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;数组首地址：%p\n&quot;</span>, numbers);        <span class="hljs-comment">// 数组名就是首地址</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第一个元素地址：%p\n&quot;</span>, &amp;numbers[<span class="hljs-number">0</span>]); <span class="hljs-comment">// 与上面相同</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第二个元素地址：%p\n&quot;</span>, &amp;numbers[<span class="hljs-number">1</span>]); <span class="hljs-comment">// 地址增加sizeof(int)</span><br><br><span class="hljs-comment">// 数组名和指针的关系</span><br><span class="hljs-type">int</span> *ptr = numbers; <span class="hljs-comment">// 数组名可以赋值给指针</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;通过指针访问：%d\n&quot;</span>, *(ptr + <span class="hljs-number">2</span>)); <span class="hljs-comment">// 等价于numbers[2]</span><br></code></pre></td></tr></table></div></figure>
+<h4 id="六、数组指针的加减法：指针算术"><strong>六、数组指针的加减法：指针算术</strong></h4>
+<p>由于数组元素在内存中连续存储，我们可以对数组指针进行算术运算。</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-18nt7ymkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-qt0sq1mkyz27tb" data-code="12345678910111213int%20numbers%5B5%5D%20%3D%20%26%23123%3B10%2C%2020%2C%2030%2C%2040%2C%2050%26%23125%3B%3Bint%20*ptr%20%3D%20numbers%3Bprintf(%22%E5%BD%93%E5%89%8D%E5%80%BC%EF%BC%9A%25d%5Cn%22%2C%20*ptr)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A10ptr%2B%2B%3B%20%2F%2F%20%E6%8C%87%E9%92%88%E7%A7%BB%E5%8A%A8%E5%88%B0%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0printf(%22%E7%A7%BB%E5%8A%A8%E5%90%8E%E5%80%BC%EF%BC%9A%25d%5Cn%22%2C%20*ptr)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A20%2F%2F%20%E6%8C%87%E9%92%88%E5%8F%AF%E4%BB%A5%E5%83%8F%E6%95%B0%E7%BB%84%E4%B8%80%E6%A0%B7%E4%BD%BF%E7%94%A8%E4%B8%8B%E6%A0%87printf(%22ptr%5B2%5D%20%3D%20%25d%5Cn%22%2C%20ptr%5B2%5D)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A40%2F%2F%20%E6%8C%87%E9%92%88%E5%87%8F%E6%B3%95%E5%BE%97%E5%88%B0%E5%85%83%E7%B4%A0%E9%97%B4%E9%9A%94int%20*ptr2%20%3D%20%26numbers%5B4%5D%3Bprintf(%22%E5%85%83%E7%B4%A0%E9%97%B4%E9%9A%94%EF%BC%9A%25ld%5Cn%22%2C%20ptr2%20-%20ptr)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A4" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-18nt7ymkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> numbers[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>&#125;;<br><span class="hljs-type">int</span> *ptr = numbers;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;当前值：%d\n&quot;</span>, *ptr);     <span class="hljs-comment">// 输出：10</span><br>ptr++;                            <span class="hljs-comment">// 指针移动到下一个元素</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;移动后值：%d\n&quot;</span>, *ptr);   <span class="hljs-comment">// 输出：20</span><br><br><span class="hljs-comment">// 指针可以像数组一样使用下标</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ptr[2] = %d\n&quot;</span>, ptr[<span class="hljs-number">2</span>]);  <span class="hljs-comment">// 输出：40</span><br><br><span class="hljs-comment">// 指针减法得到元素间隔</span><br><span class="hljs-type">int</span> *ptr2 = &amp;numbers[<span class="hljs-number">4</span>];<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;元素间隔：%ld\n&quot;</span>, ptr2 - ptr); <span class="hljs-comment">// 输出：4</span><br></code></pre></td></tr></table></div></figure>
+<h4 id="七、数组的复制：避免浅拷贝陷阱"><strong>七、数组的复制：避免浅拷贝陷阱</strong></h4>
+<p>在C语言中，数组名不能直接赋值给另一个数组，因为数组名是常量指针。</p>
+<p><strong>错误做法</strong>：</p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-mqem3tmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-zbvlbfmkyz27tb" data-code="1234int%20a%5B5%5D%20%3D%20%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%3Bint%20b%5B5%5D%3Bb%20%3D%20a%3B%20%2F%2F%20%E9%94%99%E8%AF%AF%EF%BC%81%E6%95%B0%E7%BB%84%E5%90%8D%E4%B8%8D%E8%83%BD%E8%B5%8B%E5%80%BC" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-mqem3tmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br><span class="hljs-type">int</span> b[<span class="hljs-number">5</span>];<br><br>b = a; <span class="hljs-comment">// 错误！数组名不能赋值</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>正确复制方法1：循环复制</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-pdymy7mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-i2amptmkyz27tb" data-code="123456int%20a%5B5%5D%20%3D%20%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%3Bint%20b%5B5%5D%3Bfor%20(int%20i%20%3D%200%3B%20i%20%3C%205%3B%20i%2B%2B)%20%26%23123%3B%20b%5Bi%5D%20%3D%20a%5Bi%5D%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-pdymy7mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br><span class="hljs-type">int</span> b[<span class="hljs-number">5</span>];<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>    b[i] = a[i];<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>正确复制方法2：使用memcpy函数</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-3z2m5ymkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-48l8jomkyz27tb" data-code="123456%23include%20%3Cstring.h%3Eint%20a%5B5%5D%20%3D%20%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%3Bint%20b%5B5%5D%3Bmemcpy(b%2C%20a%2C%20sizeof(a))%3B%20%2F%2F%20%E5%A4%8D%E5%88%B6%E6%95%B4%E4%B8%AA%E6%95%B0%E7%BB%84" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-3z2m5ymkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br><span class="hljs-type">int</span> b[<span class="hljs-number">5</span>];<br><br><span class="hljs-built_in">memcpy</span>(b, a, <span class="hljs-keyword">sizeof</span>(a)); <span class="hljs-comment">// 复制整个数组</span><br></code></pre></td></tr></table></div></figure>
+<p><code>memcpy()</code>通常比循环复制更快，因为它直接操作内存块。</p>
+<h4 id="八、数组作为函数的参数"><strong>八、数组作为函数的参数</strong></h4>
+<p><strong>1. 一维数组作为参数</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-83rsqkmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-4mljxemkyz27tb" data-code="1234567891011121314151617%23include%20%3Cstdio.h%3E%2F%2F%20%E5%87%BD%E6%95%B0%E6%8E%A5%E6%94%B6%E6%95%B0%E7%BB%84%E5%8F%82%E6%95%B0int%20sum_array(int%20arr%5B%5D%2C%20int%20size)%20%26%23123%3B%20int%20sum%20%3D%200%3B%20for%20(int%20i%20%3D%200%3B%20i%20%3C%20size%3B%20i%2B%2B)%20%26%23123%3B%20sum%20%2B%3D%20arr%5Bi%5D%3B%20%26%23125%3B%20return%20sum%3B%26%23125%3Bint%20main()%20%26%23123%3B%20int%20numbers%5B%5D%20%3D%20%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%3B%20int%20total%20%3D%20sum_array(numbers%2C%205)%3B%20printf(%22%E6%95%B0%E7%BB%84%E6%80%BB%E5%92%8C%EF%BC%9A%25d%5Cn%22%2C%20total)%3B%20%2F%2F%20%E8%BE%93%E5%87%BA%EF%BC%9A15%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-83rsqkmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-comment">// 函数接收数组参数</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sum_array</span><span class="hljs-params">(<span class="hljs-type">int</span> arr[], <span class="hljs-type">int</span> size)</span> &#123;<br>    <span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) &#123;<br>        sum += arr[i];<br>    &#125;<br>    <span class="hljs-keyword">return</span> sum;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> numbers[] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br>    <span class="hljs-type">int</span> total = sum_array(numbers, <span class="hljs-number">5</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;数组总和：%d\n&quot;</span>, total); <span class="hljs-comment">// 输出：15</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>2. 多维数组作为参数</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-dq50lbmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-lv6l7umkyz27tb" data-code="12345678910111213141516171819%2F%2F%20%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%EF%BC%8C%E5%BF%85%E9%A1%BB%E6%8C%87%E5%AE%9A%E7%AC%AC%E4%BA%8C%E7%BB%B4%E5%A4%A7%E5%B0%8Fvoid%20print_matrix(int%20matrix%5B%5D%5B4%5D%2C%20int%20rows)%20%26%23123%3B%20for%20(int%20i%20%3D%200%3B%20i%20%3C%20rows%3B%20i%2B%2B)%20%26%23123%3B%20for%20(int%20j%20%3D%200%3B%20j%20%3C%204%3B%20j%2B%2B)%20%26%23123%3B%20printf(%22%25d%20%22%2C%20matrix%5Bi%5D%5Bj%5D)%3B%20%26%23125%3B%20printf(%22%5Cn%22)%3B%20%26%23125%3B%26%23125%3Bint%20main()%20%26%23123%3B%20int%20matrix%5B3%5D%5B4%5D%20%3D%20%26%23123%3B%20%26%23123%3B1%2C%202%2C%203%2C%204%26%23125%3B%2C%20%26%23123%3B5%2C%206%2C%207%2C%208%26%23125%3B%2C%20%26%23123%3B9%2C%2010%2C%2011%2C%2012%26%23125%3B%20%26%23125%3B%3B%20print_matrix(matrix%2C%203)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-dq50lbmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 二维数组作为参数，必须指定第二维大小</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_matrix</span><span class="hljs-params">(<span class="hljs-type">int</span> matrix[][<span class="hljs-number">4</span>], <span class="hljs-type">int</span> rows)</span> &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; rows; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">4</span>; j++) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, matrix[i][j]);<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> matrix[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>] = &#123;<br>        &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;,<br>        &#123;<span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>&#125;,<br>        &#123;<span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>&#125;<br>    &#125;;<br>    print_matrix(matrix, <span class="hljs-number">3</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>3. 变长数组作为参数（C99）</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-8yqahxmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-8txvv3mkyz27tb" data-code="12345678910111213141516171819%2F%2F%20%E5%8F%98%E9%95%BF%E6%95%B0%E7%BB%84%E5%8F%82%E6%95%B0%EF%BC%8Csize%E5%8F%82%E6%95%B0%E5%BF%85%E9%A1%BB%E5%9C%A8%E6%95%B0%E7%BB%84%E5%8F%82%E6%95%B0%E4%B9%8B%E5%89%8Dint%20process_vla(int%20size%2C%20int%20arr%5Bsize%5D)%20%26%23123%3B%20int%20sum%20%3D%200%3B%20for%20(int%20i%20%3D%200%3B%20i%20%3C%20size%3B%20i%2B%2B)%20%26%23123%3B%20sum%20%2B%3D%20arr%5Bi%5D%3B%20%26%23125%3B%20return%20sum%3B%26%23125%3B%2F%2F%20%E5%A4%9A%E7%BB%B4%E5%8F%98%E9%95%BF%E6%95%B0%E7%BB%84int%20process_2d_vla(int%20rows%2C%20int%20cols%2C%20int%20matrix%5Brows%5D%5Bcols%5D)%20%26%23123%3B%20int%20sum%20%3D%200%3B%20for%20(int%20i%20%3D%200%3B%20i%20%3C%20rows%3B%20i%2B%2B)%20%26%23123%3B%20for%20(int%20j%20%3D%200%3B%20j%20%3C%20cols%3B%20j%2B%2B)%20%26%23123%3B%20sum%20%2B%3D%20matrix%5Bi%5D%5Bj%5D%3B%20%26%23125%3B%20%26%23125%3B%20return%20sum%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-8yqahxmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 变长数组参数，size参数必须在数组参数之前</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">process_vla</span><span class="hljs-params">(<span class="hljs-type">int</span> size, <span class="hljs-type">int</span> arr[size])</span> &#123;<br>    <span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) &#123;<br>        sum += arr[i];<br>    &#125;<br>    <span class="hljs-keyword">return</span> sum;<br>&#125;<br><br><span class="hljs-comment">// 多维变长数组</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">process_2d_vla</span><span class="hljs-params">(<span class="hljs-type">int</span> rows, <span class="hljs-type">int</span> cols, <span class="hljs-type">int</span> matrix[rows][cols])</span> &#123;<br>    <span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; rows; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; cols; j++) &#123;<br>            sum += matrix[i][j];<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> sum;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>4. 数组字面量作为参数</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-k85kocmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-5m54smmkyz27tb" data-code="12%2F%2F%20%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E4%BC%A0%E9%80%92%E6%95%B0%E7%BB%84%E5%AD%97%E9%9D%A2%E9%87%8Fint%20sum%20%3D%20sum_array((int%5B%5D)%26%23123%3B1%2C%202%2C%203%2C%204%2C%205%26%23125%3B%2C%205)%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-k85kocmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 可以直接传递数组字面量</span><br><span class="hljs-type">int</span> sum = sum_array((<span class="hljs-type">int</span>[])&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;, <span class="hljs-number">5</span>);<br></code></pre></td></tr></table></div></figure>
+<h4 id="九、实际应用示例"><strong>九、实际应用示例</strong></h4>
+<p><strong>示例1：查找数组中的最大值</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-kos2b7mkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-54sdmfmkyz27tb" data-code="123456789101112131415161718%23include%20%3Cstdio.h%3Eint%20find_max(int%20arr%5B%5D%2C%20int%20size)%20%26%23123%3B%20int%20max%20%3D%20arr%5B0%5D%3B%20for%20(int%20i%20%3D%201%3B%20i%20%3C%20size%3B%20i%2B%2B)%20%26%23123%3B%20if%20(arr%5Bi%5D%20%3E%20max)%20%26%23123%3B%20max%20%3D%20arr%5Bi%5D%3B%20%26%23125%3B%20%26%23125%3B%20return%20max%3B%26%23125%3Bint%20main()%20%26%23123%3B%20int%20numbers%5B%5D%20%3D%20%26%23123%3B23%2C%2045%2C%2012%2C%2067%2C%2089%2C%2034%26%23125%3B%3B%20int%20max_value%20%3D%20find_max(numbers%2C%206)%3B%20printf(%22%E6%9C%80%E5%A4%A7%E5%80%BC%EF%BC%9A%25d%5Cn%22%2C%20max_value)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-kos2b7mkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">find_max</span><span class="hljs-params">(<span class="hljs-type">int</span> arr[], <span class="hljs-type">int</span> size)</span> &#123;<br>    <span class="hljs-type">int</span> max = arr[<span class="hljs-number">0</span>];<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; size; i++) &#123;<br>        <span class="hljs-keyword">if</span> (arr[i] &gt; max) &#123;<br>            max = arr[i];<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> max;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> numbers[] = &#123;<span class="hljs-number">23</span>, <span class="hljs-number">45</span>, <span class="hljs-number">12</span>, <span class="hljs-number">67</span>, <span class="hljs-number">89</span>, <span class="hljs-number">34</span>&#125;;<br>    <span class="hljs-type">int</span> max_value = find_max(numbers, <span class="hljs-number">6</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最大值：%d\n&quot;</span>, max_value);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<p><strong>示例2：矩阵转置</strong></p>
+<figure class="highlight c">
+        <div class="code-header" data-toggle="collapse" data-target="#collapse-cim8gtmkyz27tb" aria-expanded="true">
+          <summary class="details-opened">
+            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <b>C</b>
+          </summary>
+          
+        <button class="code-widget copy-btn" id="copy-3mxausmkyz27tb" data-code="123456789101112131415161718192021222324252627282930313233343536%23include%20%3Cstdio.h%3Evoid%20transpose_matrix(int%20rows%2C%20int%20cols%2C%20int%20src%5Brows%5D%5Bcols%5D%2C%20int%20dest%5Bcols%5D%5Brows%5D)%20%26%23123%3B%20for%20(int%20i%20%3D%200%3B%20i%20%3C%20rows%3B%20i%2B%2B)%20%26%23123%3B%20for%20(int%20j%20%3D%200%3B%20j%20%3C%20cols%3B%20j%2B%2B)%20%26%23123%3B%20dest%5Bj%5D%5Bi%5D%20%3D%20src%5Bi%5D%5Bj%5D%3B%20%26%23125%3B%20%26%23125%3B%26%23125%3Bvoid%20print_matrix(int%20rows%2C%20int%20cols%2C%20int%20matrix%5Brows%5D%5Bcols%5D)%20%26%23123%3B%20for%20(int%20i%20%3D%200%3B%20i%20%3C%20rows%3B%20i%2B%2B)%20%26%23123%3B%20for%20(int%20j%20%3D%200%3B%20j%20%3C%20cols%3B%20j%2B%2B)%20%26%23123%3B%20printf(%22%25d%20%22%2C%20matrix%5Bi%5D%5Bj%5D)%3B%20%26%23125%3B%20printf(%22%5Cn%22)%3B%20%26%23125%3B%26%23125%3Bint%20main()%20%26%23123%3B%20int%20original%5B2%5D%5B3%5D%20%3D%20%26%23123%3B%20%26%23123%3B1%2C%202%2C%203%26%23125%3B%2C%20%26%23123%3B4%2C%205%2C%206%26%23125%3B%20%26%23125%3B%3B%20int%20transposed%5B3%5D%5B2%5D%3B%20transpose_matrix(2%2C%203%2C%20original%2C%20transposed)%3B%20printf(%22%E5%8E%9F%E7%9F%A9%E9%98%B5%EF%BC%9A%5Cn%22)%3B%20print_matrix(2%2C%203%2C%20original)%3B%20printf(%22%E8%BD%AC%E7%BD%AE%E7%9F%A9%E9%98%B5%EF%BC%9A%5Cn%22)%3B%20print_matrix(3%2C%202%2C%20transposed)%3B%20return%200%3B%26%23125%3B" title="复制代码">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-text">复制</span>
+        </button>
+        </div><div class="collapse show" id="collapse-cim8gtmkyz27tb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">transpose_matrix</span><span class="hljs-params">(<span class="hljs-type">int</span> rows, <span class="hljs-type">int</span> cols, <span class="hljs-type">int</span> src[rows][cols], <span class="hljs-type">int</span> dest[cols][rows])</span> &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; rows; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; cols; j++) &#123;<br>            dest[j][i] = src[i][j];<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_matrix</span><span class="hljs-params">(<span class="hljs-type">int</span> rows, <span class="hljs-type">int</span> cols, <span class="hljs-type">int</span> matrix[rows][cols])</span> &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; rows; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; cols; j++) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, matrix[i][j]);<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> original[<span class="hljs-number">2</span>][<span class="hljs-number">3</span>] = &#123;<br>        &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;,<br>        &#123;<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>&#125;<br>    &#125;;<br>    <span class="hljs-type">int</span> transposed[<span class="hljs-number">3</span>][<span class="hljs-number">2</span>];<br>    <br>    transpose_matrix(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, original, transposed);<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;原矩阵：\n&quot;</span>);<br>    print_matrix(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, original);<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;转置矩阵：\n&quot;</span>);<br>    print_matrix(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, transposed);<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></div></figure>
+<h4 id="十、总结与最佳实践"><strong>十、总结与最佳实践</strong></h4>
+<p><strong>关键要点</strong>：</p>
+<ol>
+<li><strong>数组是连续的内存块</strong>：理解这一点对于高效使用数组至关重要</li>
+<li><strong>数组名是指针常量</strong>：不能对数组名进行赋值操作</li>
+<li><strong>边界检查很重要</strong>：访问越界会导致未定义行为</li>
+<li><strong>sizeof只在声明作用域有效</strong>：函数参数中的数组会退化为指针</li>
+</ol>
+<p><strong>最佳实践</strong>：</p>
+<ul>
+<li>总是对数组访问进行边界检查</li>
+<li>使用<code>memcpy()</code>进行数组复制以提高效率</li>
+<li>对于多维数组函数参数，明确指定除第一维外的所有维度大小</li>
+<li>考虑使用变长数组来提高代码的灵活性</li>
+<li>在需要动态大小的情况下，考虑使用动态内存分配（malloc/free）</li>
+</ul>
+<p>数组是C语言编程的基础，深入理解数组的工作原理将为你学习更复杂的数据结构和算法打下坚实的基础。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C%E8%AF%AD%E8%A8%80/" class="category-chain-item">C语言</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C%E8%AF%AD%E8%A8%80/" class="print-no-link">#C语言</a>
+      
+        <a href="/tags/%E6%8C%87%E9%92%88/" class="print-no-link">#指针</a>
+      
+        <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="print-no-link">#内存管理</a>
+      
+        <a href="/tags/%E6%95%B0%E7%BB%84/" class="print-no-link">#数组</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C语言数组详解：从一维到多维，从静态到动态</div>
+      <div>https://www.edenzeng.online/2015/10/21/0.技术栈/01.开发语言/01.C语言/08-数组详解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Edenzeng</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2015年10月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2015/10/23/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/09-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%AF%A6%E8%A7%A3/" title="C语言字符串详解：从基础操作到高级应用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C语言字符串详解：从基础操作到高级应用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2015/10/19/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/07-%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="C语言函数详解：从基础概念到高级应用">
+                        <span class="hidden-mobile">C语言函数详解：从基础概念到高级应用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <span style="font-size:14px;"> © 2026 <a href="https://www.edenzeng.onlone" target="_blank" rel="nofollow noopener">Edenzeng's Blog</a> · Powered by <a href="https://hexo.io/" target="_blank" rel="nofollow noopener">Hexo</a> & <a href="https://github.com/edenzeng97/hexo-theme-fluid" target="_blank" rel="nofollow noopener">Fluid</a></span>
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<script>
+  // 复制代码到剪贴板
+  function copyToClipboard(text) {
+    return new Promise((resolve, reject) => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+          .then(() => resolve(true))
+          .catch(() => {
+            // 如果clipboard API失败，使用传统方法
+            fallbackCopyToClipboard(text) ? resolve(true) : reject(false);
+          });
+      } else {
+        // 使用传统方法
+        fallbackCopyToClipboard(text) ? resolve(true) : reject(false);
+      }
+    });
+  }
+
+  // 传统复制方法
+  function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return successful;
+    } catch (err) {
+      document.body.removeChild(textArea);
+      return false;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.code-widget.copy-btn').forEach(button => {
+      button.addEventListener('click', async function(e) {
+        e.stopPropagation(); // 阻止事件冒泡，避免触发折叠
+        
+        const codeText = decodeURIComponent(this.getAttribute('data-code') || '');
+        
+        if (!codeText.trim()) {
+          // 如果data-code属性为空，尝试从代码块中提取文本
+          const codeBlock = this.closest('.highlight').querySelector('pre code');
+          if (codeBlock) {
+            const text = codeBlock.textContent || codeBlock.innerText || '';
+            try {
+              await copyToClipboard(text);
+              showCopySuccess(this);
+            } catch (err) {
+              showCopyError(this);
+            }
+          } else {
+            showCopyError(this);
+          }
+        } else {
+          try {
+            await copyToClipboard(codeText);
+            showCopySuccess(this);
+          } catch (err) {
+            showCopyError(this);
+          }
+        }
+      });
+    });
+  });
+  
+  // 显示复制成功提示
+  function showCopySuccess(button) {
+    const originalHTML = button.innerHTML;
+    const originalText = button.querySelector('.copy-text')?.textContent || '复制';
+    
+    button.innerHTML = `
+      <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span class="copy-text">已复制</span>
+    `;
+    button.style.color = '#28a745';
+    button.style.opacity = '1';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+      button.style.opacity = '0.7';
+    }, 2000);
+  }
+  
+  // 显示复制失败提示
+  function showCopyError(button) {
+    const originalHTML = button.innerHTML;
+    
+    button.innerHTML = `
+      <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      <span class="copy-text">失败</span>
+    `;
+    button.style.color = '#dc3545';
+    button.style.opacity = '1';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+      button.style.opacity = '0.7';
+    }, 2000);
+  }
+</script></body>
+</html>
