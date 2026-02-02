@@ -19,22 +19,23 @@
   <meta name="author" content="Edenzeng">
   <meta name="keywords" content="">
   
-    <meta name="description" content="C语言入门：从基础语法到你的第一个“Hello World” C语言以其高效和强大而闻名，是许多编程语言的基础。理解其基本语法是迈向精通的第一步。本篇博客将带你快速了解C语言的核心语法概念，包括语句、表达式、代码块、空格、注释，并详细介绍如何使printf()函数进行输出。">
+    <meta name="description" content="写在前面：关于这份C语言学习总结 欢迎来到我的C语言学习总结系列！这一系列文章是我在大学期间学习C语言的整理和回顾，内容涵盖了从基础语法到高级概念的全面讲解。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C语言入门：从基础语法到你的第一个“Hello World”">
-<meta property="og:url" content="https://www.edenzeng.online/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:title" content="写在前面：关于这份C语言学习总结">
+<meta property="og:url" content="https://www.edenzeng.online/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/00-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2/index.html">
 <meta property="og:site_name" content="Edenzeng">
-<meta property="og:description" content="C语言入门：从基础语法到你的第一个“Hello World” C语言以其高效和强大而闻名，是许多编程语言的基础。理解其基本语法是迈向精通的第一步。本篇博客将带你快速了解C语言的核心语法概念，包括语句、表达式、代码块、空格、注释，并详细介绍如何使printf()函数进行输出。">
+<meta property="og:description" content="写在前面：关于这份C语言学习总结 欢迎来到我的C语言学习总结系列！这一系列文章是我在大学期间学习C语言的整理和回顾，内容涵盖了从基础语法到高级概念的全面讲解。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2015-10-05T02:15:25.000Z">
-<meta property="article:modified_time" content="2026-01-27T03:00:55.190Z">
+<meta property="article:published_time" content="2015-10-05T02:10:25.000Z">
+<meta property="article:modified_time" content="2026-01-29T09:54:18.179Z">
 <meta property="article:author" content="Edenzeng">
 <meta property="article:tag" content="C语言">
+<meta property="article:tag" content="学习指南">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>C语言入门：从基础语法到你的第一个“Hello World” - Edenzeng</title>
+  <title>写在前面：关于这份C语言学习总结 - Edenzeng</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -204,7 +205,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="C语言入门：从基础语法到你的第一个“Hello World”"></span>
+            <span id="subtitle" data-typed-text="写在前面：关于这份C语言学习总结"></span>
           
         </div>
 
@@ -220,7 +221,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2015-10-05 10:15" pubdate>
+        <time datetime="2015-10-05 10:10" pubdate>
           2015年10月5日 上午
         </time>
       </span>
@@ -232,7 +233,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.4k 字
+          801 字
         
       </span>
     
@@ -243,7 +244,7 @@
         
         
         
-          20 分钟
+          7 分钟
         
       </span>
     
@@ -309,7 +310,7 @@
       
         <a href="/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/00-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2/" title="写在前面：关于这份C语言学习总结"
            class="list-group-item list-group-item-action
-           ">
+           active">
           <span class="category-post">写在前面：关于这份C语言学习总结</span>
         </a>
       
@@ -318,7 +319,7 @@
       
         <a href="/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="C语言入门：从基础语法到你的第一个“Hello World”"
            class="list-group-item list-group-item-action
-           active">
+           ">
           <span class="category-post">C语言入门：从基础语法到你的第一个“Hello World”</span>
         </a>
       
@@ -521,210 +522,52 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">C语言入门：从基础语法到你的第一个“Hello World”</h1>
+            <h1 id="seo-header">写在前面：关于这份C语言学习总结</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="C语言入门：从基础语法到你的第一个“Hello-World”"><strong>C语言入门：从基础语法到你的第一个“Hello World”</strong></h3>
-<p>C语言以其高效和强大而闻名，是许多编程语言的基础。理解其基本语法是迈向精通的第一步。本篇博客将带你快速了解C语言的核心语法概念，包括语句、表达式、代码块、空格、注释，并详细介绍如何使<code>printf()</code>函数进行输出。</p>
+                <h3 id="写在前面：关于这份C语言学习总结"><strong>写在前面：关于这份C语言学习总结</strong></h3>
+<p>欢迎来到我的C语言学习总结系列！这一系列文章是我在大学期间学习C语言的整理和回顾，内容涵盖了从基础语法到高级概念的全面讲解。</p>
 <span id="more"></span>
-<h4 id="一、语句：程序的基石"><strong>一、语句：程序的基石</strong></h4>
-<p>C语言程序由一条条<strong>语句</strong>构成，每个语句都是一条执行指令。语句必须以分号<code>;</code>结尾。</p>
-<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-hgtxheml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-hgtxheml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x = <span class="hljs-number">1</span>; <span class="hljs-comment">// 这是一个声明并赋值的语句</span><br></code></pre></td></tr></table></div></figure>
-<ul>
-<li><strong>多语句一行</strong>：多个语句可以写在同一行，但通常为了可读性会分行书写。<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-xxmxdfml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-xxmxdfml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x; x = <span class="hljs-number">1</span>; <span class="hljs-comment">// 两个语句在一行</span><br></code></pre></td></tr></table></div></figure>
-</li>
-<li><strong>单语句多行</strong>：一个语句也可以跨越多行，编译器会忽略换行符，直到遇到分号才认为语句结束。<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-l4iq32ml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-l4iq32ml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x;<br>x<br>=<br><span class="hljs-number">1</span><br>; <span class="hljs-comment">// 这是一个完整的语句</span><br></code></pre></td></tr></table></div></figure>
-</li>
-<li><strong>空语句</strong>：单独的一个分号<code>;</code>也是一个有效的语句，称为“空语句”，它不执行任何操作。</li>
-</ul>
-<h4 id="二、表达式-vs-语句"><strong>二、表达式 vs. 语句</strong></h4>
-<p><strong>表达式</strong>是一个用于计算的公式，它总会产生一个值。例如 <code>1 + 2</code> 就是一个表达式，其值为 <code>3</code>。</p>
-<p>当表达式后面加上分号，它就变成了一个<strong>表达式语句</strong>。但并非所有有意义的表达式作为语句都有意义。</p>
-<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-ah8v4bml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-ah8v4bml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-number">8</span>;        <span class="hljs-comment">// 表达式语句，值为8，但无实际作用</span><br><span class="hljs-number">3</span> + <span class="hljs-number">4</span>;    <span class="hljs-comment">// 表达式语句，值为7，但无实际作用</span><br></code></pre></td></tr></table></div></figure>
-<p><strong>主要区别</strong>：</p>
-<ol>
-<li><strong>包含关系</strong>：语句可以包含表达式，但表达式本身不构成语句（除非加分号）。</li>
-<li><strong>返回值</strong>：表达式始终有返回值；语句不一定需要，它的核心目的是执行动作（如变量声明）。</li>
-</ol>
-<h4 id="三、语句块：将代码打包"><strong>三、语句块：将代码打包</strong></h4>
-<p>使用大括号 <code>&#123;&#125;</code> 可以将多条语句组合成一个<strong>语句块</strong>（或称为复合语句）。在语法上，整个语句块被视为一个单一的单元。</p>
-<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-pc4alkml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-pc4alkml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">&#123;<br>    <span class="hljs-type">int</span> x;<br>    x = <span class="hljs-number">1</span>;<br>&#125; <span class="hljs-comment">// 语句块结束，不需要分号</span><br></code></pre></td></tr></table></div></figure>
-<p>语句块在控制流语句（如 <code>if</code>、<code>for</code>）中至关重要，用于定义执行范围。</p>
-<h4 id="四、空格与缩进：为了可读性"><strong>四、空格与缩进：为了可读性</strong></h4>
-<p>空格（包括空格、制表符、换行符）主要用于帮助编译器区分语法单位。只要编译器能区分，空格就不是必须的，但它对<strong>人类阅读代码至关重要</strong>。</p>
-<ul>
-<li><strong>可选空格</strong>：<code>int x=1;</code> 和 <code>int x = 1;</code> 是等价的。</li>
-<li><strong>多个空格等同单个</strong>：<code>int x = 1;</code> 中的多个空格与单个空格效果相同。</li>
-<li><strong>缩进</strong>：缩进（通常是4个或2个空格）不是语法要求，但能清晰展示代码结构层次。<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-tr0aw9ml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-tr0aw9ml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 缩进四个空格</span><br><span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">0</span>) &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;positive\n&quot;</span>); <span class="hljs-comment">// 属于if的代码块</span><br>&#125;<br></code></pre></td></tr></table></div></figure>
-</li>
-</ul>
-<h4 id="五、注释：代码的笔记"><strong>五、注释：代码的笔记</strong></h4>
-<p>注释用于解释代码，编译器会完全忽略它们。C语言有两种注释方式：</p>
+<h4 id="系列特点"><strong>系列特点</strong></h4>
 <ol>
 <li>
-<p><strong>多行注释</strong>：位于 <code>/*</code> 和 <code>*/</code> 之间，可以跨行。</p>
-<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-3u6973ml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-3u6973ml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* 这是一个</span><br><span class="hljs-comment">   多行注释 */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">open</span><span class="hljs-params">(<span class="hljs-type">char</span>* s <span class="hljs-comment">/* 文件名 */</span>, <span class="hljs-type">int</span> mode)</span>; <span class="hljs-comment">// 行内注释</span><br></code></pre></td></tr></table></div></figure>
-<p><strong>警告</strong>：务必成对使用，否则 <code>/*</code> 之后的所有代码都可能被注释掉！</p>
+<p><strong>系统性整理</strong>：这个系列按照逻辑顺序组织，从最基本的语法开始，逐步深入到指针、内存管理、文件操作等复杂概念。</p>
 </li>
 <li>
-<p><strong>单行注释</strong>：以 <code>//</code> 开始，到行尾结束。这是C99标准新增的。</p>
-<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-f5o70eml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-f5o70eml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 这是一个单行注释</span><br><span class="hljs-type">int</span> x = <span class="hljs-number">1</span>; <span class="hljs-comment">// 这也是注释</span><br></code></pre></td></tr></table></div></figure>
+<p><strong>大学教材风格</strong>：文章内容主要基于大学C语言课程的教学体系，适合初学者和在校学生参考学习。</p>
+</li>
+<li>
+<p><strong>实践导向</strong>：每个知识点都配有代码示例，帮助理解抽象的概念。</p>
 </li>
 </ol>
-<p><strong>重要</strong>：注释符号在双引号内会失去作用，成为字符串的一部分。<code>printf(&quot;// hello /* world */&quot;);</code> 会原样输出 <code>// hello /* world */</code>。</p>
-<h4 id="六、printf-函数：与世界打招呼"><strong>六、<code>printf()</code> 函数：与世界打招呼</strong></h4>
-<p><code>printf()</code> 是用于向屏幕输出文本的标准库函数，其名字中的 <code>f</code> 代表“格式化”（format）。</p>
-<p><strong>1. 基本用法</strong></p>
-<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-xxbfe0ml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-xxbfe0ml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span> <span class="hljs-comment">// 必须包含头文件</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);    <span class="hljs-comment">// 输出后不换行</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World\n&quot;</span>);  <span class="hljs-comment">// 输出后换行，\n是换行符</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello\nWorld\n&quot;</span>); <span class="hljs-comment">// 输出两行：Hello 和 World</span><br>&#125;<br></code></pre></td></tr></table></div></figure>
-<p><strong>2. 占位符</strong><br>
-占位符允许我们将值嵌入到输出文本中，它以百分号 <code>%</code> 开头。</p>
-<ul>
-<li><code>%d</code> 或 <code>%i</code>：整数。</li>
-<li><code>%s</code>：字符串。</li>
-<li><code>%f</code>：浮点数（小数）。</li>
-</ul>
-<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-0ynbn7ml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-0ynbn7ml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s has %d apples.\n&quot;</span>, <span class="hljs-string">&quot;Alice&quot;</span>, <span class="hljs-number">3</span>);<br><span class="hljs-comment">// 输出：Alice has 3 apples.</span><br></code></pre></td></tr></table></div></figure>
-<p><strong>注意</strong>：占位符的数量必须与后面提供的参数数量一致。</p>
-<p><strong>3. 输出格式控制</strong><br>
-<code>printf()</code> 可以精细控制输出格式。</p>
-<ul>
-<li><strong>限定宽度</strong>：<code>%5d</code> 表示最小宽度为5位，不足位用空格填充（默认右对齐）。<code>%-5d</code>为左对齐。<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-tnbodiml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-tnbodiml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%5d\n&quot;</span>, <span class="hljs-number">123</span>); <span class="hljs-comment">// 输出 &quot;  123&quot;</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%-5d\n&quot;</span>, <span class="hljs-number">123</span>); <span class="hljs-comment">// 输出 &quot;123  &quot;</span><br></code></pre></td></tr></table></div></figure>
-</li>
-<li><strong>显示正负号</strong>：<code>%+d</code> 使正数也显示 <code>+</code> 号。<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-tr7weuml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-tr7weuml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%+d\n&quot;</span>, <span class="hljs-number">12</span>); <span class="hljs-comment">// 输出 +12</span><br></code></pre></td></tr></table></div></figure>
-</li>
-<li><strong>限定小数位数</strong>：<code>%.2f</code> 保留两位小数。<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-laoqxwml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-laoqxwml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Number is %.2f\n&quot;</span>, <span class="hljs-number">0.5</span>); <span class="hljs-comment">// 输出 Number is 0.50</span><br></code></pre></td></tr></table></div></figure>
-可以组合使用：<code>%6.2f</code>（最小宽度6，两位小数）。</li>
-</ul>
-<h4 id="七、标准库与头文件"><strong>七、标准库与头文件</strong></h4>
-<p><code>printf()</code> 等功能并非C语言核心语法的一部分，而是由<strong>标准库</strong>提供的。标准库是C语言官方提供的一套常用功能集合。</p>
-<p>这些功能被声明在<strong>头文件</strong>（如 <code>stdio.h</code>）中。要使用某个功能，就必须先用 <code>#include</code> 指令引入其对应的头文件。</p>
-<figure class="highlight c">
-        <div class="code-header" data-toggle="collapse" data-target="#collapse-bc34chml4lr0ff" aria-expanded="true">
-          <summary class="details-opened">
-            <svg class="code-arrow-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            <b>C</b>
-          </summary>
-        </div><div class="collapse show" id="collapse-bc34chml4lr0ff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span> <span class="hljs-comment">// 引入标准输入输出头文件，这样才能使用printf()</span></span><br></code></pre></td></tr></table></div></figure>
-<h4 id="总结"><strong>总结</strong></h4>
-<p>掌握这些基础语法，你就已经打开了C语言编程的大门。记住：</p>
-<ul>
-<li><strong>语句</strong>是动作，用分号结束。</li>
-<li><strong>表达式</strong>是计算，产生值。</li>
-<li><strong>代码块</strong>用 <code>&#123;&#125;</code> 组合语句。</li>
-<li><strong>空格和缩进</strong>是为了让人看得舒服。</li>
-<li><strong>注释</strong>是为了解释代码。</li>
-<li><strong><code>printf()</code></strong> 是你的输出工具，功能强大。</li>
-<li><strong>头文件</strong>是使用标准库功能的钥匙。</li>
-</ul>
-<p>现在，尝试在你的开发环境中编写并运行一个简单的 <code>printf</code> 程序吧！</p>
+<h4 id="学习建议"><strong>学习建议</strong></h4>
+<p>基于我的学习经验，我建议你按照以下方式来使用这份材料：</p>
+<p><strong>第一步：快速通读</strong><br>
+首先，建议你将整个系列从头到尾快速浏览一遍，对C语言的整体框架有一个初步的了解。不必担心看不懂所有的细节，重点是把握C语言的知识体系和各章节之间的逻辑关系。</p>
+<p><strong>第二步：动手实践</strong><br>
+在通读过程中，尽量跟着文章中的代码示例进行练习。C语言是一门需要大量实践的编程语言，只看不写是很难真正掌握的。</p>
+<p><strong>第三步：回头细读</strong><br>
+完成第一遍通读后，再回过头来仔细阅读那些在第一遍阅读时不太理解的部分。这时候，你已经对整个知识体系有了概览，再去深入理解具体概念会容易得多。</p>
+<p><strong>第四步：项目实践</strong><br>
+当掌握了大部分基础知识后，尝试用C语言完成一些小项目，比如计算器、学生管理系统等，将所学知识应用到实际中。</p>
+<h4 id="系列结构"><strong>系列结构</strong></h4>
+<p>这个C语言系列包含以下主要内容：</p>
+<ol>
+<li><strong>基础语法</strong> - C语言的基本构成元素</li>
+<li><strong>变量与数据类型</strong> - 数据的存储与表示</li>
+<li><strong>运算符与表达式</strong> - 数据的计算与处理</li>
+<li><strong>流程控制</strong> - 程序执行的顺序控制</li>
+<li><strong>函数与模块化</strong> - 代码的组织与复用</li>
+<li><strong>指针与内存</strong> - C语言的精髓所在</li>
+<li><strong>数组与字符串</strong> - 数据的批量处理</li>
+<li><strong>结构体与文件操作</strong> - 复杂数据的处理</li>
+</ol>
+<h4 id="写在最后"><strong>写在最后</strong></h4>
+<p>C语言作为一门经典的编程语言，不仅是许多高级语言的基础，更是理解计算机底层原理的重要工具。虽然学习过程中可能会遇到一些挑战，但只要坚持练习、循序渐进，你一定能够掌握这门强大的语言。</p>
+<p>希望这份总结能够对你的学习有所帮助，祝你学习愉快！</p>
+<p><em>—— 一份来自大学时期的C语言学习笔记</em></p>
 
                 
               </div>
@@ -760,6 +603,8 @@
       
         <a href="/tags/C%E8%AF%AD%E8%A8%80/" class="print-no-link">#C语言</a>
       
+        <a href="/tags/%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/" class="print-no-link">#学习指南</a>
+      
     </div>
   
 </div>
@@ -770,8 +615,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>C语言入门：从基础语法到你的第一个“Hello World”</div>
-      <div>https://www.edenzeng.online/2015/10/05/0.技术栈/01.开发语言/01.C语言/01-基本语法/</div>
+      <div>写在前面：关于这份C语言学习总结</div>
+      <div>https://www.edenzeng.online/2015/10/05/0.技术栈/01.开发语言/01.C语言/00-写在前面/</div>
     </div>
     <div class="license-meta">
       
@@ -821,21 +666,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2015/10/07/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/02-%E5%8F%98%E9%87%8F%E8%AF%A6%E8%A7%A3/" title="C语言入门：变量详解">
+                      <a href="/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="C语言入门：从基础语法到你的第一个“Hello World”">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C语言入门：变量详解</span>
+                        <span class="hidden-mobile">C语言入门：从基础语法到你的第一个“Hello World”</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/2015/10/05/0.%E6%8A%80%E6%9C%AF%E6%A0%88/01.%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/01.C%E8%AF%AD%E8%A8%80/00-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2/" title="写在前面：关于这份C语言学习总结">
-                        <span class="hidden-mobile">写在前面：关于这份C语言学习总结</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>
